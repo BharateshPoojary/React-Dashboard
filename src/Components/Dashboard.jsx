@@ -12,8 +12,8 @@ import user3 from "../assets/images/profile/user-3.jpg"
 const Dashboard = () => {
   return (
     <div>
-      <div class="body-wrapper-inner">
-        <div class="container-fluid">
+      <div className="body-wrapper-inner">
+        <div className="container-fluid">
           {/* <!--  Row 1 --> */}
           <div className="row">
             <div className="col-lg-8 d-flex align-items-strech">
@@ -217,7 +217,7 @@ const Dashboard = () => {
                         <span className="timeline-badge-border d-block flex-shrink-0"></span>
                       </div>
                       <div className="timeline-desc fs-3 text-dark mt-n6 fw-semibold">New sale
-                        recorded <a href="" className="text-primary d-block fw-normal ">#ML-3467</a>
+                        recorded <a onClick={() => { }} className="text-primary d-block fw-normal ">#ML-3467</a>
                       </div>
                     </li>
                     <li className="timeline-item d-flex position-relative overflow-hidden">
@@ -238,7 +238,7 @@ const Dashboard = () => {
                         <span className="timeline-badge-border d-block flex-shrink-0"></span>
                       </div>
                       <div className="timeline-desc fs-3 text-dark mt-n6 fw-semibold">New sale
-                        recorded <a href="" className="text-primary d-block fw-normal ">#ML-3467</a>
+                        recorded <a onClick={() => { }} className="text-primary d-block fw-normal ">#ML-3467</a>
                       </div>
                     </li>
                     <li className="timeline-item d-flex position-relative overflow-hidden">
@@ -270,7 +270,7 @@ const Dashboard = () => {
             <div className="col-lg-4">
               <div className="card overflow-hidden hover-img">
                 <div className="position-relative">
-                  <a href="">
+                  <a onClick={() => { }}>
                     <img src={blogimg1} className="card-img-top" alt="matdash-img" />
                   </a>
                   <span
@@ -282,7 +282,7 @@ const Dashboard = () => {
                 </div>
                 <div className="card-body p-4">
                   <span className="badge text-bg-light fs-2 py-1 px-2 lh-sm  mt-3">Social</span>
-                  <a className="d-block my-4 fs-5 text-dark fw-semibold link-primary" href="">As yen tumbles, gadget-loving
+                  <a className="d-block my-4 fs-5 text-dark fw-semibold link-primary" onClick={() => { }}>As yen tumbles, gadget-loving
                     Japan goes
                     for secondhand iPhones</a>
                   <div className="d-flex align-items-center gap-4">
@@ -302,7 +302,7 @@ const Dashboard = () => {
             <div className="col-lg-4">
               <div className="card overflow-hidden hover-img">
                 <div className="position-relative">
-                  <a href="">
+                  <a onClick={() => { }}>
                     <img src={blogimg2} className="card-img-top" alt="matdash-img" />
                   </a>
                   <span
@@ -314,7 +314,7 @@ const Dashboard = () => {
                 </div>
                 <div className="card-body p-4">
                   <span className="badge text-bg-light fs-2 py-1 px-2 lh-sm  mt-3">Gadget</span>
-                  <a className="d-block my-4 fs-5 text-dark fw-semibold link-primary" href="">Intel loses bid to revive
+                  <a className="d-block my-4 fs-5 text-dark fw-semibold link-primary" onClick={() => { }}>Intel loses bid to revive
                     antitrust case
                     against patent foe Fortress</a>
                   <div className="d-flex align-items-center gap-4">
@@ -334,7 +334,7 @@ const Dashboard = () => {
             <div className="col-lg-4">
               <div className="card overflow-hidden hover-img">
                 <div className="position-relative">
-                  <a href="">
+                  <a onClick={() => { }}>
                     <img src={blogimg3} className="card-img-top" alt="matdash-img" />
                   </a>
                   <span
@@ -346,7 +346,7 @@ const Dashboard = () => {
                 </div>
                 <div className="card-body p-4">
                   <span className="badge text-bg-light fs-2 py-1 px-2 lh-sm  mt-3">Health</span>
-                  <a className="d-block my-4 fs-5 text-dark fw-semibold link-primary" href="">COVID outbreak deepens as more
+                  <a className="d-block my-4 fs-5 text-dark fw-semibold link-primary" onClick={() => { }}>COVID outbreak deepens as more
                     lockdowns
                     loom in China</a>
                   <div className="d-flex align-items-center gap-4">

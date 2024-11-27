@@ -11,9 +11,9 @@ const SideBar = () => {
         {/* Sidebar scroll */}
         <div>
           <div className="brand-logo d-flex align-items-center justify-content-between">
-            <Link to="/" className="text-nowrap logo-img">
+            <a href="/" className="text-nowrap logo-img">
               <img src={logo} alt="matdashlogo" />
-            </Link>
+            </a>
             <div
               className="close-btn d-xl-none d-block sidebartoggler cursor-pointer"
               id="sidebarCollapse"
@@ -32,10 +32,10 @@ const SideBar = () => {
                 <span className="hide-menu">Home</span>
               </li>
               <li className="sidebar-item">
-                <Link className="sidebar-link" to="/" aria-expanded="false">
+                <a className="sidebar-link" href="/" aria-expanded="false">
                   <Icon icon="solar:widget-add-line-duotone"></Icon>
                   <span className="hide-menu">Dashboard</span>
-                </Link>
+                </a>
               </li>
               <li>
                 <span className="sidebar-divider lg"></span>

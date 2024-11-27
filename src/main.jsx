@@ -17,9 +17,10 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />}>
+        <Route element={<App />}>
           {/*parent route */}
-          {/* <Route index element={<Dashboard />} /> Default route */}
+          <Route index element={<Dashboard />} />
+          {/* Default Route */}
           <Route path="alert" element={<Alerts />} />
           {/*Below all are child routes */}
           <Route path="button" element={<Button />} />

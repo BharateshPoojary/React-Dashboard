@@ -7,10 +7,14 @@ function App() {
   return (
     <>
       <Mainwrapper>
-        <Header />
+
+        {/* <!--  Main wrapper --> */}
+        <div className="body-wrapper">
+          <Header />
+          <Outlet />
+          {/*To render child routes */}
+        </div>
         <SideBar />
-        <Outlet />
-        {/*To render child routes */}
       </Mainwrapper>
     </>
   );

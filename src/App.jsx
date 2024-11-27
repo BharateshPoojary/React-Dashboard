@@ -7,7 +7,6 @@ function App() {
   return (
     <>
       <Mainwrapper>
-
         <SideBar />
         {/* <!--  Main wrapper --> */}
         <div className="body-wrapper">

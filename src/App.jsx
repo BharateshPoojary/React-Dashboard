@@ -8,13 +8,13 @@ function App() {
     <>
       <Mainwrapper>
 
+        <SideBar />
         {/* <!--  Main wrapper --> */}
         <div className="body-wrapper">
           <Header />
           <Outlet />
           {/*To render child routes */}
         </div>
-        <SideBar />
       </Mainwrapper>
     </>
   );

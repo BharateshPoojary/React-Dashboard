@@ -1,5 +1,4 @@
 import React from "react";
-
 const Mainwrapper = ({ children }) => {
   return (
     //body wrapper starts

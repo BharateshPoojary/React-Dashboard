@@ -12,6 +12,7 @@ import Icon from "./Components/Extra/Icon.jsx";
 import Sample from "./Components/Extra/Sample.jsx";
 import Login from "./Components/authentication/Login.jsx";
 import Register from "./Components/authentication/Register.jsx";
+
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>

@@ -3,6 +3,7 @@ import logo from "../../assets/images/logos/logo.svg";
 import { NavLink } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
 const Register = () => {
+
   return <div>
     <Mainwrapper>
       <div
@@ -18,11 +19,11 @@ const Register = () => {
                   <p className="text-center">Your Social Campaigns</p>
                   <form>
                     <div className="mb-3">
-                      <label htmlFor="exampleInputtext1" className="form-label">Name</label>
+                      <label htmlFor="userName" className="form-label">Name</label>
                       <input type="text" className="form-control" id="exampleInputtext1" aria-describedby="textHelp" />
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="exampleInputEmail1" className="form-label">Email Address</label>
+                      <label htmlFor="mobileNo" className="form-label">Email Address</label>
                       <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
                     </div>
                     <div className="mb-4">

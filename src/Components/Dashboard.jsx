@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
-import React from 'react'
+import React, { useEffect } from 'react'
 import dashprd1 from "../assets/images/products/dash-prd-1.jpg"
 import dashprd2 from "../assets/images/products/dash-prd-2.jpg"
 import dashprd3 from "../assets/images/products/dash-prd-3.jpg"
@@ -11,8 +11,9 @@ import user2 from "../assets/images/profile/user-2.jpg"
 import user3 from "../assets/images/profile/user-3.jpg"
 import { NavLink } from 'react-router-dom'
 const Dashboard = () => {
+  //useEffect async because useEffect expects the callback to either return undefined or a cleanup function, not a Promise.
   return (
-    <div>
+    <div >
       <div className="body-wrapper-inner">
         <div className="container-fluid">
           {/* <!--  Row 1 --> */}

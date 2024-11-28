@@ -33,10 +33,10 @@ const SideBar = () => {
                 <span className="hide-menu">Home</span>
               </li>
               <li className="sidebar-item">
-                <a className="sidebar-link" href="/" aria-expanded="false">
+                <NavLink className="sidebar-link" to="/" aria-expanded="false">
                   <Icon icon="solar:widget-add-line-duotone"></Icon>
                   <span className="hide-menu">Dashboard</span>
-                </a>
+                </NavLink>
               </li>
               <li>
                 <span className="sidebar-divider lg"></span>

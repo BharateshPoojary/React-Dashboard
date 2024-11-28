@@ -9,6 +9,7 @@ import blogimg2 from "../assets/images/blog/blog-img2.jpg";
 import blogimg3 from "../assets/images/blog/blog-img3.jpg";
 import user2 from "../assets/images/profile/user-2.jpg"
 import user3 from "../assets/images/profile/user-3.jpg"
+import { NavLink } from 'react-router-dom'
 const Dashboard = () => {
   return (
     <div>
@@ -282,9 +283,9 @@ const Dashboard = () => {
                 </div>
                 <div className="card-body p-4">
                   <span className="badge text-bg-light fs-2 py-1 px-2 lh-sm  mt-3">Social</span>
-                  <a className="d-block my-4 fs-5 text-dark fw-semibold link-primary" onClick={() => { }}>As yen tumbles, gadget-loving
+                  <NavLink className="d-block my-4 fs-5 text-dark fw-semibold link-primary" to="/" >As yen tumbles, gadget-loving
                     Japan goes
-                    for secondhand iPhones</a>
+                    for secondhand iPhones</NavLink>
                   <div className="d-flex align-items-center gap-4">
                     <div className="d-flex align-items-center gap-2">
                       <i className="ti ti-eye text-dark fs-5"></i>9,125
@@ -302,9 +303,9 @@ const Dashboard = () => {
             <div className="col-lg-4">
               <div className="card overflow-hidden hover-img">
                 <div className="position-relative">
-                  <a onClick={() => { }}>
+                  <NavLink to="/">
                     <img src={blogimg2} className="card-img-top" alt="matdash-img" />
-                  </a>
+                  </NavLink>
                   <span
                     className="badge text-bg-light text-dark fs-2 lh-sm mb-9 me-9 py-1 px-2 fw-semibold position-absolute bottom-0 end-0">2
                     min Read</span>
@@ -314,9 +315,9 @@ const Dashboard = () => {
                 </div>
                 <div className="card-body p-4">
                   <span className="badge text-bg-light fs-2 py-1 px-2 lh-sm  mt-3">Gadget</span>
-                  <a className="d-block my-4 fs-5 text-dark fw-semibold link-primary" onClick={() => { }}>Intel loses bid to revive
+                  <NavLink className="d-block my-4 fs-5 text-dark fw-semibold link-primary" to="/">Intel loses bid to revive
                     antitrust case
-                    against patent foe Fortress</a>
+                    against patent foe Fortress</NavLink>
                   <div className="d-flex align-items-center gap-4">
                     <div className="d-flex align-items-center gap-2">
                       <i className="ti ti-eye text-dark fs-5"></i>4,150
@@ -346,9 +347,9 @@ const Dashboard = () => {
                 </div>
                 <div className="card-body p-4">
                   <span className="badge text-bg-light fs-2 py-1 px-2 lh-sm  mt-3">Health</span>
-                  <a className="d-block my-4 fs-5 text-dark fw-semibold link-primary" onClick={() => { }}>COVID outbreak deepens as more
+                  <NavLink className="d-block my-4 fs-5 text-dark fw-semibold link-primary" to="/">COVID outbreak deepens as more
                     lockdowns
-                    loom in China</a>
+                    loom in China</NavLink>
                   <div className="d-flex align-items-center gap-4">
                     <div className="d-flex align-items-center gap-2">
                       <i className="ti ti-eye text-dark fs-5"></i>9,480

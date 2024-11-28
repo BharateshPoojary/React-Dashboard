@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import user from "../assets/images/profile/user-1.jpg";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { NavLink } from "react-router-dom";
 const Header = () => {
+  const [username, setUserName] = useState('User');
+
+  useEffect(() => {
+    const storedUserCreds = localStorage.getItem('userCreds');
+    if (storedUserCreds) {
+      try {
+        const { userName } = JSON.parse(storedUserCreds);
+        setUserName(userName);
+      } catch (error) {
+        console.error('Error parsing userCreds from localStorage', error);
+      }
+    }
+  }, [])
   return (
     <div >
 
@@ -30,15 +43,9 @@ const Header = () => {
             className="navbar-collapse justify-content-end px-0"
             id="navbarNav"
           >
+
             <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-              {/* download free button starts*/}
-              <NavLink
-                to="https://adminmart.com/product/matdash-free-bootstrap-5-admin-dashboard-template/"
-                className="btn btn-primary"
-              >
-                Download Free
-              </NavLink>
-              {/* download free button ends*/}
+              <h4 className="fw-semibold " >Welcome,{username}</h4>
               {/* user icon starts*/}
               <li className="nav-item dropdown">
                 <NavLink

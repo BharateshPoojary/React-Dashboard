@@ -1,8 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios"
 import logo from "../../assets/images/logos/logo.svg";
 import { NavLink } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
 const Login = () => {
+  const [formData, setFormData] = useState({
+    mobileNo: "",
+    password: ""
+  })
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,//preserving the cuurent state of Form Data
+      [id]: value//here id is a key which we passed in input field and value is the actual value user is giving
+      //It will append the value to particular id and ... will preserve the previous data
+    }))//({}) This explicitly tells JavaScript that the function is returning an object literal, {}, directly.
+  }
+  const handleSubmit = async () => {
+    console.log(formData.mobileNo, formData.password)
+    try {
+      const response = await axios.post("http://stock.swiftmore.in/mobileApis/userLogin.php", formData, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded', // Ensuring it's form data
+        }
+      });
+      const { success, userName } = response.data;
+      localStorage.setItem("userCreds", JSON.stringify({ success, userName }));
+      window.location.href = "/";
+    } catch (error) {
+      console.error("error during login", error.response?.data || error.message);
+    }
+  }
   return <div>
     <Mainwrapper>
       <div
@@ -16,25 +44,19 @@ const Login = () => {
                     <img src={logo} alt="logo-image" />
                   </a>
                   <p className="text-center">Your Social Campaigns</p>
-                  <form>
+                  <form onSubmit={handleSubmit}>
                     <div className="mb-3">
-                      <label htmlFor="exampleInputEmail1" className="form-label">Username</label>
-                      <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
+                      <label htmlFor="mobileNo" className="form-label">Mobile Number</label>
+                      <input type="text" className="form-control" id="mobileNo" aria-describedby="emailHelp" value={formData.mobileNo} onChange={handleChange} required />
                     </div>
                     <div className="mb-4">
-                      <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                      <input type="password" className="form-control" id="exampleInputPassword1" />
+                      <label htmlFor="password" className="form-label">Password</label>
+                      <input type="password" className="form-control" id="password" value={formData.password} onChange={handleChange} required />
                     </div>
                     <div className="d-flex align-items-center justify-content-between mb-4">
-                      <div className="form-check">
-                        <input className="form-check-input primary" type="checkbox" value="" id="flexCheckChecked" defaultChecked />
-                        <label className="form-check-label text-dark" htmlFor="flexCheckChecked">
-                          Remeber this Device
-                        </label>
-                      </div>
                       <a className="text-primary fw-bold" href="/">Forgot Password ?</a>
                     </div>
-                    <a href="/" className="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign In</a>
+                    <input type="submit" className="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" value="Sign In" />
                     <div className="d-flex align-items-center justify-content-center">
                       <p className="fs-4 mb-0 fw-bold">New to Matdash?</p>
                       <NavLink className="text-primary fw-bold ms-2" to="/register">Create an account</NavLink>

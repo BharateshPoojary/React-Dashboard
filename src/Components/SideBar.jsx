@@ -12,9 +12,9 @@ const SideBar = () => {
         {/* Sidebar scroll */}
         <div>
           <div className="brand-logo d-flex align-items-center justify-content-between">
-            <a href="/" className="text-nowrap logo-img">
+            <NavLink to="/" className="text-nowrap logo-img">
               <img src={logo} alt="matdashlogo" />
-            </a>
+            </NavLink>
             <div
               className="close-btn d-xl-none d-block sidebartoggler cursor-pointer"
               id="sidebarCollapse"
@@ -33,10 +33,10 @@ const SideBar = () => {
                 <span className="hide-menu">Home</span>
               </li>
               <li className="sidebar-item">
-                <a className="sidebar-link" href="/" aria-expanded="false">
+                <NavLink className="sidebar-link" to="/" aria-expanded="false">
                   <Icon icon="solar:widget-add-line-duotone"></Icon>
                   <span className="hide-menu">Dashboard</span>
-                </a>
+                </NavLink>
               </li>
               <li>
                 <span className="sidebar-divider lg"></span>
@@ -49,42 +49,48 @@ const SideBar = () => {
                 <span className="hide-menu">UI COMPONENTS</span>
               </li>
               <li className="sidebar-item">
-                <a
+                <NavLink className="sidebar-link" to="category" aria-expanded="false">
+                  <Icon icon="solar:passport-minimalistic-outline"></Icon>
+                  <span className="hide-menu">Categories</span>
+                </NavLink>
+              </li>
+              <li className="sidebar-item">
+                <NavLink
                   className="sidebar-link"
-                  href="button"
+                  to="button"
                   aria-expanded="false"
                 >
                   <Icon icon="solar:layers-minimalistic-bold-duotone"></Icon>
                   <span className="hide-menu">Buttons</span>
-                </a>
+                </NavLink>
               </li>
               <li className="sidebar-item">
-                <a className="sidebar-link" href="alert" aria-expanded="false">
+                <NavLink className="sidebar-link" to="alert" aria-expanded="false">
                   <Icon icon="solar:danger-circle-line-duotone"></Icon>
                   <span className="hide-menu">Alerts</span>
-                </a>
+                </NavLink>
               </li>
               <li className="sidebar-item">
-                <a className="sidebar-link" href="card" aria-expanded="false">
+                <NavLink className="sidebar-link" to="card" aria-expanded="false">
                   <Icon icon="solar:bookmark-square-minimalistic-line-duotone"></Icon>
                   <span className="hide-menu">Card</span>
-                </a>
+                </NavLink>
               </li>
               <li className="sidebar-item">
-                <a className="sidebar-link" href="form" aria-expanded="false">
+                <NavLink className="sidebar-link" to="form" aria-expanded="false">
                   <Icon icon="solar:file-text-line-duotone"></Icon>
                   <span className="hide-menu">Forms</span>
-                </a>
+                </NavLink>
               </li>
               <li className="sidebar-item">
-                <a
+                <NavLink
                   className="sidebar-link"
-                  href="typography"
+                  to="typography"
                   aria-expanded="false"
                 >
                   <Icon icon="solar:text-field-focus-line-duotone"></Icon>
                   <span className="hide-menu">Typography</span>
-                </a>
+                </NavLink>
               </li>
               <li>
                 <span className="sidebar-divider lg"></span>
@@ -97,20 +103,20 @@ const SideBar = () => {
                 <span className="hide-menu">AUTH</span>
               </li>
               <li className="sidebar-item">
-                <a className="sidebar-link" href="login" aria-expanded="false">
+                <NavLink className="sidebar-link" to="login" aria-expanded="false">
                   <Icon icon="solar:login-3-line-duotone"></Icon>
                   <span className="hide-menu">Login</span>
-                </a>
+                </NavLink>
               </li>
               <li className="sidebar-item">
-                <a
+                <NavLink
                   className="sidebar-link"
-                  href="register"
+                  to="register"
                   aria-expanded="false"
                 >
                   <Icon icon="solar:user-plus-rounded-line-duotone"></Icon>
                   <span className="hide-menu">Register</span>
-                </a>
+                </NavLink>
               </li>
               <li>
                 <span className="sidebar-divider lg"></span>
@@ -123,20 +129,20 @@ const SideBar = () => {
                 <span className="hide-menu">EXTRA</span>
               </li>
               <li className="sidebar-item">
-                <a className="sidebar-link" href="icon" aria-expanded="false">
+                <NavLink className="sidebar-link" to="icon" aria-expanded="false">
                   <Icon icon="solar:sticker-smile-circle-2-line-duotone"></Icon>
                   <span className="hide-menu">Icons</span>
-                </a>
+                </NavLink>
               </li>
               <li className="sidebar-item">
-                <a
+                <NavLink
                   className="sidebar-link"
-                  href="sample"
+                  to="sample"
                   aria-expanded="false"
                 >
                   <Icon icon="solar:planet-3-line-duotone"></Icon>
                   <span className="hide-menu">Sample Page</span>
-                </a>
+                </NavLink>
               </li>
             </ul>
             <div className="unlimited-access d-flex align-items-center hide-menu bg-primary-subtle position-relative mb-7 mt-4 p-3 rounded">

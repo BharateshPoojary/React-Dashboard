@@ -12,7 +12,7 @@ import Icon from "./Components/Extra/Icon.jsx";
 import Sample from "./Components/Extra/Sample.jsx";
 import Login from "./Components/authentication/Login.jsx";
 import Register from "./Components/authentication/Register.jsx";
-
+import Category from "./Components/ui/Category.jsx"
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
@@ -21,9 +21,10 @@ createRoot(document.getElementById("root")).render(
           {/*parent route */}
           <Route index element={<Dashboard />} />
           {/* Default Route */}
-          <Route path="alert" element={<Alerts />} />
           {/*Below all are child routes */}
+          <Route path="alert" element={<Alerts />} />
           <Route path="button" element={<Button />} />
+          <Route path="category" element={<Category />} />
           <Route path="card" element={<Card />} />
           <Route path="form" element={<Form />} />
           <Route path="typography" element={<Typography />} />

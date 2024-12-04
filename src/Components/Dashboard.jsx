@@ -34,7 +34,6 @@ const Dashboard = () => {
                       </select>
                     </div>
                   </div>
-                  <div id="revenue-forecast"></div> {/* <!--  generating chart  --> */}
                 </div>
               </div>
             </div>

@@ -45,7 +45,7 @@ const Header = () => {
           >
 
             <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-              <h4 className="fw-semibold " >Welcome,{username}</h4>
+              <h4 className="fw-semibold text-primary" >Welcome,{username}</h4>
               {/* user icon starts*/}
               <li className="nav-item dropdown">
                 <NavLink

@@ -1,10 +1,25 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
+import Cardcomponent from "../Cardcomponent.jsx"
 const Category = () => {
     const inputCreateRef = useRef();
     const [catName, setCatName] = useState('');
     const [catImage, setCatImage] = useState({});
     const showImageRef = useRef();
+    const [categories, setCategories] = useState([]);
+    useEffect(() => {
+        const getCategories = async () => {
+            try {
+                const response = await axios.get('http://stock.swiftmore.in/mobileApis/TestCURD_category.php');
+                const { Cat } = response.data;
+                setCategories(Cat);
+            } catch (error) {
+                console.error("Error fetching data", error.response?.data || error.message);
+            }
+        }
+        getCategories();
+    }, [])
+
     const showImage = (e, hideimgId = 0) => {
         console.log(e.target.files[0]);
         //e.target.files .files is required to get the img information in object
@@ -38,7 +53,7 @@ const Category = () => {
             );
             if (addPostResponse.data) {
                 console.log(addPostResponse.data);
-                // location.reload();
+                location.reload();
             }
         } catch (error) {
             console.error("Error fetching data", error.response?.data || error.message);
@@ -62,66 +77,76 @@ const Category = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div id="create" className="modal fade" tabIndex="-1" aria-modal="true" role="dialog">
-                <div className="modal-dialog modal-dialog-scrollable modal-lg">
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <div className="text-center mt-2 mb-4">
-                                Create Category
+                    <div id="create" className="modal fade" tabIndex="-1" aria-modal="true" role="dialog">
+                        <div className="modal-dialog modal-dialog-scrollable modal-lg">
+                            <div className="modal-content">
+                                <div className="modal-body">
+                                    <div className="text-center mt-2 mb-4">
+                                        Create Category
+                                    </div>
+                                    <form id="createform" onSubmit={(e) => handleFormSubmit(e)} method="post" encType="multipart/form-data" className="ps-3 pr-3">
+                                        <input type="text" id="action" name="action" defaultValue={'create'} hidden ref={inputCreateRef} />
+                                        <div className="row">
+                                            <div className="col-12">
+                                                <div className="mb-3">
+                                                    <label htmlFor="inputcom" className="form-label">Name</label>
+                                                    <input type="text" className="form-control" id="catinput"
+                                                        placeholder="Category Here" name="catName" onChange={(e) => setCatName(e.target.value)} />
+                                                </div>
+                                            </div>
+                                            <div className="col-6">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Select File</label>
+                                                    <div className="input-group flex-nowrap">
+                                                        <div className="input-group-prepend">
+                                                            <span className="input-group-text">Upload</span>
+                                                        </div>
+                                                        <div className="custom-file">
+                                                            <input type="file" className="form-control"
+                                                                id="inputGroupFile01" accept=".png, .jpg,.jpeg,image/*"
+                                                                name="catImg" onChange={(e) => { showImage(e), setCatImage(e.target.files[0]) }} />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="col-sm-6 col-xxl-4">
+                                                <div className="mb-3">
+                                                    <div className="mb-3 d-flex justify-content-center">
+                                                        <img style={{
+                                                            height: "150px", width: "3.5cm", display: "none"
+                                                        }}
+                                                            id="img_url" ref={showImageRef}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="mb-3 text-center">
+                                            <button className="btn btn-rounded bg-info-subtle text-info" type="submit">
+                                                Sumbit
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
-                            <form id="createform" onSubmit={(e) => handleFormSubmit(e)} method="post" encType="multipart/form-data" className="ps-3 pr-3">
-                                <input type="text" id="action" name="action" defaultValue={'create'} hidden ref={inputCreateRef} />
-                                <div className="row">
-                                    <div className="col-12">
-                                        <div className="mb-3">
-                                            <label htmlFor="inputcom" className="form-label">Name</label>
-                                            <input type="text" className="form-control" id="catinput"
-                                                placeholder="Category Here" name="catName" onChange={(e) => setCatName(e.target.value)} />
-                                        </div>
-                                    </div>
-                                    <div className="col-6">
-                                        <div className="mb-3">
-                                            <label className="form-label">Select File</label>
-                                            <div className="input-group flex-nowrap">
-                                                <div className="input-group-prepend">
-                                                    <span className="input-group-text">Upload</span>
-                                                </div>
-                                                <div className="custom-file">
-                                                    <input type="file" className="form-control"
-                                                        id="inputGroupFile01" accept=".png, .jpg,.jpeg,image/*"
-                                                        name="catImg" onChange={(e) => { showImage(e), setCatImage(e.target.files[0]) }} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-sm-6 col-xxl-4">
-                                        <div className="mb-3">
-                                            <div className="mb-3 d-flex justify-content-center">
-                                                <img style={{
-                                                    height: "150px", width: "3.5cm", display: "none"
-                                                }}
-                                                    id="img_url" ref={showImageRef}
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="mb-3 text-center">
-                                    <button className="btn btn-rounded bg-info-subtle text-info" type="submit">
-                                        Sumbit
-                                    </button>
-                                </div>
-                            </form>
                         </div>
+                    </div>
+                    <div className="row" id="categories">
+                        {categories.map((category) => {
+                            return (
+                                <div className='col-md-6 col-lg-3' key={category.catId}>
+                                    <Cardcomponent
+                                        catId={category.catId}
+                                        catImage={category.catImg}
+                                        catName={category.catName}
+                                    />
+                                </div>)
+                        })}
                     </div>
                 </div>
             </div>
+
         </div>
-
-
-
     )
 }
 

@@ -5,8 +5,6 @@ const Cardcomponent = (props) => {
     const { catName, catId, catImage } = props;
     console.log(catName, catId, catImage)
     const deleteCardRef = useRef();
-    // const updateRef = useRef();
-    // const catIdRef = useRef();
     const updateImgRef = useRef();
     const hideImgRef = useRef();
     const [updateCatName, setUpdateCatName] = useState(catName);
@@ -78,8 +76,6 @@ const Cardcomponent = (props) => {
                     await Swal.fire("Deleted!", "Category has been deleted.", "success");
                     // Remove the deleted category from the DOM
                     // $(`.sa-confirm[data-id='${catId}']`).closest(".col-md-6.col-lg-3").remove();
-
-
                     deleteCardRef.current.remove();
                     location.reload();
                 } else {
@@ -94,7 +90,7 @@ const Cardcomponent = (props) => {
 
     return (
         <>
-            <div id={`delete${catId}`} ref={deleteCardRef}>
+            <div ref={deleteCardRef}>
                 <div className="card">
                     <div className="card-body">
                         <div className="d-flex align-items-start">
@@ -140,14 +136,11 @@ const Cardcomponent = (props) => {
                             </div>
                             <form id="editform" onSubmit={(e) => handleFormEdit(e, catId)} method="post" encType="multipart/form-data"
                                 className="ps-3 pr-3">
-                                <input type="text" name="action" id="editaction" defaultValue={"update"} hidden />
-                                <input type="text" id={`editcatId${catId}`} name="catId" defaultValue={catId} hidden />
-                                {/* ref={catIdRef} */}
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="mb-3">
                                             <label htmlFor="inputcom" className="form-label">Name</label>
-                                            <input type="text" className="form-control" id={`editinputcom${catId}`} placeholder="Category Here" name="catName" value={updateCatName} onChange={(e) => setUpdateCatName(e.target.value)} />
+                                            <input type="text" className="form-control" placeholder="Category Here" name="catName" value={updateCatName} onChange={(e) => setUpdateCatName(e.target.value)} />
                                         </div>
                                     </div>
                                     <div className="col-6">
@@ -159,7 +152,6 @@ const Cardcomponent = (props) => {
                                                 </div>
                                                 <div className="custom-file">
                                                     <input type="file" className="form-control"
-                                                        id={`editinputGroupFile01${catId}`}
                                                         accept=".png, .jpg,.jpeg,image/*" name="catImg"
                                                         onChange={(e) => { showImage(e, catId); setUpdateCatImg(e.target.files[0]) }} />
                                                 </div>
@@ -170,8 +162,8 @@ const Cardcomponent = (props) => {
                                         <div className="mb-3">
                                             <div className="mb-3 d-flex justify-content-center">
                                                 <div className="mb-3 d-flex justify-content-center">
-                                                    <img style={{ height: "150px", width: "3.5cm", display: "none" }} id={`edit_img_url${catId}`} ref={updateImgRef} />
-                                                    <img style={{ height: "150px", width: "3.5cm", display: "block" }} src={catImage} id={`hideimage${catId}`} ref={hideImgRef} />
+                                                    <img style={{ height: "150px", width: "3.5cm", display: "none" }} ref={updateImgRef} />
+                                                    <img style={{ height: "150px", width: "3.5cm", display: "block" }} src={catImage} ref={hideImgRef} />
                                                 </div>
                                             </div>
                                         </div>

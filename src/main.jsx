@@ -13,6 +13,7 @@ import Sample from "./Components/Extra/Sample.jsx";
 import Login from "./Components/authentication/Login.jsx";
 import Register from "./Components/authentication/Register.jsx";
 import Category from "./Components/ui/Category.jsx"
+import Subcategory from "./Components/ui/Subcategory.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
@@ -30,6 +31,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="typography" element={<Typography />} />
           <Route path="icon" element={<Icon />} />
           <Route path="sample" element={<Sample />} />
+          <Route path="subcategory" element={<Subcategory />} />
         </Route>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />

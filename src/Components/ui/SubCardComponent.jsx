@@ -1,18 +1,16 @@
 import React, { useRef, useState } from 'react'
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
-
-const Cardcomponent = (props) => {
-    const navigate = useNavigate();
-    const { catName, catId, catImage, getCategories, emptyCategoryMessage } = props;
-    console.log(catName, catId, catImage)
+const SubCardcomponent = (props) => {
+    const { catId, subCatName, subCatId, subCatImage, getSubCategories, growthPercentage, emptySubcatMessage } = props;
+    console.log(subCatName, subCatId, subCatImage, growthPercentage)
     const deleteCardRef = useRef();
     const updateImgRef = useRef();
     const hideImgRef = useRef();
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [updateCatName, setUpdateCatName] = useState(catName);
-    const [updateCatImg, setUpdateCatImg] = useState({})
+    const [updateSubCatName, setupdateSubCatName] = useState(subCatName);
+    const [updateSubCatGrowthPercentage, setupdateSubCatGrowthPercentage] = useState(growthPercentage);
+    const [updateSubCatImg, setupdateSubCatImg] = useState({})
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
     const showImage = (e) => {
@@ -31,42 +29,39 @@ const Cardcomponent = (props) => {
             updateImgRef.current.style.display = "none";
         }
     }
-    const handleFormEdit = async (e, catId) => {//during update we have to pass some thing unique so that the function will get to know 
+    const handleFormEdit = async (e, subCatId) => {//during update we have to pass some thing unique so that the function will get to know 
         //specifcally which form to update 
         try {
             e.preventDefault();
             const formData = new FormData();//It is optional but recommended when including files in a request 
             //When dealing with file uploads (<input type="file">), you cannot directly store the file in a plain JavaScript object. The .files property of a file input is a File object, which needs to be properly encoded for transmission. FormData handles this encoding for you.
-            const a = updateCatImg;
+            const a = updateSubCatImg;
             console.log(a);
-            formData.append('catName', updateCatName);
-            const name = updateCatName;
+            formData.append('subCatName', updateSubCatName);
+            const name = updateSubCatName;
             console.log(name);
-            formData.append('catImg', updateCatImg); // Actual file
+            formData.append('subCatImg', updateSubCatImg); // Actual file
             formData.append('action', 'update');
             formData.append('catId', catId);
-            const editPostResponse = await axios.post("http://stock.swiftmore.in/mobileApis/TestCURD_category.php", formData
+            formData.append('growthPercentage', updateSubCatGrowthPercentage)
+            formData.append('subCatId', subCatId);
+            const editPostResponse = await axios.post("http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php", formData
             );
             if (editPostResponse.data) {
                 console.log(editPostResponse.data);
                 // location.reload();
-                await getCategories();
+                await getSubCategories();
                 handlecloseModal();
             }
         } catch (error) {
             console.error("Error fetching data", error.response?.data || error.message);
         }
     }
-    const redirectToSubCat = (catId) => {
-        console.log(catId);
-        localStorage.setItem("catId", JSON.stringify({ catId }));
-        navigate('/subcategory');
-    }
-    const handleDelete = async (catId, catName) => {
-        console.log(catId, catName);
+    const handleDelete = async (subCatId, subCatName) => {
+        console.log(subCatId, subCatName);
         const result = await Swal.fire({//wait for promise to resolve
             title: "Are you sure?",
-            text: `You want to delete '${catName}' category!`,
+            text: `You want to delete '${subCatName}' category!`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -76,17 +71,15 @@ const Cardcomponent = (props) => {
         if (result.isConfirmed) {
             try {
                 const formData = new FormData();
-                formData.append("catId", catId);
+                formData.append("subCatId", subCatId);
                 formData.append("action", "delete");
-                // const deletedata={catId,action:'delete'}
-                const response = await axios.post("http://stock.swiftmore.in/mobileApis/TestCURD_category.php", formData);
+                // const deletedata={subCatId,action:'delete'}
+                const response = await axios.post("http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php", formData);
                 if (response.data.success === 1) {
                     await Swal.fire("Deleted!", "Category has been deleted.", "success");
                     // Remove the deleted category from the DOM
-                    // $(`.sa-confirm[data-id='${catId}']`).closest(".col-md-6.col-lg-3").remove();
-                    await getCategories();
-                    // deleteCardRef.current.remove();
-                    // location.reload();
+                    // $(`.sa-confirm[data-id='${subCatId}']`).closest(".col-md-6.col-lg-3").remove();
+                    await getSubCategories();
                 } else {
                     await Swal.fire("Error!", "Something went wrong. Please try again.", "error");
                 }
@@ -99,14 +92,14 @@ const Cardcomponent = (props) => {
 
     return (
         <>
-            {emptyCategoryMessage ?
-                <h2>{emptyCategoryMessage}</h2> :
+            {emptySubcatMessage ?
+                <h2>{emptySubcatMessage}</h2> :
                 <div ref={deleteCardRef}>
                     <div className="card">
                         <div className="card-body">
                             <div className="d-flex align-items-start">
-                                <div className="bg-warning-subtle text-warning d-inline-block px-4 py-3 rounded " onClick={() => redirectToSubCat(catId)}  >
-                                    <img onClick={() => redirectToSubCat(catId)} src={catImage} className="rounded img-fluid" />
+                                <div className="bg-warning-subtle text-warning d-inline-block px-4 py-3 rounded "   >
+                                    <img src={subCatImage} className="rounded img-fluid" />
                                 </div>
                                 <div className="ms-auto">
                                     <div className="dropdown dropstart">
@@ -126,14 +119,17 @@ const Cardcomponent = (props) => {
                                             </li>
                                             <li>
                                                 <div className="dropdown-item sa-confirm"
-                                                    onClick={() => handleDelete(catId, catName)}>Delete</div>
+                                                    onClick={() => handleDelete(subCatId, subCatName)}>Delete</div>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div className="mt-5">
-                                <h4 className="card-title">{catName}</h4>
+                                <div className="d-flex justify-content-between align-items-center">
+                                    <h4 className="card-title">{subCatName}</h4>
+                                    <h6 className="text-muted">{growthPercentage}%</h6>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -150,13 +146,25 @@ const Cardcomponent = (props) => {
                             <div className="text-center mt-2 mb-4">
                                 Edit Category
                             </div>
-                            <form id="editform" onSubmit={(e) => handleFormEdit(e, catId)} method="post" encType="multipart/form-data"
+                            <form id="editform" onSubmit={(e) => handleFormEdit(e, subCatId)} method="post" encType="multipart/form-data"
                                 className="ps-3 pr-3">
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="mb-3">
                                             <label htmlFor="inputcom" className="form-label">Name</label>
-                                            <input type="text" className="form-control" placeholder="Category Here" name="catName" value={updateCatName} onChange={(e) => setUpdateCatName(e.target.value)} />
+                                            <input type="text" className="form-control" placeholder="Category Here" name="subCatName" value={updateSubCatName} onChange={(e) => setupdateSubCatName(e.target.value)} />
+                                        </div>
+                                    </div>
+                                    <div className="col-12">
+                                        <div className="mb-3">
+                                            <label htmlFor="inputcom" className="form-label">Growth
+                                                Percentage (In %)</label>
+                                            <input type="text" className="form-control"
+                                                placeholder="Percentage Here" name="growthPercentage"
+                                                value={updateSubCatGrowthPercentage} onChange={(e) => {
+                                                    setupdateSubCatGrowthPercentage(e.target.value);
+                                                    e.target.value = e.target.value.match(/^\d*\.?\d*/)[0];
+                                                }} />
                                         </div>
                                     </div>
                                     <div className="col-6">
@@ -169,7 +177,7 @@ const Cardcomponent = (props) => {
                                                 <div className="custom-file">
                                                     <input type="file" className="form-control"
                                                         accept=".png, .jpg,.jpeg,image/*" name="catImg"
-                                                        onChange={(e) => { showImage(e, catId); setUpdateCatImg(e.target.files[0]) }} />
+                                                        onChange={(e) => { showImage(e, subCatId); setupdateSubCatImg(e.target.files[0]) }} />
                                                 </div>
                                             </div>
                                         </div>
@@ -179,7 +187,7 @@ const Cardcomponent = (props) => {
                                             <div className="mb-3 d-flex justify-content-center">
                                                 <div className="mb-3 d-flex justify-content-center">
                                                     <img style={{ height: "150px", width: "3.5cm", display: "none" }} ref={updateImgRef} />
-                                                    <img style={{ height: "150px", width: "3.5cm", display: "block" }} src={catImage} ref={hideImgRef} />
+                                                    <img style={{ height: "150px", width: "3.5cm", display: "block" }} src={subCatImage} ref={hideImgRef} />
                                                 </div>
                                             </div>
                                         </div>
@@ -200,4 +208,4 @@ const Cardcomponent = (props) => {
     )
 }
 
-export default Cardcomponent
+export default SubCardcomponent

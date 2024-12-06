@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import Cardcomponent from "./Cardcomponent.jsx"
 const Category = () => {
-    const inputCreateRef = useRef();
     const [catName, setCatName] = useState('');
     const [catImage, setCatImage] = useState({});
     const showImageRef = useRef();
@@ -14,7 +13,8 @@ const Category = () => {
         try {
             const response = await axios.get('http://stock.swiftmore.in/mobileApis/TestCURD_category.php');
             const { Cat } = response.data;
-            setCategories(Cat);
+            setCategories(Cat || []);
+
         } catch (error) {
             console.error("Error fetching data", error.response?.data || error.message);
         }
@@ -22,7 +22,7 @@ const Category = () => {
     useEffect(() => {
         getCategories();
     }, [])
-    const showImage = (e, hideimgId = 0) => {
+    const showImage = (e) => {
         console.log(e.target.files[0]);
         //e.target.files .files is required to get the img information in object
         if (e.target.files && e.target.files[0]) {
@@ -36,10 +36,6 @@ const Category = () => {
         } else {
             showImageRef.current.style.display = "none";
         }
-        if (hideimgId != 0) {
-            const hideImage = document.getElementById(`hideimage${hideimgId}`);
-            hideImage.style.display = "none";
-        }
     }
     const handleFormSubmit = async (e) => {
         try {
@@ -50,14 +46,13 @@ const Category = () => {
             console.log(a);
             formData.append('catName', catName);
             formData.append('catImg', catImage); // Actual file
-            formData.append('action', inputCreateRef.current.defaultValue);
+            formData.append('action', 'create');
             const addPostResponse = await axios.post("http://stock.swiftmore.in/mobileApis/TestCURD_category.php", formData
             );
             if (addPostResponse.data) {
                 console.log(addPostResponse.data);
                 await getCategories();
                 handlecloseModal();
-                // location.reload();
             }
         } catch (error) {
             console.error("Error fetching data", error.response?.data || error.message);
@@ -89,13 +84,12 @@ const Category = () => {
                                     <div className="modal-content">
                                         <div className="modal-body">
                                             <div style={{ display: "flex", justifyContent: "right", alignItems: "right", cursor: "pointer" }}>
-                                                <svg onClick={handlecloseModal} width="25" height="25" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.8536 2.85355C13.0488 2.65829 13.0488 2.34171 12.8536 2.14645C12.6583 1.95118 12.3417 1.95118 12.1464 2.14645L7.5 6.79289L2.85355 2.14645C2.65829 1.95118 2.34171 1.95118 2.14645 2.14645C1.95118 2.34171 1.95118 2.65829 2.14645 2.85355L6.79289 7.5L2.14645 12.1464C1.95118 12.3417 1.95118 12.6583 2.14645 12.8536C2.34171 13.0488 2.65829 13.0488 2.85355 12.8536L7.5 8.20711L12.1464 12.8536C12.3417 13.0488 12.6583 13.0488 12.8536 12.8536C13.0488 12.6583 13.0488 12.3417 12.8536 12.1464L8.20711 7.5L12.8536 2.85355Z" fill="red" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                                                <svg onClick={handlecloseModal} width="25" height="25" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.8536 2.85355C13.0488 2.65829 13.0488 2.34171 12.8536 2.14645C12.6583 1.95118 12.3417 1.95118 12.1464 2.14645L7.5 6.79289L2.85355 2.14645C2.65829 1.95118 2.34171 1.95118 2.14645 2.14645C1.95118 2.34171 1.95118 2.65829 2.14645 2.85355L6.79289 7.5L2.14645 12.1464C1.95118 12.3417 1.95118 12.6583 2.14645 12.8536C2.34171 13.0488 2.65829 13.0488 2.85355 12.8536L7.5 8.20711L12.1464 12.8536C12.3417 13.0488 12.6583 13.0488 12.8536 12.8536C13.0488 12.6583 13.0488 12.3417 12.8536 12.1464L8.20711 7.5L12.8536 2.85355Z" fill="red" fillRule="evenodd" clipRule="evenodd"></path></svg>
                                             </div>
                                             <div className="text-center mt-2 mb-4">
                                                 Create Category
                                             </div>
                                             <form id="createform" onSubmit={(e) => handleFormSubmit(e)} method="post" encType="multipart/form-data" className="ps-3 pr-3">
-                                                <input type="text" id="action" name="action" defaultValue={'create'} hidden ref={inputCreateRef} />
                                                 <div className="row">
                                                     <div className="col-12">
                                                         <div className="mb-3">
@@ -143,17 +137,20 @@ const Category = () => {
                             </div>
                         </>}
                     <div className="row" id="categories">
-                        {categories.map((category) => {
-                            return (
-                                <div className='col-md-6 col-lg-3' key={category.catId}>
-                                    <Cardcomponent
-                                        getCategories={getCategories}
-                                        catId={category.catId}
-                                        catImage={category.catImg}
-                                        catName={category.catName}
-                                    />
-                                </div>)
-                        })}
+                        {categories.length > 0 ?
+                            categories.map((category) => {
+                                return (
+                                    <div className='col-md-6 col-lg-3' key={category.catId}>
+                                        <Cardcomponent
+                                            getCategories={getCategories}
+                                            catId={category.catId}
+                                            catImage={category.catImg}
+                                            catName={category.catName}
+                                        />
+                                    </div>)
+                            })
+                            : (<Cardcomponent
+                                emptyCategoryMessage={"No categories added"} />)}
                     </div>
                 </div>
             </div>

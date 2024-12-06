@@ -16,7 +16,8 @@ const Login = () => {
       //It will append the value to particular id and ... will preserve the previous data
     }))//({}) This explicitly tells JavaScript that the function is returning an object literal, {}, directly.
   }
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     console.log(formData.mobileNo, formData.password)
     try {
       const response = await axios.post("http://stock.swiftmore.in/mobileApis/userLogin.php", formData, {
@@ -25,6 +26,7 @@ const Login = () => {
         }
       });
       const { success, userName } = response.data;
+      console.log(success, userName);
       localStorage.setItem("userCreds", JSON.stringify({ success, userName }));
       window.location.href = "/";
     } catch (error) {
@@ -44,7 +46,7 @@ const Login = () => {
                     <img src={logo} alt="logo-image" />
                   </a>
                   <p className="text-center">Your Social Campaigns</p>
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={(e) => handleSubmit(e)}>
                     <div className="mb-3">
                       <label htmlFor="mobileNo" className="form-label">Mobile Number</label>
                       <input type="text" className="form-control" id="mobileNo" aria-describedby="emailHelp" value={formData.mobileNo} onChange={handleChange} required />

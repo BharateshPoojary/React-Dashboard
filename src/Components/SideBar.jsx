@@ -3,6 +3,7 @@ import logo from "../assets/images/logos/logo.svg";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import rupee from "../assets/images/backgrounds/rupee.png";
 import { NavLink } from "react-router-dom";
+
 const SideBar = () => {
 
   return (
@@ -12,7 +13,7 @@ const SideBar = () => {
         {/* Sidebar scroll */}
         <div>
           <div className="brand-logo d-flex align-items-center justify-content-between">
-            <NavLink to="/" className="text-nowrap logo-img">
+            <NavLink to="/" className="text-nowrap logo-img" id="sidebarCollapse">
               <img src={logo} alt="matdashlogo" />
             </NavLink>
             <div
@@ -32,8 +33,8 @@ const SideBar = () => {
                 ></Icon>
                 <span className="hide-menu">Home</span>
               </li>
-              <li className="sidebar-item">
-                <NavLink className="sidebar-link" to="/" aria-expanded="false">
+              <li className="sidebar-item" id="sidebarCollapse">
+                <NavLink className="sidebar-link" to="/" aria-expanded="false" >
                   <Icon icon="solar:widget-add-line-duotone"></Icon>
                   <span className="hide-menu">Dashboard</span>
                 </NavLink>
@@ -48,8 +49,8 @@ const SideBar = () => {
                 ></Icon>
                 <span className="hide-menu">UI COMPONENTS</span>
               </li>
-              <li className="sidebar-item">
-                <NavLink className="sidebar-link" to="category" aria-expanded="false">
+              <li className="sidebar-item " id="sidebarCollapse" >
+                <NavLink className="sidebar-link" to="category" aria-expanded="false" >
                   <Icon icon="solar:passport-minimalistic-outline"></Icon>
                   <span className="hide-menu">Categories</span>
                 </NavLink>
@@ -168,6 +169,7 @@ const SideBar = () => {
         {/* End Sidebar scroll */}
       </aside>
       {/* Sidebar Ends */}
+
     </div>
   );
 };

@@ -49,7 +49,6 @@ const Cardcomponent = (props) => {
             );
             if (editPostResponse.data) {
                 console.log(editPostResponse.data);
-                // location.reload();
                 await getCategories();
                 handlecloseModal();
             }
@@ -105,7 +104,7 @@ const Cardcomponent = (props) => {
                     <div className="card">
                         <div className="card-body">
                             <div className="d-flex align-items-start">
-                                <div className="bg-warning-subtle text-warning d-inline-block px-4 py-3 rounded " onClick={() => redirectToSubCat(catId)}  >
+                                <div className="bg-warning-subtle text-warning d-inline-block px-4 py-3 rounded "   >
                                     <img onClick={() => redirectToSubCat(catId)} src={catImage} className="rounded img-fluid" />
                                 </div>
                                 <div className="ms-auto">

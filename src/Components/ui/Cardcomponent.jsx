@@ -2,13 +2,16 @@ import React, { useRef, useState } from 'react'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 const Cardcomponent = (props) => {
-    const { catName, catId, catImage } = props;
+    const { catName, catId, catImage, getCategories } = props;
     console.log(catName, catId, catImage)
     const deleteCardRef = useRef();
     const updateImgRef = useRef();
     const hideImgRef = useRef();
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const [updateCatName, setUpdateCatName] = useState(catName);
     const [updateCatImg, setUpdateCatImg] = useState({})
+    const openModal = () => setIsModalVisible(true);
+    const handlecloseModal = () => setIsModalVisible(false);
     const showImage = (e) => {
         console.log(e.target.files[0]);
         //e.target.files .files is required to get the img information in object
@@ -43,7 +46,9 @@ const Cardcomponent = (props) => {
             );
             if (editPostResponse.data) {
                 console.log(editPostResponse.data);
-                location.reload();
+                // location.reload();
+                await getCategories();
+                handlecloseModal();
             }
         } catch (error) {
             console.error("Error fetching data", error.response?.data || error.message);
@@ -76,8 +81,9 @@ const Cardcomponent = (props) => {
                     await Swal.fire("Deleted!", "Category has been deleted.", "success");
                     // Remove the deleted category from the DOM
                     // $(`.sa-confirm[data-id='${catId}']`).closest(".col-md-6.col-lg-3").remove();
-                    deleteCardRef.current.remove();
-                    location.reload();
+                    await getCategories();
+                    // deleteCardRef.current.remove();
+                    // location.reload();
                 } else {
                     await Swal.fire("Error!", "Something went wrong. Please try again.", "error");
                 }
@@ -110,8 +116,8 @@ const Cardcomponent = (props) => {
                                     <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" >
                                         <li>
                                             <div className="dropdown-item no-border"
-                                                data-bs-toggle="modal"
-                                                data-bs-target={`#view${catId}`}>Edit</div>
+                                                onClick={openModal}
+                                            >Edit</div>
                                         </li>
                                         <li>
                                             <div className="dropdown-item sa-confirm"
@@ -127,10 +133,14 @@ const Cardcomponent = (props) => {
                     </div>
                 </div>
             </div>
-            <div id={`view${catId}`} className="modal fade" tabIndex="-1" aria-modal="true" role="dialog" >
+            {isModalVisible && <div id="view" className={`modal ${isModalVisible ? "fade show" : "fade"}`}
+                style={{ display: isModalVisible ? "block" : "none" }} tabIndex="-1" {...(isModalVisible ? { "aria-modal": true, role: "dialog" } : { "aria-hidden": true })}>
                 <div className="modal-dialog modal-dialog-scrollable modal-lg">
                     <div className="modal-content">
                         <div className="modal-body">
+                            <div style={{ display: "flex", justifyContent: "right", alignItems: "right", cursor: "pointer" }}>
+                                <svg onClick={handlecloseModal} width="25" height="25" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.8536 2.85355C13.0488 2.65829 13.0488 2.34171 12.8536 2.14645C12.6583 1.95118 12.3417 1.95118 12.1464 2.14645L7.5 6.79289L2.85355 2.14645C2.65829 1.95118 2.34171 1.95118 2.14645 2.14645C1.95118 2.34171 1.95118 2.65829 2.14645 2.85355L6.79289 7.5L2.14645 12.1464C1.95118 12.3417 1.95118 12.6583 2.14645 12.8536C2.34171 13.0488 2.65829 13.0488 2.85355 12.8536L7.5 8.20711L12.1464 12.8536C12.3417 13.0488 12.6583 13.0488 12.8536 12.8536C13.0488 12.6583 13.0488 12.3417 12.8536 12.1464L8.20711 7.5L12.8536 2.85355Z" fill="red" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+                            </div>
                             <div className="text-center mt-2 mb-4">
                                 Edit Category
                             </div>
@@ -178,7 +188,7 @@ const Cardcomponent = (props) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
 
         </>
     )

@@ -1,9 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "../../assets/images/logos/logo.svg";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
 const Register = () => {
-
+  const navigate = useNavigate();
+  useEffect(() => {
+    const VerifyingUserLoggedIn = () => {
+      const isUserPresent = JSON.parse(localStorage.getItem('userCreds'));
+      if (isUserPresent) {
+        navigate('/');
+        return;
+      }
+    }
+    VerifyingUserLoggedIn();
+  }, [])
   return <div>
     <Mainwrapper>
       <div

@@ -13,7 +13,7 @@ const SideBar = () => {
         {/* Sidebar scroll */}
         <div>
           <div className="brand-logo d-flex align-items-center justify-content-between">
-            <NavLink to="/" className="text-nowrap logo-img" id="sidebarCollapse">
+            <NavLink to="/" className="text-nowrap logo-img" id="">
               <img src={logo} alt="matdashlogo" />
             </NavLink>
             <div
@@ -33,7 +33,7 @@ const SideBar = () => {
                 ></Icon>
                 <span className="hide-menu">Home</span>
               </li>
-              <li className="sidebar-item" id="sidebarCollapse">
+              <li className="sidebar-item" >
                 <NavLink className="sidebar-link" to="/" aria-expanded="false" >
                   <Icon icon="solar:widget-add-line-duotone"></Icon>
                   <span className="hide-menu">Dashboard</span>
@@ -49,7 +49,7 @@ const SideBar = () => {
                 ></Icon>
                 <span className="hide-menu">UI COMPONENTS</span>
               </li>
-              <li className="sidebar-item " id="sidebarCollapse" >
+              <li className="sidebar-item"  >
                 <NavLink className="sidebar-link" to="category" aria-expanded="false" >
                   <Icon icon="solar:passport-minimalistic-outline"></Icon>
                   <span className="hide-menu">Categories</span>
@@ -96,7 +96,7 @@ const SideBar = () => {
               <li>
                 <span className="sidebar-divider lg"></span>
               </li>
-              <li className="nav-small-cap">
+              {localStorage.getItem('userCreds')} <li className="nav-small-cap">
                 <Icon
                   icon="solar:menu-dots-linear"
                   className="nav-small-cap-icon fs-4"

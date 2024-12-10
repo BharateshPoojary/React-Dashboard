@@ -9,9 +9,17 @@ import blogimg2 from "../assets/images/blog/blog-img2.jpg";
 import blogimg3 from "../assets/images/blog/blog-img3.jpg";
 import user2 from "../assets/images/profile/user-2.jpg"
 import user3 from "../assets/images/profile/user-3.jpg"
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 const Dashboard = () => {
-  //useEffect async because useEffect expects the callback to either return undefined or a cleanup function, not a Promise.
+  const navigate = useNavigate();
+  useEffect(() => {
+    const isUserLoggedIn = JSON.parse(localStorage.getItem('userCreds'));
+    if (!isUserLoggedIn) {
+      navigate("/login");
+      return;
+    }
+  }, [])
+
   return (
     <div >
       <div className="body-wrapper-inner">

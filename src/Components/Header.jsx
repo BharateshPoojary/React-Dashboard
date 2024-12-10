@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import user from "../assets/images/profile/user-1.jpg";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 const Header = () => {
   const [username, setUserName] = useState('User');
-
+  const navigate = useNavigate();
   useEffect(() => {
     const storedUserCreds = localStorage.getItem('userCreds');
     if (storedUserCreds) {
@@ -16,6 +16,10 @@ const Header = () => {
       }
     }
   }, [])
+  const handleLogout = () => {
+    localStorage.removeItem("userCreds");
+    navigate("/login");
+  }
   return (
     <div >
 
@@ -70,27 +74,27 @@ const Header = () => {
                   <div className="message-body">
                     <a
                       onClick={() => { }}
-                      className="d-flex align-items-center gap-2 dropdown-item"
+                      className="d-flex align-items-center gap-2 dropdown-item cursor-pointer"
                     >
                       <i className="ti ti-user fs-6"></i>
                       <p className="mb-0 fs-3">My Profile</p>
                     </a>
                     <a
                       onClick={() => { }}
-                      className="d-flex align-items-center gap-2 dropdown-item"
+                      className="d-flex align-items-center gap-2 dropdown-item cursor-pointer"
                     >
                       <i className="ti ti-mail fs-6"></i>
                       <p className="mb-0 fs-3">My Account</p>
                     </a>
                     <a
                       onClick={() => { }}
-                      className="d-flex align-items-center gap-2 dropdown-item"
+                      className="d-flex align-items-center gap-2 dropdown-item cursor-pointer"
                     >
                       <i className="ti ti-list-check fs-6"></i>
                       <p className="mb-0 fs-3">My Task</p>
                     </a>
                     <a
-                      onClick={() => { }}
+                      onClick={handleLogout}
                       className="btn btn-outline-primary mx-3 mt-2 d-block"
                     >
                       Logout

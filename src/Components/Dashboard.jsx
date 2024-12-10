@@ -16,7 +16,6 @@ const Dashboard = () => {
     const isUserLoggedIn = JSON.parse(localStorage.getItem('userCreds'));
     if (!isUserLoggedIn) {
       navigate("/login");
-      return;
     }
   }, [])
 

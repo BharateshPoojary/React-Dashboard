@@ -58,15 +58,16 @@ const Register = () => {
                   <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                       <label htmlFor="userName" className="form-label">Name</label>
-                      <input type="text" className="form-control" id="userName" value={registerFormData.userName} onChange={handleChange} aria-describedby="textHelp" />
+                      <input type="text" className="form-control" id="userName" value={registerFormData.userName} onChange={handleChange} aria-describedby="textHelp" required />
                     </div>
                     <div className="mb-3">
                       <label htmlFor="mobileNo" className="form-label">Mobile Number</label>
-                      <input type="text" className="form-control" id="mobileNo" value={registerFormData.mobileNo} onChange={handleChange} aria-describedby="emailHelp" />
+                      <input type="text" className="form-control" id="mobileNo" value={registerFormData.mobileNo} onChange={handleChange} aria-describedby="emailHelp" required />
                     </div>
+                    <p id="mobilenovalidationmessage"></p>
                     <div className="mb-4">
                       <label htmlFor="password" className="form-label">Password</label>
-                      <input type="password" className="form-control" id="password" value={registerFormData.password} onChange={handleChange} />
+                      <input type="password" className="form-control" id="password" value={registerFormData.password} onChange={handleChange} required />
                     </div>
                     <input type="submit" className="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" value="Sign Up" />
                     <div className="d-flex align-items-center justify-content-center">

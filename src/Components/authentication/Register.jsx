@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "../../assets/images/logos/logo.svg";
-import { NavLink, redirect } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
+import axios from "axios";
 const Register = () => {
   const [registerFormData, setRegisterFormData] = useState({
     userName: '',
@@ -25,8 +26,21 @@ const Register = () => {
       [id]: value
     }))
   }
-  const handleSubmit = () => {
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = new FormData();
+      formData.append("userName", registerFormData.userName);
+      formData.append("password", registerFormData.password);
+      formData.append("mobileNo", registerFormData.mobileNo);
+      const response = await axios.post("http://stock.swiftmore.in/mobileApis/userRegister.php", formData);
+      console.log(response.data);
+      const { userName, success } = response.data;
+      localStorage.setItem("userCreds", JSON.stringify({ userName, success }))
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error.response?.data || error.message);// return the first truthy value it encounters
+    }
   }
   return <div>
     <Mainwrapper>
@@ -48,13 +62,13 @@ const Register = () => {
                     </div>
                     <div className="mb-3">
                       <label htmlFor="mobileNo" className="form-label">Mobile Number</label>
-                      <input type="email" className="form-control" id="mobileNo" value={registerFormData.mobileNo} onChange={handleChange} aria-describedby="emailHelp" />
+                      <input type="text" className="form-control" id="mobileNo" value={registerFormData.mobileNo} onChange={handleChange} aria-describedby="emailHelp" />
                     </div>
                     <div className="mb-4">
                       <label htmlFor="password" className="form-label">Password</label>
-                      <input type="password" className="form-control" id="password" value={registerFormData.mobileNo} onChange={handleChange} />
+                      <input type="password" className="form-control" id="password" value={registerFormData.password} onChange={handleChange} />
                     </div>
-                    <input type="submit" value={"Sign Up"} />
+                    <input type="submit" className="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2" value="Sign Up" />
                     <div className="d-flex align-items-center justify-content-center">
                       <p className="fs-4 mb-0 fw-bold">Already have an Account?</p>
                       <NavLink className="text-primary fw-bold ms-2" to="/login">Sign In</NavLink>

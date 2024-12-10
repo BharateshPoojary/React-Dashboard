@@ -54,7 +54,7 @@ const Login = () => {
         }
       });
       const { success, userName, message } = response.data;
-      if (message === "Login success") {
+      if (success === 1) {
         console.log(success, userName);
         alertcontainerref.current.style.display = "block";
         alertref.current.style.display = "block";

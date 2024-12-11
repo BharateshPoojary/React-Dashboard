@@ -23,8 +23,6 @@ const Category = () => {
     }
     useEffect(() => {
         getCategories();
-
-
     }, [])
     const showImage = (e) => {
         console.log(e.target.files[0]);

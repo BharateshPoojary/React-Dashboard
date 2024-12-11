@@ -61,9 +61,9 @@ const Register = () => {
       console.log(response.data);
       const { success, message } = response.data;
       if (success === 1) {
-        const { userName } = response.data;
+        const { userName, mobileNo, password } = response.data;
         toast.success(message);
-        localStorage.setItem("userCreds", JSON.stringify({ userName, success }))
+        localStorage.setItem("userCreds", JSON.stringify({ userName, success, mobileNo, password }))
         window.location.href = "/";
       } else {
         toast.error(message);

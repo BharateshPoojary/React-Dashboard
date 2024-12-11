@@ -55,10 +55,10 @@ const Login = () => {
       });
       const { success, message } = response.data;
       if (success === 1) {
-        const { userName } = response.data;
+        const { userName, mobileNo, password } = response.data;
         console.log(success, userName);
         toast.success(message);
-        localStorage.setItem("userCreds", JSON.stringify({ success, userName }));
+        localStorage.setItem("userCreds", JSON.stringify({ success, userName, mobileNo, password }));
         window.location.href = "/";
       } else {
         toast.error(message);

@@ -6,29 +6,19 @@ const Profile = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [profileName, setProfileName] = useState('');
     const [profileMobileNo, setProfileMobileNo] = useState('');
-    const [profilePassword, setProfilePassword] = useState('Bharatesh');
+    const [profilePassword, setProfilePassword] = useState('');
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
     const [showPassword, setShowPassword] = useState(false);
-
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-    const getProfileCreds = async () => {
-        try {
-            const response = await axios.get('http://stock.swiftmore.in/mobileApis/TestCURD_category.php');
-            const { Cat } = response.data;
-            setCategories(Cat || []);
-
-        } catch (error) {
-            console.error("Error fetching data", error.response?.data || error.message);
-        }
-    }
     useEffect(() => {
         const userCreds = JSON.parse(localStorage.getItem('userCreds'));
-        const { userName } = userCreds;
+        const { userName, mobileNo, password } = userCreds;
         setProfileName(userName);
-        getProfileCreds();
+        setProfileMobileNo(mobileNo);
+        setProfilePassword(password);
     }, [])
 
     return (

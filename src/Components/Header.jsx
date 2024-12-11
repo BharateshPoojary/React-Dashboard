@@ -42,15 +42,13 @@ const Header = () => {
             </li>
             {/* bell icon ends */}
           </ul>
-
           <div
             className="navbar-collapse justify-content-end px-0"
             id="navbarNav"
           >
-
             <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-              <h4 className="fw-semibold text-primary" >Welcome,{username}</h4>
               {/* user icon starts*/}
+              <p className="fw-semibold text-primary  fs-4 " >Welcome,{username}</p>
               <li className="nav-item dropdown">
                 <NavLink
                   className="nav-link"

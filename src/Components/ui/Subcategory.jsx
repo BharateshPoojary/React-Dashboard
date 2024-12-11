@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import SubCardComponent from './SubCardComponent.jsx';
-
+import toast from 'react-hot-toast';
 const Category = () => {
     const [subCatName, setSubCatName] = useState('');
     const [subCatImage, setSubCatImage] = useState({});
@@ -61,9 +61,11 @@ const Category = () => {
                 console.log(addPostResponse.data);
                 await getSubCategories();
                 handlecloseModal();
+                toast.success("Subcategory added successfully");
                 // location.reload();
             }
         } catch (error) {
+            toast.error("Error adding subcategory");
             console.error("Error fetching data", error.response?.data || error.message);
         }
     }

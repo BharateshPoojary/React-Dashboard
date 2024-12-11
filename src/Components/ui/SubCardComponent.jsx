@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react'
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import toast from 'react-hot-toast';
 const SubCardcomponent = (props) => {
     const { catId, subCatName, subCatId, subCatImage, getSubCategories, growthPercentage, emptySubcatMessage } = props;
     console.log(subCatName, subCatId, subCatImage, growthPercentage)
@@ -52,8 +53,10 @@ const SubCardcomponent = (props) => {
                 // location.reload();
                 await getSubCategories();
                 handlecloseModal();
+                toast.success("Subcategory edited successfully");
             }
         } catch (error) {
+            toast.error("Error editing subcategory");
             console.error("Error fetching data", error.response?.data || error.message);
         }
     }
@@ -80,7 +83,9 @@ const SubCardcomponent = (props) => {
                     // Remove the deleted category from the DOM
                     // $(`.sa-confirm[data-id='${subCatId}']`).closest(".col-md-6.col-lg-3").remove();
                     await getSubCategories();
+                    toast.success("Subcategory deleted successfully");
                 } else {
+                    toast.error("Error deleting subcategory");
                     await Swal.fire("Error!", "Something went wrong. Please try again.", "error");
                 }
             } catch (error) {

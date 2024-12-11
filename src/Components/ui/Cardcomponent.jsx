@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 const Cardcomponent = (props) => {
     const navigate = useNavigate();
@@ -51,8 +52,10 @@ const Cardcomponent = (props) => {
                 console.log(editPostResponse.data);
                 await getCategories();
                 handlecloseModal();
+                toast.success("Category edited successfully");
             }
         } catch (error) {
+            toast.error("Error editing category");
             console.error("Error fetching data", error.response?.data || error.message);
         }
     }
@@ -86,7 +89,9 @@ const Cardcomponent = (props) => {
                     await getCategories();
                     // deleteCardRef.current.remove();
                     // location.reload();
+                    toast.success("Category deleted successfully");
                 } else {
+                    toast.error("Error deleting category");
                     await Swal.fire("Error!", "Something went wrong. Please try again.", "error");
                 }
             } catch (error) {

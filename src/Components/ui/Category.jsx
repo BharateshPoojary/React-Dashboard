@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import Cardcomponent from "./Cardcomponent.jsx"
+import toast from 'react-hot-toast';
 const Category = () => {
+
     const [catName, setCatName] = useState('');
     const [catImage, setCatImage] = useState({});
     const showImageRef = useRef();
@@ -21,6 +23,8 @@ const Category = () => {
     }
     useEffect(() => {
         getCategories();
+
+
     }, [])
     const showImage = (e) => {
         console.log(e.target.files[0]);
@@ -53,8 +57,10 @@ const Category = () => {
                 console.log(addPostResponse.data);
                 await getCategories();
                 handlecloseModal();
+                toast.success("Category added successfully");
             }
         } catch (error) {
+            toast.error("Error adding category");
             console.error("Error fetching data", error.response?.data || error.message);
         }
     }
@@ -62,6 +68,7 @@ const Category = () => {
         <div>
             <div className="body-wrapper-inner">
                 <div className="container-fluid" >
+
                     <div className="card card-body py-3">
                         <div className="row align-items-center">
                             <div className="col-12">

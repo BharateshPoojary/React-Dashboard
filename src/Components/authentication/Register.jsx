@@ -3,11 +3,11 @@ import logo from "../../assets/images/logos/logo.svg";
 import { NavLink } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
 import axios from "axios";
+import toast from "react-hot-toast";
 const Register = () => {
   const usernamevalidationmessage = useRef();
   const mobilenovalidationmessage = useRef();
-  const alertcontainerref = useRef();
-  const alertref = useRef();
+
   const [registerFormData, setRegisterFormData] = useState({
     userName: '',
     mobileNo: '',
@@ -46,7 +46,8 @@ const Register = () => {
       mobilenovalidationmessage.current.textContent = "Please enter a valid number";
       console.log("Please enter a valid number");
       return;
-    } else if (registerFormData.mobileNo.length > 10 || registerFormData.mobileNo.length < 10) {
+    }
+    if (registerFormData.mobileNo.length > 10 || registerFormData.mobileNo.length < 10) {
       mobilenovalidationmessage.current.textContent = "Mobile number must be of  10 digit";
       console.log("Mobile number must be of  10 digit");
       return;
@@ -58,22 +59,18 @@ const Register = () => {
       formData.append("mobileNo", registerFormData.mobileNo);
       const response = await axios.post("http://stock.swiftmore.in/mobileApis/userRegister.php", formData);
       console.log(response.data);
-      const { userName, success, message } = response.data;
+      const { success, message } = response.data;
       if (success === 1) {
-        alertcontainerref.current.style.display = "block";
-        alertref.current.style.display = "block";
-        alertref.current.className = "alert alert-info";
-        alertref.current.textContent = message;
+        const { userName } = response.data;
+        toast.success(message);
         localStorage.setItem("userCreds", JSON.stringify({ userName, success }))
         window.location.href = "/";
       } else {
-        alertcontainerref.current.style.display = "block";
-        alertref.current.style.display = "block";
-        alertref.current.className = "alert alert-danger";
-        alertref.current.textContent = message;
+        toast.error(message);
       }
 
     } catch (error) {
+      toast.error("error during register");
       console.log(error.response?.data || error.message);// return the first truthy value it encounters
     }
   }
@@ -84,9 +81,7 @@ const Register = () => {
         <div className="d-flex align-items-center justify-content-center w-100">
           <div className="row justify-content-center w-100">
             <div className="col-md-8 col-lg-6 col-xxl-3">
-              <div style={{ display: "none" }} className="container d-flex justify-content-center" ref={alertcontainerref} >
-                <div style={{ display: "none" }} role="alert" ref={alertref}></div>
-              </div>
+
               <div className="card mb-0">
                 <div className="card-body">
                   <a href="/" className="text-nowrap logo-img text-center d-block py-3 w-100">

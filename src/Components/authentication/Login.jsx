@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios"
 import logo from "../../assets/images/logos/logo.svg";
 import { NavLink } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
+import toast from "react-hot-toast";
 const Login = () => {
   const mobilenovalidationmessage = useRef();
-  const alertcontainerref = useRef();
-  const alertref = useRef();
+
 
   useEffect(() => {
     const VerifyingUserLoggedIn = () => {
@@ -53,22 +53,18 @@ const Login = () => {
           'Content-Type': 'application/x-www-form-urlencoded', // Ensuring it's form data
         }
       });
-      const { success, userName, message } = response.data;
+      const { success, message } = response.data;
       if (success === 1) {
+        const { userName } = response.data;
         console.log(success, userName);
-        alertcontainerref.current.style.display = "block";
-        alertref.current.style.display = "block";
-        alertref.current.className = "alert alert-info";
-        alertref.current.textContent = response.data.message;
+        toast.success(message);
         localStorage.setItem("userCreds", JSON.stringify({ success, userName }));
         window.location.href = "/";
       } else {
-        alertcontainerref.current.style.display = "block";
-        alertref.current.style.display = "block";
-        alertref.current.className = "alert alert-danger";
-        alertref.current.textContent = response.data.message;
+        toast.error(message);
       }
     } catch (error) {
+      toast.error("error during login");
       console.error("error during login", error.response?.data || error.message);
     }
   }
@@ -82,9 +78,7 @@ const Login = () => {
         <div className="d-flex align-items-center justify-content-center w-100">
           <div className="row justify-content-center w-100">
             <div className="col-md-8 col-lg-6 col-xxl-3">
-              <div style={{ display: "none" }} className="container d-flex justify-content-center" ref={alertcontainerref} >
-                <div style={{ display: "none" }} role="alert" ref={alertref}></div>
-              </div>
+
               <div className="card mb-0">
                 <div className="card-body">
                   <a href="/" className="text-nowrap logo-img text-center d-block py-3 w-100">

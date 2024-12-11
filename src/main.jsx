@@ -14,6 +14,7 @@ import Login from "./Components/authentication/Login.jsx";
 import Register from "./Components/authentication/Register.jsx";
 import Category from "./Components/ui/Category.jsx"
 import Subcategory from "./Components/ui/Subcategory.jsx";
+import Profile from "./Components/ui/Profile.jsx";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
@@ -32,6 +33,7 @@ createRoot(document.getElementById("root")).render(
           <Route path="icon" element={<Icon />} />
           <Route path="sample" element={<Sample />} />
           <Route path="subcategory" element={<Subcategory />} />
+          <Route path="profile" element={<Profile />} />
         </Route>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />

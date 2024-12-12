@@ -3,27 +3,28 @@ import React, { useEffect, useState } from 'react'
 import user1 from "../../assets/images/profile/user-1.jpg";
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 const Profile = () => {
+    const getUserCreds = () => {
+        const userCreds = JSON.parse(localStorage.getItem('userCreds'));
+        return userCreds;
+    }
+    const { userName, mobileNo, password } = getUserCreds();
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [profileName, setProfileName] = useState('');
-    const [profileMobileNo, setProfileMobileNo] = useState('');
-    const [profilePassword, setProfilePassword] = useState('');
+    const [profileName, setProfileName] = useState(userName);
+    const [profileMobileNo, setProfileMobileNo] = useState(mobileNo);
+    const [profilePassword, setProfilePassword] = useState(password);
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
-    const userCreds = JSON.parse(localStorage.getItem('userCreds'));
-    const { userName, mobileNo, password } = userCreds;
-    useEffect(() => {
-        setProfileName(userName);
-        setProfileMobileNo(mobileNo);
-        setProfilePassword(password);
-    }, [])
     const handleFormEdit = async (e) => {
         e.preventDefault();
+        const { userId } = getUserCreds();
         const userData = {
+            userId,
             userName: profileName,
             mobileNo: profileMobileNo,
             password: profilePassword
@@ -33,7 +34,12 @@ const Profile = () => {
                 "Content-Type": "application/x-www-form-urlencoded"
             }
         })
-        console.log(response);
+        console.log(response.data);
+        const { userName, mobileNo, password } = response.data;
+        const newUserCreds = { userName, mobileNo, password, userId };
+        localStorage.setItem("userCreds", JSON.stringify(newUserCreds));
+        handlecloseModal();//It will make a component re render and new user creds will be displayed
+        toast.success("Profile updated successfully");
     }
     return (
         <div>

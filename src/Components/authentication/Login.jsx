@@ -6,8 +6,6 @@ import Mainwrapper from "../Mainwrapper.jsx";
 import toast from "react-hot-toast";
 const Login = () => {
   const mobilenovalidationmessage = useRef();
-
-
   useEffect(() => {
     const VerifyingUserLoggedIn = () => {
       const isUserPresent = JSON.parse(localStorage.getItem('userCreds'));
@@ -55,10 +53,10 @@ const Login = () => {
       });
       const { success, message } = response.data;
       if (success === 1) {
-        const { userName, mobileNo, password } = response.data;
+        const { userId, userName, mobileNo, password } = response.data;
         console.log(success, userName);
         toast.success(message);
-        localStorage.setItem("userCreds", JSON.stringify({ success, userName, mobileNo, password }));
+        localStorage.setItem("userCreds", JSON.stringify({ success, userId, userName, mobileNo, password }));
         window.location.href = "/";
       } else {
         toast.error(message);

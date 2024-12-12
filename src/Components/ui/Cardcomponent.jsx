@@ -13,7 +13,7 @@ const Cardcomponent = (props) => {
     const hideImgRef = useRef();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [updateCatName, setUpdateCatName] = useState(catName);
-    const [updateCatImg, setUpdateCatImg] = useState({})
+    const [updateCatImg, setUpdateCatImg] = useState({});
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
     const showImage = (e) => {

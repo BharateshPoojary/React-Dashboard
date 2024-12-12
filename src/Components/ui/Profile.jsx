@@ -2,6 +2,7 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import React, { useEffect, useState } from 'react'
 import user1 from "../../assets/images/profile/user-1.jpg";
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 const Profile = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [profileName, setProfileName] = useState('');
@@ -13,14 +14,27 @@ const Profile = () => {
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
+    const userCreds = JSON.parse(localStorage.getItem('userCreds'));
+    const { userName, mobileNo, password } = userCreds;
     useEffect(() => {
-        const userCreds = JSON.parse(localStorage.getItem('userCreds'));
-        const { userName, mobileNo, password } = userCreds;
         setProfileName(userName);
         setProfileMobileNo(mobileNo);
         setProfilePassword(password);
     }, [])
-
+    const handleFormEdit = async (e) => {
+        e.preventDefault();
+        const userData = {
+            userName: profileName,
+            mobileNo: profileMobileNo,
+            password: profilePassword
+        }
+        const response = await axios.post("http://stock.swiftmore.in/mobileApis/userModification.php", userData, {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        })
+        console.log(response);
+    }
     return (
         <div>
             <div className="body-wrapper-inner ">
@@ -69,11 +83,11 @@ const Profile = () => {
                                         <div className="row">
                                             <div className="col-12 mb-7 ">
                                                 <p className="mb-1 fs-4 text-primary">User Name</p>
-                                                <h6 className="fw-semibold mb-0 fs-5">{profileName}</h6>
+                                                <h6 className="fw-semibold mb-0 fs-5">{userName}</h6>
                                             </div>
                                             <div className="col-12 mb-7">
                                                 <p className="mb-1 fs-4 text-primary">Mobile No.</p>
-                                                <h6 className="fw-semibold mb-0 fs-5">{profileMobileNo}</h6>
+                                                <h6 className="fw-semibold mb-0 fs-5">{mobileNo}</h6>
                                             </div>
                                             <div className="col-12 mb-7">
                                                 <div className='d-flex'>
@@ -90,8 +104,9 @@ const Profile = () => {
                                                         {showPassword ? '😃' : '😌'}
                                                     </button>
                                                 </div>
-                                                <h6 className="fw-semibold mb-0 fs-5" name="password">         {showPassword ? profilePassword : '●'.repeat(profilePassword.length)}</h6>
-
+                                                <h6 className="fw-semibold mb-0 fs-5" name="password">
+                                                    {showPassword ? password : '●'.repeat(password.length)}
+                                                </h6>
                                             </div>
                                         </div>
                                     </div>
@@ -110,43 +125,26 @@ const Profile = () => {
                                     <div className="text-center mt-2 mb-4">
                                         Edit Category
                                     </div>
-                                    {/* onSubmit={(e) => handleFormEdit(e, catId)} */}
-                                    <form id="editform" method="post" encType="multipart/form-data"
+
+                                    <form id="editform" method="post" onSubmit={(e) => handleFormEdit(e)} encType="multipart/form-data"
                                         className="ps-3 pr-3">
                                         <div className="row">
                                             <div className="col-12">
                                                 <div className="mb-3">
-                                                    <label htmlFor="inputcom" className="form-label">Name</label>
-                                                    <input type="text" className="form-control" placeholder="Category Here" name="catName" />
-                                                    {/* value={updateCatName} onChange={(e) => setUpdateCatName(e.target.value)}  */}
+                                                    <label htmlFor="inputcom" className="form-label">User Name</label>
+                                                    <input type="text" className="form-control" name="userName" value={profileName} onChange={(e) => setProfileName(e.target.value)} />
                                                 </div>
                                             </div>
-                                            <div className="col-6">
+                                            <div className="col-12">
                                                 <div className="mb-3">
-                                                    <label className="form-label">Select File</label>
-                                                    <div className="input-group flex-nowrap">
-                                                        <div className="input-group-prepend">
-                                                            <span className="input-group-text">Upload</span>
-                                                        </div>
-                                                        <div className="custom-file">
-                                                            <input type="file" className="form-control"
-                                                                accept=".png, .jpg,.jpeg,image/*" name="catImg"
-                                                            />
-                                                            {/* onChange={(e) => { showImage(e, catId); setUpdateCatImg(e.target.files[0]) }} */}
-                                                        </div>
-                                                    </div>
+                                                    <label htmlFor="inputcom" className="form-label">Mobile No.</label>
+                                                    <input type="text" className="form-control" name="mobileno" value={profileMobileNo} onChange={(e) => setProfileMobileNo(e.target.value)} />
                                                 </div>
                                             </div>
-                                            <div className="col-sm-6 col-xxl-4">
+                                            <div className="col-12">
                                                 <div className="mb-3">
-                                                    <div className="mb-3 d-flex justify-content-center">
-                                                        <div className="mb-3 d-flex justify-content-center">
-                                                            <img style={{ height: "150px", width: "3.5cm", display: "none" }} />
-                                                            {/* ref={updateImgRef}  */}
-                                                            <img style={{ height: "150px", width: "3.5cm", display: "block" }} />
-                                                            {/* src={catImage} ref={hideImgRef} */}
-                                                        </div>
-                                                    </div>
+                                                    <label htmlFor="inputcom" className="form-label">Password.</label>
+                                                    <input type="text" className="form-control" name="password" value={profilePassword} onChange={(e) => setProfilePassword(e.target.value)} />
                                                 </div>
                                             </div>
                                         </div>

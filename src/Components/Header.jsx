@@ -2,22 +2,28 @@ import React, { useEffect, useState } from "react";
 import user from "../assets/images/profile/user-1.jpg";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserCreds } from "../slice/userCredsSlice";
 const Header = () => {
-  const [username, setUserName] = useState('User');
+  const dispatch = useDispatch();
+  const userCreds = useSelector(state => state.userCreds);//selecting userCreds state
+
+  // const [username, setUserName] = useState(userCreds.userName);
   const navigate = useNavigate();
-  useEffect(() => {
-    const storedUserCreds = localStorage.getItem('userCreds');
-    if (storedUserCreds) {
-      try {
-        const { userName } = JSON.parse(storedUserCreds);
-        setUserName(userName);
-      } catch (error) {
-        console.error('Error parsing userCreds from localStorage', error);
-      }
-    }
-  }, [])
+  // useEffect(() => {
+  //   const storedUserCreds = localStorage.getItem('userCreds');
+  //   if (storedUserCreds) {
+  //     try {
+  //       const { userName } = JSON.parse(storedUserCreds);
+  //       setUserName(userName);
+  //     } catch (error) {
+  //       console.error('Error parsing userCreds from localStorage', error);
+  //     }
+  //   }
+  // }, [])
   const handleLogout = () => {
-    localStorage.removeItem("userCreds");
+    // localStorage.removeItem("userCreds");
+    dispatch(updateUserCreds({ userName: "", mobileNo: "", userId: 0, password: "", success: 0 }));
     navigate("/login");
   }
   return (
@@ -48,7 +54,7 @@ const Header = () => {
           >
             <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
               {/* user icon starts*/}
-              <p className="fw-semibold text-primary  fs-4 " >Welcome,{username}</p>
+              <p className="fw-semibold text-primary  fs-4 " >Welcome,{userCreds.userName}</p>
               <li className="nav-item dropdown">
                 <NavLink
                   className="nav-link"

@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import logo from "../../assets/images/logos/logo.svg";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { updateUserCreds } from "../../slice/userCredsSlice.js";
+import { useDispatch, useSelector } from "react-redux";
 const Register = () => {
+  const navigate = useNavigate('/');
+  const dispatch = useDispatch();
+  const userCreds = useSelector(state => state.userCreds);
   const usernamevalidationmessage = useRef();
   const mobilenovalidationmessage = useRef();
 
@@ -14,15 +19,21 @@ const Register = () => {
     password: ''
   })
   useEffect(() => {
-    const VerifyingUserLoggedIn = () => {
-      const isUserPresent = JSON.parse(localStorage.getItem('userCreds'));
-      if (isUserPresent) {
-        window.location.href = "/";
-        return;
-      }
+    // const VerifyingUserLoggedIn = () => {
+    //   const isUserPresent = JSON.parse(localStorage.getItem('userCreds'));
+    //   if (isUserPresent) {
+    //     window.location.href = "/";
+    //     return;
+    //   }
+    // }
+    // VerifyingUserLoggedIn();
+    console.log(userCreds);
+    if (userCreds.userId !== 0) {
+      // window.location.href = "/";
+      navigate('/');
+      return;
     }
-    VerifyingUserLoggedIn();
-  }, [])
+  }, [userCreds, userCreds.userId])
   const handleChange = (e) => {
     const { id, value } = e.target;
     setRegisterFormData((prev) => ({
@@ -63,8 +74,11 @@ const Register = () => {
       if (success === 1) {
         const { userId, userName, mobileNo, password } = response.data;
         toast.success(message);
-        localStorage.setItem("userCreds", JSON.stringify({ userId, userName, success, mobileNo, password }))
-        window.location.href = "/";
+        // localStorage.setItem("userCreds", JSON.stringify({ userId, userName, success, mobileNo, password }))
+
+        dispatch(updateUserCreds({ userName, mobileNo, userId, password, success }));
+        // window.location.href = "/";
+        navigate('/', { replace: true });
       } else {
         toast.error(message);
       }

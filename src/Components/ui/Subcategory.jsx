@@ -2,7 +2,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import SubCardComponent from './SubCardComponent.jsx';
 import toast from 'react-hot-toast';
+import { useLocation } from 'react-router-dom';
 const Category = () => {
+    const location = useLocation();
+    const queryparams = new URLSearchParams(location.search);
+    const catId = queryparams.get('catId');
     const [subCatName, setSubCatName] = useState('');
     const [subCatImage, setSubCatImage] = useState({});
     const [growthPercentage, setGrowthPercentage] = useState('');
@@ -11,12 +15,12 @@ const Category = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
-    const data = JSON.parse(localStorage.getItem('catId'));
-    console.log(data.catId);
+    // const data = JSON.parse(localStorage.getItem('catId'));
+    // console.log(data.catId);
     const getSubCategories = async () => {
         try {
-            const data = JSON.parse(localStorage.getItem('catId'));
-            const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?catId=${data.catId}`);
+            // const data = JSON.parse(localStorage.getItem('catId'));
+            const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?catId=${catId}`);
             console.log(response.data);
             const { subCat } = response.data;
             setSubCategories(subCat || []);//states are asynchronous it takes some time to update

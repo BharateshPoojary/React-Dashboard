@@ -1,15 +1,22 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
-import React, { useEffect, useState } from 'react'
+import React, { useRef, useState } from 'react'
 import user1 from "../../assets/images/profile/user-1.jpg";
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUserCreds } from '../../slice/userCredsSlice';
 const Profile = () => {
-    const getUserCreds = () => {
-        const userCreds = JSON.parse(localStorage.getItem('userCreds'));
-        return userCreds;
-    }
-    const { userName, mobileNo, password } = getUserCreds();
+    // const getUserCreds = () => {
+    //     const userCreds = JSON.parse(localStorage.getItem('userCreds'));
+    //     return userCreds;
+    // }
+    // const { userName, mobileNo, password } = getUserCreds();
+    const dispatch = useDispatch();
+    const userCreds = useSelector(state => state.userCreds);
+    const { userName, mobileNo, password } = userCreds;
+    const usernamevalidationmessage = useRef();
+    const mobilenovalidationmessage = useRef();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [profileName, setProfileName] = useState(userName);
     const [profileMobileNo, setProfileMobileNo] = useState(mobileNo);
@@ -22,7 +29,28 @@ const Profile = () => {
     };
     const handleFormEdit = async (e) => {
         e.preventDefault();
-        const { userId } = getUserCreds();
+        const convertedToNumData = Number(profileName);
+        console.log(convertedToNumData);
+        // return;
+        if (!isNaN(convertedToNumData)) {
+            usernamevalidationmessage.current.style.color = "red";
+            usernamevalidationmessage.current.textContent = "enter a valid name"
+            return;
+        }
+        const convertedtonumData = Number(profileMobileNo);
+        mobilenovalidationmessage.current.style.color = "red";
+        if (isNaN(convertedtonumData)) {
+            mobilenovalidationmessage.current.textContent = "Please enter a valid number";
+            console.log("Please enter a valid number");
+            return;
+        }
+        if (profileMobileNo.length > 10 || profileMobileNo.length < 10) {
+            mobilenovalidationmessage.current.textContent = "Mobile number must be of  10 digit";
+            console.log("Mobile number must be of  10 digit");
+            return;
+        }
+        // const { userId } = getUserCreds();
+        const { userId } = userCreds;
         const userData = {
             userId,
             userName: profileName,
@@ -36,8 +64,9 @@ const Profile = () => {
         })
         console.log(response.data);
         const { userName, mobileNo, password } = response.data;
-        const newUserCreds = { userName, mobileNo, password, userId };
-        localStorage.setItem("userCreds", JSON.stringify(newUserCreds));
+        dispatch(updateUserCreds({ userName, mobileNo, password }));
+        // const newUserCreds = { userName, mobileNo, password, userId };
+        // localStorage.setItem("userCreds", JSON.stringify(newUserCreds));
         handlecloseModal();//It will make a component re render and new user creds will be displayed
         toast.success("Profile updated successfully");
     }
@@ -140,12 +169,14 @@ const Profile = () => {
                                                     <label htmlFor="inputcom" className="form-label">User Name</label>
                                                     <input type="text" className="form-control" name="userName" value={profileName} onChange={(e) => setProfileName(e.target.value)} />
                                                 </div>
+                                                <p id="usernamevalidationmessage" ref={usernamevalidationmessage} ></p>
                                             </div>
                                             <div className="col-12">
                                                 <div className="mb-3">
                                                     <label htmlFor="inputcom" className="form-label">Mobile No.</label>
                                                     <input type="text" className="form-control" name="mobileno" value={profileMobileNo} onChange={(e) => setProfileMobileNo(e.target.value)} />
                                                 </div>
+                                                <p id="mobilenovalidationmessage" ref={mobilenovalidationmessage}></p>
                                             </div>
                                             <div className="col-12">
                                                 <div className="mb-3">

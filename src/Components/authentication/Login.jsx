@@ -1,21 +1,35 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios"
 import logo from "../../assets/images/logos/logo.svg";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
 import toast from "react-hot-toast";
+import { updateUserCreds } from "../../slice/userCredsSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const mobilenovalidationmessage = useRef();
+  const userCreds = useSelector(state => state.userCreds);
   useEffect(() => {
-    const VerifyingUserLoggedIn = () => {
-      const isUserPresent = JSON.parse(localStorage.getItem('userCreds'));
-      if (isUserPresent) {
-        window.location.href = "/";
-        return;
-      }
+    console.log(userCreds);
+    if (userCreds.userId !== 0) {
+      navigate("/");
+      return;
     }
-    VerifyingUserLoggedIn();
-  }, [])
+  }, [userCreds, userCreds.userId])
+  // useEffect(() => {
+  // const VerifyingUserLoggedIn = () => {
+  //   const isUserPresent = JSON.parse(localStorage.getItem('userCreds'));
+  //   if (isUserPresent) {
+  //     window.location.href = "/";
+  //     return;
+  //   }
+  // }
+  // VerifyingUserLoggedIn();
+
+  // }, [])
 
   const [formData, setFormData] = useState({
     mobileNo: "",
@@ -56,8 +70,10 @@ const Login = () => {
         const { userId, userName, mobileNo, password } = response.data;
         console.log(success, userName);
         toast.success(message);
-        localStorage.setItem("userCreds", JSON.stringify({ success, userId, userName, mobileNo, password }));
-        window.location.href = "/";
+        // localStorage.setItem("userCreds", JSON.stringify({ success, userId, userName, mobileNo, password }));
+        dispatch(updateUserCreds({ userId, userName, mobileNo, password, success }));
+        // const updatedUserCreds = useSelector((state) => state.userCreds);
+        navigate('/', { replace: true });
       } else {
         toast.error(message);
       }

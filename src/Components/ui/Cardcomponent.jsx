@@ -60,9 +60,9 @@ const Cardcomponent = (props) => {
         }
     }
     const redirectToSubCat = (catId) => {
-        console.log(catId);
-        localStorage.setItem("catId", JSON.stringify({ catId }));
-        navigate('/subcategory');
+        // console.log(catId);
+        // localStorage.setItem("catId", JSON.stringify({ catId }));
+        navigate(`/subcategory?catId=${catId}`);
     }
     const handleDelete = async (catId, catName) => {
         console.log(catId, catName);

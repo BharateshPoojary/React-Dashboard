@@ -10,14 +10,19 @@ import blogimg3 from "../assets/images/blog/blog-img3.jpg";
 import user2 from "../assets/images/profile/user-2.jpg"
 import user3 from "../assets/images/profile/user-3.jpg"
 import { NavLink, useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 const Dashboard = () => {
   const navigate = useNavigate();
+  const userCreds = useSelector(state => state.userCreds);
   useEffect(() => {
-    const isUserLoggedIn = JSON.parse(localStorage.getItem('userCreds'));
-    if (!isUserLoggedIn) {
+    // const isUserLoggedIn = JSON.parse(localStorage.getItem('userCreds'));
+    // if (!isUserLoggedIn) {
+    //   navigate("/login");
+    // }
+    if (userCreds.userId === 0) {
       navigate("/login");
     }
-  }, [])
+  }, [userCreds.userId])
 
   return (
     <div >

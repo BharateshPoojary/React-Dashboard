@@ -3,9 +3,12 @@ import logo from "../assets/images/logos/logo.svg";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import rupee from "../assets/images/backgrounds/rupee.png";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const SideBar = () => {
-  const userloggedIn = JSON.parse(localStorage.getItem('userCreds'));
+  // const userloggedIn = JSON.parse(localStorage.getItem('userCreds'));
+  const userCreds = useSelector(state => state.userCreds);
+
   return (
     <div>
       {/* Sidebar Start */}
@@ -96,7 +99,7 @@ const SideBar = () => {
               <li>
                 <span className="sidebar-divider lg"></span>
               </li>
-              {!userloggedIn &&
+              {userCreds.userId === 0 &&
                 <>
                   <li className="nav-small-cap">
                     <Icon
@@ -110,23 +113,23 @@ const SideBar = () => {
                       <Icon icon="solar:login-3-line-duotone"></Icon>
                       <span className="hide-menu">Login</span>
                     </NavLink>
-
-                    <li className="sidebar-item">
-                      <NavLink
-                        className="sidebar-link"
-                        to="register"
-                        aria-expanded="false"
-                      >
-                        <Icon icon="solar:user-plus-rounded-line-duotone"></Icon>
-                        <span className="hide-menu">Register</span>
-                      </NavLink>
-                    </li>
-
-                    <li>
-                      <span className="sidebar-divider lg"></span>
-                    </li>
                   </li>
-                </>}
+                  <li className="sidebar-item">
+                    <NavLink
+                      className="sidebar-link"
+                      to="register"
+                      aria-expanded="false"
+                    >
+                      <Icon icon="solar:user-plus-rounded-line-duotone"></Icon>
+                      <span className="hide-menu">Register</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <span className="sidebar-divider lg"></span>
+                  </li>
+
+                </>
+              }
               <li className="nav-small-cap">
                 <Icon
                   icon="solar:menu-dots-linear"

@@ -54,7 +54,7 @@ const Category = () => {
             //When dealing with file uploads (<input type="file">), you cannot directly store the file in a plain JavaScript object. The .files property of a file input is a File object, which needs to be properly encoded for transmission. FormData handles this encoding for you.
             const a = subCatImage;
             console.log(a);
-            formData.append('catId', data.catId);
+            formData.append('catId', catId);
             formData.append('subCatName', subCatName);
             formData.append('subCatImg', subCatImage); // Actual file
             formData.append('growthPercentage', growthPercentage);
@@ -170,7 +170,7 @@ const Category = () => {
                                     <div className='col-md-6 col-lg-3' key={subcategory.subCatId}>
                                         <SubCardComponent
                                             getSubCategories={getSubCategories}
-                                            catId={data.catId}
+                                            catId={catId}
                                             subCatId={subcategory.subCatId}
                                             growthPercentage={subcategory.growthPercentage}
                                             subCatImage={subcategory.subCatImg}

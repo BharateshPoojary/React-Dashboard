@@ -2,7 +2,10 @@ import React, { useRef, useState } from 'react'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
+
 const SubCardcomponent = (props) => {
+    const { value } = useSelector(state => state.toggleSlice);
     const { catId, subCatName, subCatId, subCatImage, getSubCategories, growthPercentage, emptySubcatMessage } = props;
     console.log(subCatName, subCatId, subCatImage, growthPercentage)
     const deleteCardRef = useRef();
@@ -100,7 +103,7 @@ const SubCardcomponent = (props) => {
             {emptySubcatMessage ?
                 <h2>{emptySubcatMessage}</h2> :
                 <div ref={deleteCardRef}>
-                    <div className="card">
+                    <div className="card" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
                         <div className="card-body">
                             <div className="d-flex align-items-start">
                                 <div className="bg-warning-subtle text-warning d-inline-block px-4 py-3 rounded "   >
@@ -114,16 +117,18 @@ const SubCardcomponent = (props) => {
                                             data-bs-toggle="dropdown"
                                             aria-expanded="false"
                                         >
-                                            <i className="ti ti-dots fs-7"></i>
+                                            <i className="ti ti-dots fs-7" style={value === "moon" ? { color: "white" } : undefined}></i>
                                         </div>
-                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" >
+                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
                                             <li>
                                                 <div className="dropdown-item no-border"
+                                                    style={value === "moon" ? { color: "rgb(134, 163, 212)" } : undefined}
                                                     onClick={openModal}
                                                 >Edit</div>
                                             </li>
                                             <li>
                                                 <div className="dropdown-item sa-confirm"
+                                                    style={value === "moon" ? { color: "rgb(134, 163, 212)" } : undefined}
                                                     onClick={() => handleDelete(subCatId, subCatName)}>Delete</div>
                                             </li>
                                         </ul>
@@ -132,7 +137,7 @@ const SubCardcomponent = (props) => {
                             </div>
                             <div className="mt-5">
                                 <div className="d-flex justify-content-between align-items-center">
-                                    <h4 className="card-title">{subCatName}</h4>
+                                    <h4 className="card-title" style={value === "moon" ? { color: "white" } : undefined}>{subCatName}</h4>
                                     <h6 className="text-muted">{growthPercentage}%</h6>
                                 </div>
                             </div>

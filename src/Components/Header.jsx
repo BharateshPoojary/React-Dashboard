@@ -39,7 +39,7 @@ const Header = () => {
             {/* sidebaricon starts */}
             <li className="nav-item d-block d-xl-none">
               <NavLink className="nav-link sidebartoggler " id="headerCollapse" onClick={() => { }}>
-                <i className="ti ti-menu-2"></i>
+                <i className="ti ti-menu-2" style={value === "moon" ? { color: "white" } : undefined}></i>
               </NavLink>
             </li>
             {/* sidebaricon ends */}

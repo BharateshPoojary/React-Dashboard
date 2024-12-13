@@ -23,8 +23,9 @@ const SideBar = () => {
             <div
               className="close-btn d-xl-none d-block sidebartoggler cursor-pointer"
               id="sidebarCollapse"
+              style={value === "moon" ? { color: "white" } : undefined}
             >
-              <i className="ti ti-x fs-8"></i>
+              <i className="ti ti-x fs-8" style={value === "moon" ? { color: "white" } : undefined}></i>
             </div>
           </div>
           {/* Sidebar navigation */}

@@ -17,6 +17,7 @@ const Profile = () => {
     // const { userName, mobileNo, password } = getUserCreds();
     const dispatch = useDispatch();
     const userCreds = useSelector(state => state.userCreds);
+    const { value } = useSelector(state => state.toggleSlice);
     const { userName, mobileNo, password } = userCreds;
     useEffect(() => {
         console.log(userCreds)
@@ -116,13 +117,13 @@ const Profile = () => {
     }
     return (
         <div>
-            <div className="body-wrapper-inner ">
+            <div className="body-wrapper-inner " style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
                 <div className="container-fluid  d-flex flex-column align-items-center justify-content-center">
-                    <div className="card card-body py-3 h-50 w-100">
+                    <div className="card card-body py-3 h-50 w-100" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
                         <div className="row align-items-center">
                             <div className="col-12">
                                 <div className="d-sm-flex align-items-center justify-space-between">
-                                    <h4 className="mb-4 mb-sm-0 card-title text-primary">User Profile</h4>
+                                    <h4 className="mb-4 mb-sm-0 card-title text-primary" style={value === "moon" ? { color: "white" } : undefined}>User Profile</h4>
                                     <nav aria-label="breadcrumb" className="ms-auto">
                                         <ol className="breadcrumb">
                                             <li className="breadcrumb-item d-flex align-items-center">
@@ -141,7 +142,7 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="card w-100 ">
+                    <div className="card w-100 " style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
                         <div className="p-9 py-3 border-bottom chat-meta-user d-flex align-items-center justify-content-between">
                             <h5 className=" mb-0 fs-5 text-primary">Profile Details</h5>
                             <ul className="list-unstyled mb-0 d-flex align-items-center" >
@@ -166,12 +167,12 @@ const Profile = () => {
                                         </div>
                                         <div className="row">
                                             <div className="col-12 mb-7 ">
-                                                <p className="mb-1 fs-4 text-primary">User Name</p>
-                                                <h6 className="fw-semibold mb-0 fs-5">{userName}</h6>
+                                                <p className="mb-1 fs-4 text-primary" >User Name</p>
+                                                <h6 className="fw-semibold mb-0 fs-5" style={value === "moon" ? { color: "white" } : undefined}>{userName}</h6>
                                             </div>
                                             <div className="col-12 mb-7">
                                                 <p className="mb-1 fs-4 text-primary">Mobile No.</p>
-                                                <h6 className="fw-semibold mb-0 fs-5">{mobileNo}</h6>
+                                                <h6 className="fw-semibold mb-0 fs-5" style={value === "moon" ? { color: "white" } : undefined}>{mobileNo}</h6>
                                             </div>
                                             <div className="col-12 mb-7">
                                                 <div className='d-flex'>
@@ -188,7 +189,7 @@ const Profile = () => {
                                                         {showPassword ? '😃' : '😌'}
                                                     </button>
                                                 </div>
-                                                <h6 className="fw-semibold mb-0 fs-5" name="password">
+                                                <h6 className="fw-semibold mb-0 fs-5" name="password" style={value === "moon" ? { color: "white" } : undefined}>
                                                     {showPassword ? password : '●'.repeat(password.length)}
                                                 </h6>
                                             </div>

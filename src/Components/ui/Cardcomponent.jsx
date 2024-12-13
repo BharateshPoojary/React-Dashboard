@@ -124,15 +124,15 @@ const Cardcomponent = (props) => {
                                         >
                                             <i className="ti ti-dots fs-7" style={value === "moon" ? { color: "white" } : undefined}></i>
                                         </div>
-                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" >
-                                            <li>
+                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
+                                            <li style={{ cursor: "pointer" }}>
                                                 <div className="dropdown-item no-border"
-                                                    onClick={openModal}
+                                                    style={value === "moon" ? { color: "rgb(134, 163, 212)" } : undefined} onClick={openModal}
                                                 >Edit</div>
                                             </li>
-                                            <li>
+                                            <li style={{ cursor: "pointer" }}>
                                                 <div className="dropdown-item sa-confirm"
-                                                    onClick={() => handleDelete(catId, catName)}>Delete</div>
+                                                    style={value === "moon" ? { color: "rgb(134, 163, 212)" } : undefined} onClick={() => handleDelete(catId, catName)}>Delete</div>
                                             </li>
                                         </ul>
                                     </div>

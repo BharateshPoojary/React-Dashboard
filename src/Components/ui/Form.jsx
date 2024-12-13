@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Form = () => {
   const navigate = useNavigate();
   const userCreds = useSelector(state => state.userCreds);
+  const { value } = useSelector(state => state.toggleSlice);
   useEffect(() => {
     if (userCreds.userId === 0) {
       try {
@@ -15,7 +16,7 @@ const Form = () => {
     }
   }, [userCreds.userId])
   return <div>
-    <div className="body-wrapper-inner">
+    <div className="body-wrapper-inner" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
       <div className="container-fluid">
         <div className="card">
           <div className="card-body">

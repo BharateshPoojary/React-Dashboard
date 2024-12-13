@@ -4,37 +4,39 @@ import logo from "../../assets/images/logos/logo.svg";
 import { NavLink, useNavigate } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
 import toast from "react-hot-toast";
-import { updateUserCreds } from "../../slice/userCredsSlice.js";
-import { useDispatch, useSelector } from "react-redux";
+// import { updateUserCreds } from "../../slice/userCredsSlice.js";
+// import { useSelector } from "react-redux";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
   const mobilenovalidationmessage = useRef();
-  const userCreds = useSelector(state => state.userCreds);
-  useEffect(() => {
-    console.log(userCreds);
-    if (userCreds.userId !== 0) {
-      navigate("/");
-      return;
-    }
-  }, [userCreds, userCreds.userId])
+  // const userCreds = useSelector(state => state.userCreds);
   // useEffect(() => {
-  // const VerifyingUserLoggedIn = () => {
-  //   const isUserPresent = JSON.parse(localStorage.getItem('userCreds'));
-  //   if (isUserPresent) {
-  //     window.location.href = "/";
+  //   console.log(userCreds);
+  //   if (userCreds.userId !== 0) {
+  //     navigate("/");
   //     return;
   //   }
-  // }
-  // VerifyingUserLoggedIn();
+  // }, [userCreds, userCreds.userId])
 
-  // }, [])
+  useEffect(() => {
+    const VerifyingUserLoggedIn = () => {
+      const isUserPresent = JSON.parse(localStorage.getItem('userCreds'));
+      if (isUserPresent) {
+        window.location.href = "/";
+        return;
+      }
+    }
+    VerifyingUserLoggedIn();
+
+  }, [])
 
   const [formData, setFormData] = useState({
     mobileNo: "",
     password: ""
   })
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prevData) => ({
@@ -48,6 +50,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData.mobileNo, formData.password);
+
     mobilenovalidationmessage.current.style.color = "red";
     const convertedtonumData = Number(formData.mobileNo);
     if (isNaN(convertedtonumData)) {
@@ -71,9 +74,11 @@ const Login = () => {
         console.log(success, userName);
         toast.success(message);
         // localStorage.setItem("userCreds", JSON.stringify({ success, userId, userName, mobileNo, password }));
-        dispatch(updateUserCreds({ userId, userName, mobileNo, password, success }));
+        // dispatch(updateUserCreds({ userId, userName, mobileNo, password, success }));
+        localStorage.setItem('userCreds', JSON.stringify({ userId, userName, mobileNo, password, success }))
         // const updatedUserCreds = useSelector((state) => state.userCreds);
-        navigate('/', { replace: true });
+        // navigate('/', { replace: true });
+        window.location.href = "/";
       } else {
         toast.error(message);
       }

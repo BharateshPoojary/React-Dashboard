@@ -4,12 +4,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { updateUserCreds } from "../../slice/userCredsSlice.js";
-import { useDispatch, useSelector } from "react-redux";
+// import { updateUserCreds } from "../../slice/userCredsSlice.js";
+// import { useSelector } from "react-redux";
 const Register = () => {
   const navigate = useNavigate('/');
-  const dispatch = useDispatch();
-  const userCreds = useSelector(state => state.userCreds);
+  // const dispatch = useDispatch();
+  // const userCreds = useSelector(state => state.userCreds);
   const usernamevalidationmessage = useRef();
   const mobilenovalidationmessage = useRef();
 
@@ -19,21 +19,21 @@ const Register = () => {
     password: ''
   })
   useEffect(() => {
-    // const VerifyingUserLoggedIn = () => {
-    //   const isUserPresent = JSON.parse(localStorage.getItem('userCreds'));
-    //   if (isUserPresent) {
-    //     window.location.href = "/";
-    //     return;
-    //   }
-    // }
-    // VerifyingUserLoggedIn();
-    console.log(userCreds);
-    if (userCreds.userId !== 0) {
-      // window.location.href = "/";
-      navigate('/');
-      return;
+    const VerifyingUserLoggedIn = () => {
+      const isUserPresent = JSON.parse(localStorage.getItem('userCreds'));
+      if (isUserPresent) {
+        window.location.href = "/";
+        return;
+      }
     }
-  }, [userCreds, userCreds.userId])
+    VerifyingUserLoggedIn();
+    // console.log(userCreds);
+    // if (userCreds.userId !== 0) {
+    //   // window.location.href = "/";
+    //   navigate('/');
+    //   return;
+    // }
+  }, [])
   const handleChange = (e) => {
     const { id, value } = e.target;
     setRegisterFormData((prev) => ({
@@ -76,9 +76,10 @@ const Register = () => {
         toast.success(message);
         // localStorage.setItem("userCreds", JSON.stringify({ userId, userName, success, mobileNo, password }))
 
-        dispatch(updateUserCreds({ userName, mobileNo, userId, password, success }));
-        // window.location.href = "/";
-        navigate('/', { replace: true });
+        // dispatch(updateUserCreds({ userName, mobileNo, userId, password, success }));
+        localStorage.setItem('userCreds', JSON.stringify({ userName, mobileNo, userId, password, success }));
+        window.location.href = "/";
+        // navigate('/', { replace: true });
       } else {
         toast.error(message);
       }

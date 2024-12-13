@@ -10,8 +10,14 @@ import blogimg3 from "../assets/images/blog/blog-img3.jpg";
 import user2 from "../assets/images/profile/user-2.jpg"
 import user3 from "../assets/images/profile/user-3.jpg"
 import { NavLink, useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateUserCreds } from '../slice/userCredsSlice'
 const Dashboard = () => {
+  const dispatch = useDispatch();
+  if (localStorage.getItem("userCreds")) {
+    const { userName, mobileNo, userId, password, success } = JSON.parse(localStorage.getItem("userCreds"));
+    dispatch(updateUserCreds({ userName, mobileNo, userId, password, success }));
+  }
   const navigate = useNavigate();
   const userCreds = useSelector(state => state.userCreds);
   useEffect(() => {
@@ -19,10 +25,11 @@ const Dashboard = () => {
     // if (!isUserLoggedIn) {
     //   navigate("/login");
     // }
+    console.log(userCreds);
     if (userCreds.userId === 0) {
       navigate("/login");
     }
-  }, [userCreds.userId])
+  }, [userCreds, userCreds.userId])
 
   return (
     <div >

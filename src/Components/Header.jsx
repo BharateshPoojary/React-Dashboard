@@ -22,8 +22,9 @@ const Header = () => {
   //   }
   // }, [])
   const handleLogout = () => {
-    // localStorage.removeItem("userCreds");
+    localStorage.removeItem("userCreds");
     dispatch(updateUserCreds({ userName: "", mobileNo: "", userId: 0, password: "", success: 0 }));
+
     navigate("/login");
   }
   return (

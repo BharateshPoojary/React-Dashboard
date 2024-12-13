@@ -1,6 +1,19 @@
-import React from "react";
-
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 const Button = () => {
+  const navigate = useNavigate();
+  const userCreds = useSelector(state => state.userCreds);
+  useEffect(() => {
+    if (userCreds.userId === 0) {
+      try {
+        const { userName, mobileNo, password, success, userId } = JSON.parse(localStorage.getItem("userCreds"));
+        dispatch(updateUserCreds({ userName, mobileNo, password, success, userId }))
+      } catch (error) {
+        navigate('/login');//not able to destructure property which means user is not logged in 
+      }
+    }
+  }, [userCreds.userId])
   return <div>
     <div className="body-wrapper-inner">
       <div className="container-fluid">

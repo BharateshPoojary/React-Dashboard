@@ -2,8 +2,21 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import SubCardComponent from './SubCardComponent.jsx';
 import toast from 'react-hot-toast';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from "react-redux";
 const Category = () => {
+    const navigate = useNavigate();
+    const userCreds = useSelector(state => state.userCreds);
+    useEffect(() => {
+        if (userCreds.userId === 0) {
+            try {
+                const { userName, mobileNo, password, success, userId } = JSON.parse(localStorage.getItem("userCreds"));
+                dispatch(updateUserCreds({ userName, mobileNo, password, success, userId }))
+            } catch (error) {
+                navigate('/login');//not able to destructure property which means user is not logged in 
+            }
+        }
+    }, [userCreds.userId])
     const location = useLocation();
     const queryparams = new URLSearchParams(location.search);
     const catId = queryparams.get('catId');

@@ -2,8 +2,21 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import Cardcomponent from "./Cardcomponent.jsx"
 import toast from 'react-hot-toast';
+import { useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 const Category = () => {
-
+    const navigate = useNavigate();
+    const userCreds = useSelector(state => state.userCreds);
+    useEffect(() => {
+        if (userCreds.userId === 0) {
+            try {
+                const { userName, mobileNo, password, success, userId } = JSON.parse(localStorage.getItem("userCreds"));
+                dispatch(updateUserCreds({ userName, mobileNo, password, success, userId }))
+            } catch (error) {
+                navigate('/login');//not able to destructure property which means user is not logged in 
+            }
+        }
+    }, [userCreds.userId])
     const [catName, setCatName] = useState('');
     const [catImage, setCatImage] = useState({});
     const showImageRef = useRef();

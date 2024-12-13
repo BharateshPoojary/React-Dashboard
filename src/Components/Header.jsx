@@ -85,20 +85,6 @@ const Header = () => {
                       <p className="mb-0 fs-3">My Profile</p>
                     </NavLink>
                     <a
-                      onClick={() => { }}
-                      className="d-flex align-items-center gap-2 dropdown-item cursor-pointer"
-                    >
-                      <i className="ti ti-mail fs-6"></i>
-                      <p className="mb-0 fs-3">My Account</p>
-                    </a>
-                    <a
-                      onClick={() => { }}
-                      className="d-flex align-items-center gap-2 dropdown-item cursor-pointer"
-                    >
-                      <i className="ti ti-list-check fs-6"></i>
-                      <p className="mb-0 fs-3">My Task</p>
-                    </a>
-                    <a
                       onClick={handleLogout}
                       className="btn btn-outline-primary mx-3 mt-2 d-block"
                     >

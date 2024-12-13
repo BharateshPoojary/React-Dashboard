@@ -1,12 +1,14 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import user1 from "../../assets/images/profile/user-1.jpg";
-import { NavLink } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserCreds } from '../../slice/userCredsSlice';
 const Profile = () => {
+    const navigate = useNavigate();
+
     // const getUserCreds = () => {
     //     const userCreds = JSON.parse(localStorage.getItem('userCreds'));
     //     return userCreds;
@@ -15,6 +17,18 @@ const Profile = () => {
     const dispatch = useDispatch();
     const userCreds = useSelector(state => state.userCreds);
     const { userName, mobileNo, password } = userCreds;
+    useEffect(() => {
+        console.log(userCreds)
+        if (userName === "" && mobileNo === "" && password === "") {
+            try {
+                const { userName, mobileNo, password, success, userId } = JSON.parse(localStorage.getItem("userCreds"));
+                dispatch(updateUserCreds({ userName, mobileNo, password, success, userId }))
+            } catch (error) {
+                navigate('/login');//not able to destructure property which means user is not logged in 
+            }
+
+        }
+    }, [userCreds])
     const usernamevalidationmessage = useRef();
     const mobilenovalidationmessage = useRef();
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -63,9 +77,9 @@ const Profile = () => {
             }
         })
         console.log(response.data);
-        const { userName, mobileNo, password } = response.data;
-        dispatch(updateUserCreds({ userName, mobileNo, password }));
-        const newUserCreds = { userName, mobileNo, password, userId };
+        const { userName, mobileNo, password, success } = response.data;
+        dispatch(updateUserCreds({ userName, mobileNo, password, success }));
+        const newUserCreds = { userName, mobileNo, password, userId, success };
         localStorage.setItem("userCreds", JSON.stringify(newUserCreds));
         handlecloseModal();//It will make a component re render and new user creds will be displayed
         toast.success("Profile updated successfully");

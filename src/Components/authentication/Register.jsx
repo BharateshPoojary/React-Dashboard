@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import logo from "../../assets/images/logos/logo.svg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
 import axios from "axios";
 import toast from "react-hot-toast";
 // import { updateUserCreds } from "../../slice/userCredsSlice.js";
 // import { useSelector } from "react-redux";
 const Register = () => {
-  const navigate = useNavigate('/');
+  // const navigate = useNavigate('/');
   // const dispatch = useDispatch();
   // const userCreds = useSelector(state => state.userCreds);
   const usernamevalidationmessage = useRef();

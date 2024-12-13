@@ -4,7 +4,11 @@ import { Icon } from "@iconify/react/dist/iconify.js";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserCreds } from "../slice/userCredsSlice";
+import { darkTheme, lightTheme } from "../slice/toggleSlice";
+
 const Header = () => {
+  const toggleTheme = useSelector(state => state.toggleSlice);
+  const { value } = toggleTheme;
   const dispatch = useDispatch();
   const userCreds = useSelector(state => state.userCreds);//selecting userCreds state
   // const { userName } = JSON.parse(localStorage.getItem("userCreds"))
@@ -29,7 +33,6 @@ const Header = () => {
   }
   return (
     <div >
-
       <header className="app-header">
         <nav className="navbar navbar-expand-lg navbar-light">
           <ul className="navbar-nav">
@@ -56,11 +59,11 @@ const Header = () => {
             <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
               {/* user icon starts*/}
               <li className="nav-item">
-                <a className="nav-link moon dark-layout nav-icon-hover-bg rounded-circle" style={{ display: "flex", cursor: "pointer" }}>
-                  <Icon icon="solar:moon-line-duotone" className="moon fs-6" style={{ display: "flex" }} />
+                <a className="nav-link moon dark-layout nav-icon-hover-bg rounded-circle" style={value === "sun" ? { display: "none", cursor: "pointer" } : { display: "flex", cursor: "pointer" }} onClick={() => { dispatch(lightTheme()) }}>
+                  <Icon icon="solar:moon-line-duotone" className="moon fs-6" style={value === "sun" ? { display: "none", cursor: "pointer" } : { display: "flex", cursor: "pointer" }} />
                 </a>
-                <a className="nav-link sun light-layout nav-icon-hover-bg rounded-circle" style={{ display: "none", cursor: "pointer" }}>
-                  <Icon icon="solar:sun-2-line-duotone" className="sun fs-6" style={{ display: "none" }} />
+                <a className="nav-link sun light-layout nav-icon-hover-bg rounded-circle" style={value === "sun" ? { display: "flex", cursor: "pointer" } : { display: "none", cursor: "pointer" }} onClick={() => { dispatch(darkTheme()) }}>
+                  <Icon icon="solar:sun-2-line-duotone" className="sun fs-6" style={value === "sun" ? { display: "flex", cursor: "pointer" } : { display: "none", cursor: "pointer" }} />
                 </a>
               </li>
               <p className="fw-semibold text-primary  fs-4 " >Welcome,{userCreds.userName}</p>

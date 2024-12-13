@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import user from "../assets/images/profile/user-1.jpg";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -55,7 +55,16 @@ const Header = () => {
           >
             <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
               {/* user icon starts*/}
+              <li className="nav-item">
+                <a className="nav-link moon dark-layout nav-icon-hover-bg rounded-circle" style={{ display: "flex", cursor: "pointer" }}>
+                  <Icon icon="solar:moon-line-duotone" className="moon fs-6" style={{ display: "flex" }} />
+                </a>
+                <a className="nav-link sun light-layout nav-icon-hover-bg rounded-circle" style={{ display: "none", cursor: "pointer" }}>
+                  <Icon icon="solar:sun-2-line-duotone" className="sun fs-6" style={{ display: "none" }} />
+                </a>
+              </li>
               <p className="fw-semibold text-primary  fs-4 " >Welcome,{userCreds.userName}</p>
+
               <li className="nav-item dropdown">
                 <NavLink
                   className="nav-link"

@@ -6,6 +6,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserCreds } from '../../slice/userCredsSlice';
+import Swal from 'sweetalert2';
 const Profile = () => {
     const navigate = useNavigate();
 
@@ -33,6 +34,7 @@ const Profile = () => {
     const mobilenovalidationmessage = useRef();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [profileName, setProfileName] = useState(userName);
+    // console.log(profileName)
     const [profileMobileNo, setProfileMobileNo] = useState(mobileNo);
     const [profilePassword, setProfilePassword] = useState(password);
     const openModal = () => setIsModalVisible(true);
@@ -84,6 +86,34 @@ const Profile = () => {
         handlecloseModal();//It will make a component re render and new user creds will be displayed
         toast.success("Profile updated successfully");
     }
+    const deleteModal = async () => {
+        const result = await Swal.fire({//wait for promise to resolve
+            title: "Are you sure?",
+            text: `You want to delete '${profileName}' account`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        });
+        if (result.isConfirmed) {
+            try {
+                const response = await axios.get(`http://stock.swiftmore.in/mobileApis/userLogin.php?userName=${profileName}&mobileNo=${profileMobileNo}`);
+                if (response.data.success === 1) {
+                    await Swal.fire("Deleted!", "account deleted successfully", "success");
+                    toast.success("account deleted successfully");
+                    localStorage.removeItem("userCreds");
+                    navigate("/register");
+                } else {
+                    toast.error("Error deleting account");
+                    await Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+                }
+            } catch (error) {
+                console.error("Error deleting account", error.response?.data || error.message);
+                await Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+            }
+        }
+    }
     return (
         <div>
             <div className="body-wrapper-inner ">
@@ -114,10 +144,15 @@ const Profile = () => {
                     <div className="card w-100 ">
                         <div className="p-9 py-3 border-bottom chat-meta-user d-flex align-items-center justify-content-between">
                             <h5 className=" mb-0 fs-5 text-primary">Profile Details</h5>
-                            <ul className="list-unstyled mb-0 d-flex align-items-center" style={{ cursor: "pointer" }} onClick={openModal}>
-                                <li className="position-relative" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Edit">
+                            <ul className="list-unstyled mb-0 d-flex align-items-center" >
+                                <li className="position-relative" data-bs-toggle="tooltip" style={{ cursor: "pointer" }} onClick={openModal} data-bs-placement="top" data-bs-title="Edit">
                                     <a className="d-block text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5" >
                                         <i className="ti ti-pencil text-primary" ></i>
+                                    </a>
+                                </li>
+                                <li className="position-relative" data-bs-toggle="tooltip" style={{ cursor: "pointer" }} onClick={deleteModal} data-bs-placement="top" data-bs-title="Delete">
+                                    <a className="text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5">
+                                        <i className="ti ti-trash text-primary"></i>
                                     </a>
                                 </li>
                             </ul>

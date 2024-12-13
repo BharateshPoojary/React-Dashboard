@@ -7,7 +7,7 @@ import { updateUserCreds } from "../slice/userCredsSlice";
 const Header = () => {
   const dispatch = useDispatch();
   const userCreds = useSelector(state => state.userCreds);//selecting userCreds state
-
+  // const { userName } = JSON.parse(localStorage.getItem("userCreds"))
   // const [username, setUserName] = useState(userCreds.userName);
   const navigate = useNavigate();
   // useEffect(() => {

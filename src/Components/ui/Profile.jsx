@@ -65,8 +65,8 @@ const Profile = () => {
         console.log(response.data);
         const { userName, mobileNo, password } = response.data;
         dispatch(updateUserCreds({ userName, mobileNo, password }));
-        // const newUserCreds = { userName, mobileNo, password, userId };
-        // localStorage.setItem("userCreds", JSON.stringify(newUserCreds));
+        const newUserCreds = { userName, mobileNo, password, userId };
+        localStorage.setItem("userCreds", JSON.stringify(newUserCreds));
         handlecloseModal();//It will make a component re render and new user creds will be displayed
         toast.success("Profile updated successfully");
     }

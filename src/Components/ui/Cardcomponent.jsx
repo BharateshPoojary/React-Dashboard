@@ -3,9 +3,11 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 
 const Cardcomponent = (props) => {
     const navigate = useNavigate();
+    const { value } = useSelector(state => state.toggleSlice);
     const { catName, catId, catImage, getCategories, emptyCategoryMessage } = props;
     console.log(catName, catId, catImage)
     const deleteCardRef = useRef();
@@ -106,7 +108,7 @@ const Cardcomponent = (props) => {
             {emptyCategoryMessage ?
                 <h2>{emptyCategoryMessage}</h2> :
                 <div ref={deleteCardRef}>
-                    <div className="card">
+                    <div className="card" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
                         <div className="card-body">
                             <div className="d-flex align-items-start">
                                 <div className="bg-warning-subtle text-warning d-inline-block px-4 py-3 rounded "   >
@@ -120,7 +122,7 @@ const Cardcomponent = (props) => {
                                             data-bs-toggle="dropdown"
                                             aria-expanded="false"
                                         >
-                                            <i className="ti ti-dots fs-7"></i>
+                                            <i className="ti ti-dots fs-7" style={value === "moon" ? { color: "white" } : undefined}></i>
                                         </div>
                                         <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" >
                                             <li>
@@ -137,7 +139,7 @@ const Cardcomponent = (props) => {
                                 </div>
                             </div>
                             <div className="mt-5">
-                                <h4 className="card-title">{catName}</h4>
+                                <h4 className="card-title" style={value === "moon" ? { color: "white" } : undefined}>{catName}</h4>
                             </div>
                         </div>
                     </div>

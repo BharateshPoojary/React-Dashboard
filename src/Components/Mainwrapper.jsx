@@ -1,6 +1,8 @@
 import React from "react";
 import { Toaster } from "react-hot-toast";
+import { useSelector } from "react-redux";
 const Mainwrapper = ({ children }) => {
+  const { value } = useSelector(state => state.toggleSlice);
   return (
     //body wrapper starts
     <div
@@ -11,6 +13,7 @@ const Mainwrapper = ({ children }) => {
       data-sidebartype="full"
       data-sidebar-position="fixed"
       data-header-position="fixed"
+
     >
       <div><Toaster /></div>
       {children}

@@ -8,12 +8,12 @@ import { useSelector } from "react-redux";
 const SideBar = () => {
   // const userloggedIn = JSON.parse(localStorage.getItem('userCreds'));
   const userCreds = useSelector(state => state.userCreds);
-
+  const { value } = useSelector(state => state.toggleSlice);
 
   return (
     <div>
       {/* Sidebar Start */}
-      <aside className="left-sidebar">
+      <aside className="left-sidebar" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
         {/* Sidebar scroll */}
         <div>
           <div className="brand-logo d-flex align-items-center justify-content-between">
@@ -34,13 +34,14 @@ const SideBar = () => {
                 <Icon
                   icon="solar:menu-dots-linear"
                   className="nav-small-cap-icon fs-4"
+                  style={value === "moon" ? { color: "white" } : undefined}
                 ></Icon>
-                <span className="hide-menu">Home</span>
+                <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>Home</span>
               </li>
               <li className="sidebar-item" >
                 <NavLink className="sidebar-link" to="/" aria-expanded="false" >
-                  <Icon icon="solar:widget-add-line-duotone"></Icon>
-                  <span className="hide-menu">Dashboard</span>
+                  <Icon icon="solar:widget-add-line-duotone" style={value === "moon" ? { color: "white" } : undefined}></Icon>
+                  <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>Dashboard</span>
                 </NavLink>
               </li>
               <li>
@@ -50,13 +51,14 @@ const SideBar = () => {
                 <Icon
                   icon="solar:menu-dots-linear"
                   className="nav-small-cap-icon fs-4"
+                  style={value === "moon" ? { color: "white" } : undefined}
                 ></Icon>
-                <span className="hide-menu">UI COMPONENTS</span>
+                <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>UI COMPONENTS</span>
               </li>
               <li className="sidebar-item"  >
                 <NavLink className="sidebar-link" to="category" aria-expanded="false" >
-                  <Icon icon="solar:passport-minimalistic-outline"></Icon>
-                  <span className="hide-menu">Categories</span>
+                  <Icon icon="solar:passport-minimalistic-outline" style={value === "moon" ? { color: "white" } : undefined}></Icon>
+                  <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>Categories</span>
                 </NavLink>
               </li>
               <li className="sidebar-item">
@@ -65,26 +67,26 @@ const SideBar = () => {
                   to="button"
                   aria-expanded="false"
                 >
-                  <Icon icon="solar:layers-minimalistic-bold-duotone"></Icon>
-                  <span className="hide-menu">Buttons</span>
+                  <Icon icon="solar:layers-minimalistic-bold-duotone" style={value === "moon" ? { color: "white" } : undefined}></Icon>
+                  <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>Buttons</span>
                 </NavLink>
               </li>
               <li className="sidebar-item">
                 <NavLink className="sidebar-link" to="alert" aria-expanded="false">
-                  <Icon icon="solar:danger-circle-line-duotone"></Icon>
-                  <span className="hide-menu">Alerts</span>
+                  <Icon icon="solar:danger-circle-line-duotone" style={value === "moon" ? { color: "white" } : undefined}></Icon>
+                  <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>Alerts</span>
                 </NavLink>
               </li>
               <li className="sidebar-item">
                 <NavLink className="sidebar-link" to="card" aria-expanded="false">
-                  <Icon icon="solar:bookmark-square-minimalistic-line-duotone"></Icon>
-                  <span className="hide-menu">Card</span>
+                  <Icon icon="solar:bookmark-square-minimalistic-line-duotone" style={value === "moon" ? { color: "white" } : undefined}></Icon>
+                  <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>Card</span>
                 </NavLink>
               </li>
               <li className="sidebar-item">
                 <NavLink className="sidebar-link" to="form" aria-expanded="false">
-                  <Icon icon="solar:file-text-line-duotone"></Icon>
-                  <span className="hide-menu">Forms</span>
+                  <Icon icon="solar:file-text-line-duotone" style={value === "moon" ? { color: "white" } : undefined}></Icon>
+                  <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined} >Forms</span>
                 </NavLink>
               </li>
               <li className="sidebar-item">
@@ -93,8 +95,8 @@ const SideBar = () => {
                   to="typography"
                   aria-expanded="false"
                 >
-                  <Icon icon="solar:text-field-focus-line-duotone"></Icon>
-                  <span className="hide-menu">Typography</span>
+                  <Icon icon="solar:text-field-focus-line-duotone" style={value === "moon" ? { color: "white" } : undefined}></Icon>
+                  <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>Typography</span>
                 </NavLink>
               </li>
               <li>
@@ -106,13 +108,14 @@ const SideBar = () => {
                     <Icon
                       icon="solar:menu-dots-linear"
                       className="nav-small-cap-icon fs-4"
+                      style={value === "moon" ? { color: "white" } : undefined}
                     ></Icon>
-                    <span className="hide-menu">AUTH</span>
+                    <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>AUTH</span>
                   </li>
                   <li className="sidebar-item">
                     <NavLink className="sidebar-link" to="login" aria-expanded="false">
-                      <Icon icon="solar:login-3-line-duotone"></Icon>
-                      <span className="hide-menu">Login</span>
+                      <Icon icon="solar:login-3-line-duotone" style={value === "moon" ? { color: "white" } : undefined}></Icon>
+                      <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>Login</span>
                     </NavLink>
                   </li>
                   <li className="sidebar-item">
@@ -121,8 +124,8 @@ const SideBar = () => {
                       to="register"
                       aria-expanded="false"
                     >
-                      <Icon icon="solar:user-plus-rounded-line-duotone"></Icon>
-                      <span className="hide-menu">Register</span>
+                      <Icon icon="solar:user-plus-rounded-line-duotone" style={value === "moon" ? { color: "white" } : undefined}></Icon>
+                      <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>Register</span>
                     </NavLink>
                   </li>
                   <li>
@@ -135,13 +138,14 @@ const SideBar = () => {
                 <Icon
                   icon="solar:menu-dots-linear"
                   className="nav-small-cap-icon fs-4"
+                  style={value === "moon" ? { color: "white" } : undefined}
                 ></Icon>
-                <span className="hide-menu">EXTRA</span>
+                <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>EXTRA</span>
               </li>
               <li className="sidebar-item">
                 <NavLink className="sidebar-link" to="icon" aria-expanded="false">
-                  <Icon icon="solar:sticker-smile-circle-2-line-duotone"></Icon>
-                  <span className="hide-menu">Icons</span>
+                  <Icon icon="solar:sticker-smile-circle-2-line-duotone" style={value === "moon" ? { color: "white" } : undefined} ></Icon>
+                  <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>Icons</span>
                 </NavLink>
               </li>
               <li className="sidebar-item">
@@ -150,20 +154,20 @@ const SideBar = () => {
                   to="sample"
                   aria-expanded="false"
                 >
-                  <Icon icon="solar:planet-3-line-duotone"></Icon>
-                  <span className="hide-menu">Sample Page</span>
+                  <Icon icon="solar:planet-3-line-duotone" style={value === "moon" ? { color: "white" } : undefined}></Icon>
+                  <span className="hide-menu" style={value === "moon" ? { color: "white" } : undefined}>Sample Page</span>
                 </NavLink>
               </li>
             </ul>
             <div className="unlimited-access d-flex align-items-center hide-menu bg-primary-subtle position-relative mb-7 mt-4 p-3 rounded">
               <div className="me-2 flex-shrink-0">
-                <h6 className="fw-semibold fs-4 mb-6 text-dark w-75">
+                <h6 className="fw-semibold fs-4 mb-6 text-dark w-75" style={value === "moon" ? { color: "white" } : undefined}>
                   Upgrade to pro
                 </h6>
                 <a
                   href="https://adminmart.com/product/matdash-bootstrap-5-admin-dashboard-template/"
                   target="_blank"
-                  className="btn btn-primary fs-2 fw-semibold lh-sm"
+                  className="btn btn-primary fs-2 fw-semibold lh-sm" style={value === "moon" ? { color: "white" } : undefined}
                 >
                   Buy Pro
                 </a>

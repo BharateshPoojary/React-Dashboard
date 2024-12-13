@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 const Alerts = () => {
   const navigate = useNavigate();
+  const { value } = useSelector(state => state.toggleSlice);
   const userCreds = useSelector(state => state.userCreds);
   useEffect(() => {
     if (userCreds.userId === 0) {
@@ -15,13 +16,13 @@ const Alerts = () => {
     }
   }, [userCreds.userId])
   return <div>
-    <div className="body-wrapper-inner">
+    <div className="body-wrapper-inner" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
       <div className="container-fluid">
-        <div className="card">
+        <div className="card" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined} >
           <div className="card-body">
-            <h5 className="card-title fw-semibold mb-4">Alerts</h5>
+            <h5 className="card-title fw-semibold mb-4" style={value === "moon" ? { color: "white" } : undefined}>Alerts</h5>
             <div className="card mb-0">
-              <div className="card-body p-4">
+              <div className="card-body p-4" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
                 <div className="alert alert-primary" role="alert">
                   A simple primary alert—check it out!
                 </div>

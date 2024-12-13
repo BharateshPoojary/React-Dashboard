@@ -15,7 +15,7 @@ const Button = () => {
     }
   }, [userCreds.userId])
   return <div>
-    <div className="body-wrapper-inner">
+    <div className="body-wrapper-inner" >
       <div className="container-fluid">
         <div className="card">
           <div className="card-body">

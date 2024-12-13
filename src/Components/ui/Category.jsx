@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const Category = () => {
     const navigate = useNavigate();
     const userCreds = useSelector(state => state.userCreds);
+    const { value } = useSelector(state => state.toggleSlice);
     useEffect(() => {
         if (userCreds.userId === 0) {
             try {
@@ -77,14 +78,13 @@ const Category = () => {
     }
     return (
         <div>
-            <div className="body-wrapper-inner">
+            <div className="body-wrapper-inner " style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
                 <div className="container-fluid" >
-
-                    <div className="card card-body py-3">
+                    <div className="card card-body py-3" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
                         <div className="row align-items-center">
                             <div className="col-12">
                                 <div className="d-sm-flex align-items-center justify-content-between">
-                                    <h4 className="mb-4 mb-sm-0 card-title">Category</h4>
+                                    <h4 className="mb-4 mb-sm-0 card-title" style={value === "moon" ? { color: "white" } : undefined}>Category</h4>
                                     <button type="button" className="btn bg-primary-subtle text-primary"
                                         onClick={openModal} >
                                         <span className="fs-4 me-1">+</span>

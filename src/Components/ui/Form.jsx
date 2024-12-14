@@ -18,19 +18,19 @@ const Form = () => {
   return <div>
     <div className="body-wrapper-inner" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
       <div className="container-fluid">
-        <div className="card">
+        <div className="card" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
           <div className="card-body">
-            <h5 className="card-title fw-semibold mb-4">Forms</h5>
-            <div className="card">
+            <h5 className="card-title fw-semibold mb-4" style={value === "moon" ? { color: "white" } : undefined}>Forms</h5>
+            <div className="card" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
               <div className="card-body">
                 <form>
                   <div className="mb-3">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>
+                    <label htmlFor="exampleInputEmail1" className="form-label" style={value === "moon" ? { color: "white" } : undefined}>Email address</label>
                     <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" />
                     <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div>
                   </div>
                   <div className="mb-3">
-                    <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
+                    <label htmlFor="exampleInputPassword1" className="form-label" style={value === "moon" ? { color: "white" } : undefined}>Password</label>
                     <input type="password" className="form-control" id="exampleInputPassword1" />
                   </div>
                   <div className="mb-3 form-check">
@@ -41,18 +41,18 @@ const Form = () => {
                 </form>
               </div>
             </div>
-            <h5 className="card-title fw-semibold mb-4">Disabled forms</h5>
-            <div className="card mb-0">
+            <h5 className="card-title fw-semibold mb-4" style={value === "moon" ? { color: "white" } : undefined}>Disabled forms</h5>
+            <div className="card mb-0" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
               <div className="card-body">
                 <form>
                   <fieldset disabled>
                     <legend>Disabled fieldset example</legend>
                     <div className="mb-3">
-                      <label htmlFor="disabledTextInput" className="form-label">Disabled input</label>
+                      <label htmlFor="disabledTextInput" className="form-label" style={value === "moon" ? { color: "white" } : undefined}>Disabled input</label>
                       <input type="text" id="disabledTextInput" className="form-control" placeholder="Disabled input" />
                     </div>
                     <div className="mb-3">
-                      <label htmlFor="disabledSelect" className="form-label">Disabled select menu</label>
+                      <label htmlFor="disabledSelect" className="form-label" style={value === "moon" ? { color: "white" } : undefined}>Disabled select menu</label>
                       <select id="disabledSelect" className="form-select">
                         <option>Disabled select</option>
                       </select>

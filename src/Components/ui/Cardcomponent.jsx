@@ -106,7 +106,7 @@ const Cardcomponent = (props) => {
     return (
         <>
             {emptyCategoryMessage ?
-                <h2>{emptyCategoryMessage}</h2> :
+                <h2 style={value === "moon" ? { color: "white" } : undefined}>{emptyCategoryMessage}</h2> :
                 <div ref={deleteCardRef}>
                     <div className="card" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
                         <div className="card-body">

@@ -18,10 +18,10 @@ const Button = () => {
   return <div>
     <div className="body-wrapper-inner" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined} >
       <div className="container-fluid">
-        <div className="card">
+        <div className="card" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
           <div className="card-body">
-            <h5 className="card-title fw-semibold mb-4">Buttons</h5>
-            <div className="card">
+            <h5 className="card-title fw-semibold mb-4" style={value === "moon" ? { color: "white" } : undefined}>Buttons</h5>
+            <div className="card" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
               <div className="card-body p-4">
                 <button type="button" className="btn btn-primary m-1">Primary</button>
                 <button type="button" className="btn btn-secondary m-1">Secondary</button>
@@ -34,8 +34,8 @@ const Button = () => {
                 <button type="button" className="btn btn-link m-1">Link</button>
               </div>
             </div>
-            <h5 className="card-title fw-semibold mb-4">Outline buttons</h5>
-            <div className="card mb-0">
+            <h5 className="card-title fw-semibold mb-4" style={value === "moon" ? { color: "white" } : undefined}>Outline buttons</h5>
+            <div className="card mb-0" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
               <div className="card-body p-4">
                 <button type="button" className="btn btn-outline-primary m-1">Primary</button>
                 <button type="button" className="btn btn-outline-secondary m-1">Secondary</button>

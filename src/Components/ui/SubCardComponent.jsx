@@ -148,7 +148,7 @@ const SubCardcomponent = (props) => {
             {isModalVisible && <div id="view" className={`modal ${isModalVisible ? "fade show" : "fade"}`}
                 style={{ display: isModalVisible ? "block" : "none" }} tabIndex="-1" {...(isModalVisible ? { "aria-modal": true, role: "dialog" } : { "aria-hidden": true })}>
                 <div className="modal-dialog modal-dialog-scrollable modal-lg">
-                    <div className="modal-content">
+                    <div className="modal-content" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
                         <div className="modal-body">
                             <div style={{ display: "flex", justifyContent: "right", alignItems: "right", cursor: "pointer" }}>
                                 <svg onClick={handlecloseModal} width="25" height="25" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.8536 2.85355C13.0488 2.65829 13.0488 2.34171 12.8536 2.14645C12.6583 1.95118 12.3417 1.95118 12.1464 2.14645L7.5 6.79289L2.85355 2.14645C2.65829 1.95118 2.34171 1.95118 2.14645 2.14645C1.95118 2.34171 1.95118 2.65829 2.14645 2.85355L6.79289 7.5L2.14645 12.1464C1.95118 12.3417 1.95118 12.6583 2.14645 12.8536C2.34171 13.0488 2.65829 13.0488 2.85355 12.8536L7.5 8.20711L12.1464 12.8536C12.3417 13.0488 12.6583 13.0488 12.8536 12.8536C13.0488 12.6583 13.0488 12.3417 12.8536 12.1464L8.20711 7.5L12.8536 2.85355Z" fill="red" fillRule="evenodd" clipRule="evenodd"></path></svg>
@@ -161,15 +161,16 @@ const SubCardcomponent = (props) => {
                                 <div className="row">
                                     <div className="col-12">
                                         <div className="mb-3">
-                                            <label htmlFor="inputcom" className="form-label">Name</label>
-                                            <input type="text" className="form-control" placeholder="Category Here" name="subCatName" value={updateSubCatName} onChange={(e) => setupdateSubCatName(e.target.value)} />
+                                            <label htmlFor="inputcom" className="form-label" style={value === "moon" ? { color: "white" } : undefined}>Name</label>
+                                            <input style={value === "moon" ? { color: "white" } : undefined} type="text" className="form-control" placeholder="Category Here" name="subCatName" value={updateSubCatName} onChange={(e) => setupdateSubCatName(e.target.value)} />
                                         </div>
                                     </div>
                                     <div className="col-12">
                                         <div className="mb-3">
-                                            <label htmlFor="inputcom" className="form-label">Growth
+                                            <label htmlFor="inputcom" className="form-label" style={value === "moon" ? { color: "white" } : undefined}>Growth
                                                 Percentage (In %)</label>
                                             <input type="text" className="form-control"
+                                                style={value === "moon" ? { color: "white" } : undefined}
                                                 placeholder="Percentage Here" name="growthPercentage"
                                                 value={updateSubCatGrowthPercentage} onChange={(e) => {
                                                     setupdateSubCatGrowthPercentage(e.target.value);
@@ -179,10 +180,10 @@ const SubCardcomponent = (props) => {
                                     </div>
                                     <div className="col-6">
                                         <div className="mb-3">
-                                            <label className="form-label">Select File</label>
+                                            <label className="form-label" style={value === "moon" ? { color: "white" } : undefined}>Select File</label>
                                             <div className="input-group flex-nowrap">
                                                 <div className="input-group-prepend">
-                                                    <span className="input-group-text">Upload</span>
+                                                    <span className="input-group-text" style={value === "moon" ? { backgroundColor: "#1F2A3D", color: "white" } : undefined}>Upload</span>
                                                 </div>
                                                 <div className="custom-file">
                                                     <input type="file" className="form-control"
@@ -195,7 +196,7 @@ const SubCardcomponent = (props) => {
                                     <div className="col-sm-6 col-xxl-4">
                                         <div className="mb-3">
                                             <div className="mb-3 d-flex justify-content-center">
-                                                <div className="mb-3 d-flex justify-content-center">
+                                                <div className="mb-3 d-flex justify-content-center" style={value === "moon" ? { backgroundColor: "white" } : undefined}>
                                                     <img style={{ height: "150px", width: "3.5cm", display: "none" }} ref={updateImgRef} />
                                                     <img style={{ height: "150px", width: "3.5cm", display: "block" }} src={subCatImage} ref={hideImgRef} />
                                                 </div>

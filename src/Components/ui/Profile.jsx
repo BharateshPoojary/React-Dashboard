@@ -117,7 +117,7 @@ const Profile = () => {
     }
     return (
         <div>
-            <div className="body-wrapper-inner " style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
+            <div className="body-wrapper-inner" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
                 <div className="container-fluid  d-flex flex-column align-items-center justify-content-center">
                     <div className="card card-body py-3 h-50 w-100" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
                         <div className="row align-items-center">
@@ -216,22 +216,22 @@ const Profile = () => {
                                         <div className="row">
                                             <div className="col-12">
                                                 <div className="mb-3">
-                                                    <label htmlFor="inputcom" className="form-label">User Name</label>
-                                                    <input type="text" className="form-control" name="userName" value={profileName} onChange={(e) => setProfileName(e.target.value)} />
+                                                    <label htmlFor="inputcom" className="form-label" style={value === "moon" ? { color: "white" } : undefined} >User Name</label>
+                                                    <input type="text" style={value === "moon" ? { color: "white" } : undefined} className="form-control" name="userName" value={profileName} onChange={(e) => setProfileName(e.target.value)} />
                                                 </div>
                                                 <p id="usernamevalidationmessage" ref={usernamevalidationmessage} ></p>
                                             </div>
                                             <div className="col-12">
                                                 <div className="mb-3">
-                                                    <label htmlFor="inputcom" className="form-label">Mobile No.</label>
-                                                    <input type="text" className="form-control" name="mobileno" value={profileMobileNo} onChange={(e) => setProfileMobileNo(e.target.value)} />
+                                                    <label htmlFor="inputcom" className="form-label" style={value === "moon" ? { color: "white" } : undefined} >Mobile No.</label>
+                                                    <input type="text" style={value === "moon" ? { color: "white" } : undefined} className="form-control" name="mobileno" value={profileMobileNo} onChange={(e) => setProfileMobileNo(e.target.value)} />
                                                 </div>
                                                 <p id="mobilenovalidationmessage" ref={mobilenovalidationmessage}></p>
                                             </div>
                                             <div className="col-12">
                                                 <div className="mb-3">
-                                                    <label htmlFor="inputcom" className="form-label">Password.</label>
-                                                    <input type="text" className="form-control" name="password" value={profilePassword} onChange={(e) => setProfilePassword(e.target.value)} />
+                                                    <label htmlFor="inputcom" className="form-label" style={value === "moon" ? { color: "white" } : undefined}>Password.</label>
+                                                    <input type="text" className="form-control" style={value === "moon" ? { color: "white" } : undefined} name="password" value={profilePassword} onChange={(e) => setProfilePassword(e.target.value)} />
                                                 </div>
                                             </div>
                                         </div>

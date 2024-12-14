@@ -87,14 +87,16 @@ const Header = () => {
                 <div
                   className="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
                   aria-labelledby="drop2"
+                  style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}
                 >
-                  <div className="message-body">
+                  <div className="message-body" >
                     <NavLink
                       to="profile"
                       className="d-flex align-items-center gap-2 dropdown-item cursor-pointer"
+                      style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}
                     >
-                      <i className="ti ti-user fs-6"></i>
-                      <p className="mb-0 fs-3">My Profile</p>
+                      <i className="ti ti-user fs-6" style={value === "moon" ? { color: "white" } : undefined}></i>
+                      <p className="mb-0 fs-3" style={value === "moon" ? { color: "white" } : undefined}>My Profile</p>
                     </NavLink>
                     <a
                       onClick={handleLogout}

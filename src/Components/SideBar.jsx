@@ -161,7 +161,7 @@ const SideBar = () => {
               </li>
             </ul>
             <div className="unlimited-access d-flex align-items-center hide-menu bg-primary-subtle position-relative mb-7 mt-4 p-3 rounded">
-              <div className="me-2 flex-shrink-0">
+              <div className="me-2 flex-shrink-0" >
                 <h6 className="fw-semibold fs-4 mb-6 text-dark w-75" style={value === "moon" ? { color: "white" } : undefined}>
                   Upgrade to pro
                 </h6>

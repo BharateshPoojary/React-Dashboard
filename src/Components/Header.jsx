@@ -11,6 +11,7 @@ import { handleSearchInput } from "../slice/searchInputSlice";
 
 const Header = () => {
   const toggleTheme = useSelector(state => state.toggleSlice);
+  const [isFirstVisit, setIsFirstVisit] = useState(true);
   const { matchedRoutes } = useSelector(state => state.routeSlice);
   const { availableCategories } = useSelector((state) => state.categorySlice);
   const { inputValue } = useSelector((state) => state.searchInputSlice);
@@ -53,7 +54,7 @@ const Header = () => {
     if (availableCategories.length > 0) {
       matchInputValuewithCategory();
     }
-  }, [inputValue, availableCategories])
+  }, [inputValue])
 
   useEffect(() => {
     console.log(matchedRoutes);
@@ -61,6 +62,7 @@ const Header = () => {
   }, [matchedRoutes])
   const handleChange = (e) => {
     setSearchInput(e.target.value);
+    setIsFirstVisit(false);
     dispatch(checkRouteMatch(searchInput));
     dispatch(handleSearchInput(searchInput));
   }
@@ -93,36 +95,47 @@ const Header = () => {
                   <div className="simplebar-offset" style={{ right: "0px", bottom: "0px" }}>
                     <div className="simplebar-content-wrapper" tabIndex="0" role="region" aria-label="scrollable content" style={{ height: "auto", overflow: "hidden" }}>
                       <div className="simplebar-content" style={{ padding: "16px" }}>
-                        {arrayRoutes.length > 0 && (
-                          <>
-                            <h5 className="mb-0 fs-5 p-1">Quick Page Links</h5>
-                            <ul className="list mb-0 py-2">
-                              {arrayRoutes.map((route, index) => (<SearchContent key={index} routes={route} closeModal={closeModal} />))}
-                            </ul>
-                          </>
-                        )}
-                        {categoriesMatched.length > 0 && (
-                          <>
-                            <h5 className="mb-0 fs-5 p-1"> Available Categories</h5>
-                            <ul className="list mb-0 py-2">
-                              {categoriesMatched.map((catnames, index) => (<SearchContent key={index} categories={catnames} />))}
-                            </ul>
-                          </>
-                        )}
-                        {arrayRoutes.length === 0 && categoriesMatched.length === 0 && (<SearchContent Noresultmessage="No result found" />)}
+                        {isFirstVisit ?
+                          (
+                            // Welcome message on the first visit
+                            <div>
+                              <h5 className="mb-0 fs-5 p-1 text-center">Welcome!</h5>
+                              <p className="text-center fs-4">Start by searching for routes or categories.</p>
+                            </div>
+                          )
+                          : (
+                            <>
+                              {arrayRoutes.length > 0 && (
+                                <>
+                                  <h5 className="mb-0 fs-5 p-1">Quick Page Links</h5>
+                                  <ul className="list mb-0 py-2">
+                                    {arrayRoutes.map((route, index) => (<SearchContent key={index} routes={route} closeModal={closeModal} />))}
+                                  </ul>
+                                </>
+                              )}
+                              {categoriesMatched.length > 0 && (
+                                <>
+                                  <h5 className="mb-0 fs-5 p-1"> Available Categories</h5>
+                                  <ul className="list mb-0 py-2">
+                                    {categoriesMatched.map((catnames, index) => (<SearchContent key={index} categories={catnames} />))}
+                                  </ul>
+                                </>
+                              )}
+                              {arrayRoutes.length === 0 && categoriesMatched.length === 0 && (<SearchContent Noresultmessage="No result found" />)}
+                            </>
+                          )}
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="simplebar-placeholder" style={{ width: "500px", height: "743px" }}>
-                </div>
+                <div className="simplebar-placeholder"></div>
               </div>
               <div className="simplebar-track simplebar-horizontal" style={{ visibility: "hidden" }} >
-                <div className="simplebar-scrollbar" style={{ width: "0px", display: "none" }}>
+                <div className="simplebar-scrollbar" style={{ display: "none" }}>
                 </div>
               </div>
               <div className="simplebar-track simplebar-vertical" style={{ visibility: "visible" }}>
-                <div className="simplebar-scrollbar" style={{ height: "174px", display: "block", transform: "translate3d(0px, 0px, 0px)" }}>
+                <div className="simplebar-scrollbar" style={{ display: "block" }}>
                 </div>
               </div>
             </div>

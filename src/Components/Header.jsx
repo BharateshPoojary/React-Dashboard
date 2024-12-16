@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import user from "../assets/images/profile/user-1.jpg";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -6,15 +6,23 @@ import { useSelector, useDispatch } from "react-redux";
 import { updateUserCreds } from "../slice/userCredsSlice";
 import { darkTheme, lightTheme } from "../slice/toggleSlice";
 import SearchContent from "./ui/searchContent";
+import { checkRouteMatch } from "../slice/routeSlice";
 
 const Header = () => {
   const toggleTheme = useSelector(state => state.toggleSlice);
+  const { matchedRoutes } = useSelector(state => state.routeSlice);
+  const [arrayRoutes, setArrayRoutes] = useState([]);
   const { value } = toggleTheme;
   const dispatch = useDispatch();
   const userCreds = useSelector(state => state.userCreds);//selecting userCreds state
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const openModal = () => setIsModalVisible(true);
+  const closeModal = () => setIsModalVisible(false);
+  const [searchInput, setSearchInput] = useState('');
   // const { userName } = JSON.parse(localStorage.getItem("userCreds"))
   // const [username, setUserName] = useState(userCreds.userName);
   const navigate = useNavigate();
+
   // useEffect(() => {
   //   const storedUserCreds = localStorage.getItem('userCreds');
   //   if (storedUserCreds) {
@@ -26,6 +34,15 @@ const Header = () => {
   //     }
   //   }
   // }, [])
+  useEffect(() => {
+    console.log(matchedRoutes);
+    setArrayRoutes(matchedRoutes || []);
+  }, [matchedRoutes])
+  const handleChange = (e) => {
+    setSearchInput(e.target.value);
+    dispatch(checkRouteMatch(searchInput));
+  }
+
   const handleLogout = () => {
     localStorage.removeItem("userCreds");
     dispatch(updateUserCreds({ userName: "", mobileNo: "", userId: 0, password: "", success: 0 }));
@@ -34,13 +51,14 @@ const Header = () => {
   return (
     <div >
 
-      <div className="modal fade show" id="exampleModal" tabIndex="-1" style={{ display: "none" }} aria-modal="true" role="dialog">
+      {isModalVisible && <div id="view" className={`modal ${isModalVisible ? "fade show" : "fade"}`}
+        style={{ display: isModalVisible ? "block" : "none" }} tabIndex="-1" {...(isModalVisible ? { "aria-modal": true, role: "dialog" } : { "aria-hidden": true })}>
         <div className="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header border-bottom">
-              <input type="search" className="form-control" placeholder="Search here" id="search" />
-              <a data-bs-dismiss="modal" className="lh-1">
-                <i className="ti ti-x fs-5 ms-3"></i>
+              <input type="search" className="form-control" placeholder="Search here" id="search" onChange={(e) => { handleChange(e) }} value={searchInput} />
+              <a className="lh-1" onClick={closeModal}>
+                <i className="ti ti-x fs-5 ms-3" ></i>
               </a>
             </div>
             <div className="modal-body message-body " data-simplebar="init">
@@ -55,7 +73,7 @@ const Header = () => {
                       <div className="simplebar-content" style={{ padding: "16px" }}>
                         <h5 className="mb-0 fs-5 p-1">Quick Page Links</h5>
                         <ul className="list mb-0 py-2">
-                          <SearchContent />
+                          {arrayRoutes.map((route, index) => (<SearchContent key={index} routes={route} closeModal={closeModal} />))}
                         </ul>
                       </div>
                     </div>
@@ -75,7 +93,7 @@ const Header = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div>}
       <header className="app-header" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
         <nav className="navbar navbar-expand-lg navbar-light">
           <ul className="navbar-nav">
@@ -110,12 +128,11 @@ const Header = () => {
                 </a>
               </li>
               <li className="nav-item d-block">
-                <a className="nav-link nav-icon-hover-bg rounded-circle" data-bs-toggle="modal" data-bs-target="#exampleModal" style={{ cursor: "pointer" }}>
+                <a className="nav-link nav-icon-hover-bg rounded-circle" style={{ cursor: "pointer" }} onClick={openModal}>
                   <Icon icon="solar:magnifer-line-duotone" className="fs-6" style={value === "moon" ? { color: "white" } : { color: "black" }}></Icon>
                 </a>
               </li>
               <p className="fw-semibold text-primary  fs-4 " >Welcome,{userCreds.userName}</p>
-
               <li className="nav-item dropdown">
                 <NavLink
                   className="nav-link"

@@ -10,8 +10,6 @@ const routeList = [
   "sample",
   "subcategory",
   "profile",
-  "login",
-  "register",
 ];
 const routeSlice = createSlice({
   name: "routeSlice",
@@ -21,8 +19,10 @@ const routeSlice = createSlice({
   reducers: {
     checkRouteMatch: (state, action) => {
       const userInputVal = action.payload.toLowerCase();
-      const matchedRoute = routeList.find((route) =>
-        route.startsWith(userInputVal)
+      const matchedRoute = routeList.filter(
+        (
+          route //filter method returns all the route that match a specified condition
+        ) => route.startsWith(userInputVal)
       ); //It returns the route which matched first
       state.matchedRoutes = matchedRoute || null; //if no such route is present then it will give null value
     },

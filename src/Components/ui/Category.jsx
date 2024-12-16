@@ -158,17 +158,17 @@ const Category = () => {
                         </>}
                     <div className="row" id="categories">
                         {categories.length > 0 ?
-                            categories.map((category) => {
-                                return (
-                                    <div className='col-md-6 col-lg-3' key={category.catId}>
-                                        <Cardcomponent
-                                            getCategories={getCategories}
-                                            catId={category.catId}
-                                            catImage={category.catImg}
-                                            catName={category.catName}
-                                        />
-                                    </div>)
-                            })
+                            categories.map((category) =>
+                            (
+                                <div className='col-md-6 col-lg-3' key={category.catId}>
+                                    <Cardcomponent
+                                        getCategories={getCategories}
+                                        catId={category.catId}
+                                        catImage={category.catImg}
+                                        catName={category.catName}
+                                    />
+                                </div>)
+                            )
                             : (<Cardcomponent
                                 emptyCategoryMessage={"No categories added"} />)}
                     </div>

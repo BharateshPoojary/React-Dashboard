@@ -93,11 +93,23 @@ const Header = () => {
                   <div className="simplebar-offset" style={{ right: "0px", bottom: "0px" }}>
                     <div className="simplebar-content-wrapper" tabIndex="0" role="region" aria-label="scrollable content" style={{ height: "auto", overflow: "hidden" }}>
                       <div className="simplebar-content" style={{ padding: "16px" }}>
-                        <h5 className="mb-0 fs-5 p-1">Quick Page Links</h5>
-                        <ul className="list mb-0 py-2">
-                          {arrayRoutes.map((route, index) => (<SearchContent key={index} routes={route} closeModal={closeModal} />))}
-                          {categoriesMatched.map((catnames, index) => (<SearchContent key={index} categories={catnames} />))}
-                        </ul>
+                        {arrayRoutes.length > 0 && (
+                          <>
+                            <h5 className="mb-0 fs-5 p-1">Quick Page Links</h5>
+                            <ul className="list mb-0 py-2">
+                              {arrayRoutes.map((route, index) => (<SearchContent key={index} routes={route} closeModal={closeModal} />))}
+                            </ul>
+                          </>
+                        )}
+                        {categoriesMatched.length > 0 && (
+                          <>
+                            <h5 className="mb-0 fs-5 p-1"> Available Categories</h5>
+                            <ul className="list mb-0 py-2">
+                              {categoriesMatched.map((catnames, index) => (<SearchContent key={index} categories={catnames} />))}
+                            </ul>
+                          </>
+                        )}
+                        {arrayRoutes.length === 0 && categoriesMatched.length === 0 && (<SearchContent Noresultmessage="No result found" />)}
                       </div>
                     </div>
                   </div>

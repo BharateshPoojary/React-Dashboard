@@ -3,12 +3,14 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCategories } from '../../slice/categorySlice';
 
 const Cardcomponent = (props) => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const { value } = useSelector(state => state.toggleSlice);
-    const { catName, catId, catImage, getCategories, emptyCategoryMessage } = props;
+    const { catName, catId, catImage, emptyCategoryMessage } = props;
     console.log(catName, catId, catImage)
     const deleteCardRef = useRef();
     const updateImgRef = useRef();
@@ -52,7 +54,7 @@ const Cardcomponent = (props) => {
             );
             if (editPostResponse.data) {
                 console.log(editPostResponse.data);
-                await getCategories();
+                dispatch(fetchCategories());
                 handlecloseModal();
                 toast.success("Category edited successfully");
             }
@@ -88,7 +90,7 @@ const Cardcomponent = (props) => {
                     await Swal.fire("Deleted!", "Category has been deleted.", "success");
                     // Remove the deleted category from the DOM
                     // $(`.sa-confirm[data-id='${catId}']`).closest(".col-md-6.col-lg-3").remove();
-                    await getCategories();
+                    dispatch(fetchCategories());
                     // deleteCardRef.current.remove();
                     // location.reload();
                     toast.success("Category deleted successfully");

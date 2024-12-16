@@ -20,9 +20,8 @@ const routeSlice = createSlice({
     checkRouteMatch: (state, action) => {
       const userInputVal = action.payload.toLowerCase();
       const matchedRoute = routeList.filter(
-        (
-          route //filter method returns all the route that match a specified condition
-        ) => route.startsWith(userInputVal)
+        //filter method returns all the route that match a specified condition
+        (route) => route.startsWith(userInputVal)
       ); //It returns the route which matched first
       state.matchedRoutes = matchedRoute || null; //if no such route is present then it will give null value
     },

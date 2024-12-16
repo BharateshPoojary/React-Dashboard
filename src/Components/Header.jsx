@@ -7,11 +7,15 @@ import { updateUserCreds } from "../slice/userCredsSlice";
 import { darkTheme, lightTheme } from "../slice/toggleSlice";
 import SearchContent from "./ui/searchContent";
 import { checkRouteMatch } from "../slice/routeSlice";
+import { handleSearchInput } from "../slice/searchInputSlice";
 
 const Header = () => {
   const toggleTheme = useSelector(state => state.toggleSlice);
   const { matchedRoutes } = useSelector(state => state.routeSlice);
+  const { availableCategories } = useSelector((state) => state.categorySlice);
+  const { inputValue } = useSelector((state) => state.searchInputSlice);
   const [arrayRoutes, setArrayRoutes] = useState([]);
+  const [categoriesMatched, setCategoriesMatched] = useState([]);
   const { value } = toggleTheme;
   const dispatch = useDispatch();
   const userCreds = useSelector(state => state.userCreds);//selecting userCreds state
@@ -34,6 +38,23 @@ const Header = () => {
   //     }
   //   }
   // }, [])
+  const matchInputValuewithCategory = () => {
+    const converttoLWcCase = inputValue.toLowerCase();
+    const availableCatNames = availableCategories.map((eachcategory) => eachcategory.catName)
+    const catnamesavailable = availableCatNames.filter(
+      (eachcatname) => (eachcatname.toLowerCase().startsWith(converttoLWcCase))
+    );
+    setCategoriesMatched(catnamesavailable)
+    console.log("Matched Categories:", catnamesavailable);
+    console.log("All Category Names:", availableCatNames);
+    console.log("Available Categories from Redux:", availableCategories);
+  }
+  useEffect(() => {
+    if (availableCategories.length > 0) {
+      matchInputValuewithCategory();
+    }
+  }, [inputValue, availableCategories])
+
   useEffect(() => {
     console.log(matchedRoutes);
     setArrayRoutes(matchedRoutes || []);
@@ -41,6 +62,7 @@ const Header = () => {
   const handleChange = (e) => {
     setSearchInput(e.target.value);
     dispatch(checkRouteMatch(searchInput));
+    dispatch(handleSearchInput(searchInput));
   }
 
   const handleLogout = () => {
@@ -74,6 +96,7 @@ const Header = () => {
                         <h5 className="mb-0 fs-5 p-1">Quick Page Links</h5>
                         <ul className="list mb-0 py-2">
                           {arrayRoutes.map((route, index) => (<SearchContent key={index} routes={route} closeModal={closeModal} />))}
+                          {categoriesMatched.map((catnames, index) => (<SearchContent key={index} categories={catnames} />))}
                         </ul>
                       </div>
                     </div>

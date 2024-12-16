@@ -2,10 +2,13 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import Cardcomponent from "./Cardcomponent.jsx"
 import toast from 'react-hot-toast';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
+import { fetchCategories } from '../../slice/categorySlice.js';
+
 const Category = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const userCreds = useSelector(state => state.userCreds);
     const { value } = useSelector(state => state.toggleSlice);
     useEffect(() => {
@@ -25,19 +28,11 @@ const Category = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
-    const getCategories = async () => {
-        try {
-            const response = await axios.get('http://stock.swiftmore.in/mobileApis/TestCURD_category.php');
-            const { Cat } = response.data;
-            setCategories(Cat || []);
-
-        } catch (error) {
-            console.error("Error fetching data", error.response?.data || error.message);
-        }
-    }
+    const { availableCategories } = useSelector((state) => state.categorySlice);
     useEffect(() => {
-        getCategories();
-    }, [])
+        console.log(availableCategories);
+        setCategories(availableCategories);
+    }, [availableCategories])
     const showImage = (e) => {
         console.log(e.target.files[0]);
         //e.target.files .files is required to get the img information in object
@@ -67,7 +62,7 @@ const Category = () => {
             );
             if (addPostResponse.data) {
                 console.log(addPostResponse.data);
-                await getCategories();
+                dispatch(fetchCategories());
                 handlecloseModal();
                 toast.success("Category added successfully");
             }
@@ -162,7 +157,6 @@ const Category = () => {
                             (
                                 <div className='col-md-6 col-lg-3' key={category.catId}>
                                     <Cardcomponent
-                                        getCategories={getCategories}
                                         catId={category.catId}
                                         catImage={category.catImg}
                                         catName={category.catName}

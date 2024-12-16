@@ -12,6 +12,7 @@ import user3 from "../assets/images/profile/user-3.jpg"
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateUserCreds } from '../slice/userCredsSlice'
+import { fetchCategories } from '../slice/categorySlice'
 const Dashboard = () => {
   const { value } = useSelector(state => state.toggleSlice);
   const dispatch = useDispatch();
@@ -31,7 +32,9 @@ const Dashboard = () => {
       navigate("/login");
     }
   }, [userCreds, userCreds.userId])
-
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch])
   return (
     <div >
       <div className="body-wrapper-inner" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>

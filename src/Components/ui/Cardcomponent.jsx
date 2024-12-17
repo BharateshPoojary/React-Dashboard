@@ -10,7 +10,7 @@ const Cardcomponent = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { value } = useSelector(state => state.toggleSlice);
-    const { catName, catId, catImage, emptyCategoryMessage, urlcatid } = props;
+    const { catName, catId, catImage, emptyCategoryMessage } = props;
     console.log(catName, catId, catImage)
     const deleteCardRef = useRef();
     const updateImgRef = useRef();
@@ -20,7 +20,7 @@ const Cardcomponent = (props) => {
     const [updateCatImg, setUpdateCatImg] = useState({});
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
-    console.log(urlcatid)
+
     const showImage = (e) => {
         console.log(e.target.files[0]);
         //e.target.files .files is required to get the img information in object
@@ -187,7 +187,7 @@ const Cardcomponent = (props) => {
                                     </div>
                                     <div className="col-sm-6 col-xxl-4" >
                                         <div className="mb-3" >
-                                            <div className="mb-3 d-flex justify-content-center" >style={value === "moon" ? { backgroundColor: "white" } : undefined}
+                                            <div className="mb-3 d-flex justify-content-center" style={value === "moon" ? { backgroundColor: "white" } : undefined}>
                                                 <div className="mb-3 d-flex justify-content-center"  >
                                                     <img style={{ height: "150px", width: "3.5cm", display: "none" }} ref={updateImgRef} />
                                                     <img style={{ height: "150px", width: "3.5cm", display: "block" }} src={catImage} ref={hideImgRef} />

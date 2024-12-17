@@ -12,6 +12,7 @@ const Category = () => {
     const dispatch = useDispatch();
     const userCreds = useSelector(state => state.userCreds);
     const { value } = useSelector(state => state.toggleSlice);
+
     useEffect(() => {
         if (userCreds.userId === 0) {
             try {
@@ -30,6 +31,26 @@ const Category = () => {
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
     const { availableCategories } = useSelector((state) => state.categorySlice);
+    useEffect(() => {
+        const fetchspecificcat = async () => {
+            try {
+                const response = await axios.get(
+                    `http://stock.swiftmore.in/mobileApis/TestCURD_category.php?catId=${catid}`
+                );
+                const { Cat } = response.data;
+                console.log("Specific Cats:", Cat)
+                if (Cat.length > 0) {
+                    setCategories(Cat);
+                } else {
+                    setCategories(availableCategories);
+                }
+            } catch (error) {
+                //   dispatch(setError(error.message));  // Dispatch error if something went wrong
+                console.error("Error fetching data", error.response?.data || error.message);
+            }
+        }
+        fetchspecificcat();
+    }, [catid])
     useEffect(() => {
         console.log(availableCategories);
         setCategories(availableCategories);
@@ -158,7 +179,6 @@ const Category = () => {
                             (
                                 <div className='col-md-6 col-lg-3' key={category.catId}>
                                     <Cardcomponent
-                                        urlcatid={catid}
                                         catId={category.catId}
                                         catImage={category.catImg}
                                         catName={category.catName}

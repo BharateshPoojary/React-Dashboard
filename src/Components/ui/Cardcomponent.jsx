@@ -10,7 +10,7 @@ const Cardcomponent = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { value } = useSelector(state => state.toggleSlice);
-    const { catName, catId, catImage, emptyCategoryMessage } = props;
+    const { catName, catId, catImage, emptyCategoryMessage, urlcatid } = props;
     console.log(catName, catId, catImage)
     const deleteCardRef = useRef();
     const updateImgRef = useRef();
@@ -20,6 +20,7 @@ const Cardcomponent = (props) => {
     const [updateCatImg, setUpdateCatImg] = useState({});
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
+    console.log(urlcatid)
     const showImage = (e) => {
         console.log(e.target.files[0]);
         //e.target.files .files is required to get the img information in object
@@ -109,7 +110,8 @@ const Cardcomponent = (props) => {
         <>
             {emptyCategoryMessage ?
                 <h2 style={value === "moon" ? { color: "white" } : undefined}>{emptyCategoryMessage}</h2> :
-                <div ref={deleteCardRef}>
+
+                <div ref={deleteCardRef} >
                     <div className="card" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
                         <div className="card-body">
                             <div className="d-flex align-items-start">
@@ -146,10 +148,11 @@ const Cardcomponent = (props) => {
                         </div>
                     </div>
                 </div>
+
             }
             {isModalVisible && <div id="view" className={`modal ${isModalVisible ? "fade show" : "fade"}`}
                 style={{ display: isModalVisible ? "block" : "none" }} tabIndex="-1" {...(isModalVisible ? { "aria-modal": true, role: "dialog" } : { "aria-hidden": true })}>
-                <div className="modal-dialog modal-dialog-scrollable modal-lg">
+                <div className="modal-dialog modal-dialog-scrollable modal-lg" >
                     <div className="modal-content" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
                         <div className="modal-body">
                             <div style={{ display: "flex", justifyContent: "right", alignItems: "right", cursor: "pointer" }}>

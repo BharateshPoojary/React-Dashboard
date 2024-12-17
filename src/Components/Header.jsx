@@ -19,7 +19,6 @@ const Header = () => {
   const [categoriesMatched, setCategoriesMatched] = useState([]);
   const { value } = toggleTheme;
   const dispatch = useDispatch();
-  const userCreds = useSelector(state => state.userCreds);//selecting userCreds state
   const [isModalVisible, setIsModalVisible] = useState(false);
   const openModal = () => setIsModalVisible(true);
   const closeModal = () => setIsModalVisible(false);
@@ -39,15 +38,15 @@ const Header = () => {
   //     }
   //   }
   // }, [])
+  const availableCatNamesWithCatId = availableCategories.map((eachcategory) => ({ catName: eachcategory.catName, catId: eachcategory.catId }))
   const matchInputValuewithCategory = () => {
-    const converttoLWcCase = inputValue.toLowerCase();
-    const availableCatNames = availableCategories.map((eachcategory) => eachcategory.catName)
-    const catnamesavailable = availableCatNames.filter(
-      (eachcatname) => (eachcatname.toLowerCase().startsWith(converttoLWcCase))
-    );
+    const converttoLWCase = inputValue.toLowerCase();
+    const catnamesavailable = availableCatNamesWithCatId.filter(
+      (eachcatNameandId) => eachcatNameandId.catName.toLowerCase().startsWith(converttoLWCase)
+    );//It will return me an array of catname and id not onlt catname as I provided the array of object consisting both catname and catId
     setCategoriesMatched(catnamesavailable)
     console.log("Matched Categories:", catnamesavailable);
-    console.log("All Category Names:", availableCatNames);
+    console.log("All Category Names and Id:", availableCatNamesWithCatId);
     console.log("Available Categories from Redux:", availableCategories);
   }
   useEffect(() => {
@@ -161,7 +160,7 @@ const Header = () => {
         <div className="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header border-bottom">
-              <input type="search" className="form-control" placeholder="Search here" id="search" onChange={(e) => { handleChange(e) }} value={searchInput} />
+              <input type="search" className="form-control" autoComplete="off" placeholder="Search here" id="search" onChange={(e) => { handleChange(e) }} value={searchInput} />
               <a className="lh-1" onClick={closeModal}>
                 <i className="ti ti-x fs-5 ms-3" ></i>
               </a>
@@ -190,7 +189,7 @@ const Header = () => {
                         <>
                           <h5 className="mb-0 fs-5 p-1"> Available Categories</h5>
                           <ul className="list mb-0 py-2">
-                            {categoriesMatched.map((catnames, index) => (<SearchContent key={index} categories={catnames} />))}
+                            {categoriesMatched.map((catnamesandids, index) => (<SearchContent key={index} catnamesandids={catnamesandids} closeModal={closeModal} />))}
                           </ul>
                         </>
                       )}

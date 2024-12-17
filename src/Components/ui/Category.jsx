@@ -3,10 +3,11 @@ import axios from 'axios';
 import Cardcomponent from "./Cardcomponent.jsx"
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { fetchCategories } from '../../slice/categorySlice.js';
 
 const Category = () => {
+    const { catid } = useParams();
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const userCreds = useSelector(state => state.userCreds);
@@ -157,6 +158,7 @@ const Category = () => {
                             (
                                 <div className='col-md-6 col-lg-3' key={category.catId}>
                                     <Cardcomponent
+                                        urlcatid={catid}
                                         catId={category.catId}
                                         catImage={category.catImg}
                                         catName={category.catName}

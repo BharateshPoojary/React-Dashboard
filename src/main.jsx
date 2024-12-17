@@ -30,6 +30,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="alert" element={<Alerts />} />
             <Route path="button" element={<Button />} />
             <Route path="category" element={<Category />} />
+            <Route path="/category/:catid" element={<Category />} />
             <Route path="card" element={<Card />} />
             <Route path="form" element={<Form />} />
             <Route path="typography" element={<Typography />} />

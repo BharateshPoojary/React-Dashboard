@@ -14,9 +14,11 @@ const Header = () => {
   const [isFirstVisit, setIsFirstVisit] = useState(true);
   const { matchedRoutes } = useSelector(state => state.routeSlice);
   const { availableCategories } = useSelector((state) => state.categorySlice);
+  const { availableSubCategories } = useSelector((state) => state.subCategorySlice);
   const { inputValue } = useSelector((state) => state.searchInputSlice);
   const [arrayRoutes, setArrayRoutes] = useState([]);
   const [categoriesMatched, setCategoriesMatched] = useState([]);
+  const [subCategoriesMatched, setSubCategoriesMatched] = useState([]);
   const { value } = toggleTheme;
   const dispatch = useDispatch();
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -49,9 +51,24 @@ const Header = () => {
     console.log("All Category Names and Id:", availableCatNamesWithCatId);
     console.log("Available Categories from Redux:", availableCategories);
   }
+
+  const availableSubCatNamesWithSubCatId = availableSubCategories.map((eachsubcategory) => ({ subCatName: eachsubcategory.subCatName, subCatId: eachsubcategory.subCatId }))
+  const matchInputValuewithSubCategory = () => {
+    const converttoLWCase = inputValue.toLowerCase();
+    const subCatNamesAvailable = availableSubCatNamesWithSubCatId.filter(
+      (eachSubCatNameandId) => eachSubCatNameandId.subCatName.toLowerCase().startsWith(converttoLWCase)
+    );
+    setSubCategoriesMatched(subCatNamesAvailable)
+    console.log("Matched Sub Categories:", subCatNamesAvailable);
+    console.log("All Sub Category Names and Id:", availableSubCatNamesWithSubCatId);
+    console.log("Available  Sub Categories from Redux:", availableSubCategories);
+  }
   useEffect(() => {
     if (availableCategories.length > 0) {
       matchInputValuewithCategory();
+    }
+    if (availableSubCategories.length > 0) {
+      matchInputValuewithSubCategory();
     }
   }, [inputValue])
 
@@ -193,7 +210,15 @@ const Header = () => {
                           </ul>
                         </>
                       )}
-                      {arrayRoutes.length === 0 && categoriesMatched.length === 0 && (<SearchContent Noresultmessage="No result found" />)}
+                      {subCategoriesMatched.length > 0 && (
+                        <>
+                          <h5 className="mb-0 fs-5 p-1"> Available  Sub Categories</h5>
+                          <ul className="list mb-0 py-2">
+                            {subCategoriesMatched.map((subcatnamesandids, index) => (<SearchContent key={index} subcatnamesandids={subcatnamesandids} closeModal={closeModal} />))}
+                          </ul>
+                        </>
+                      )}
+                      {arrayRoutes.length === 0 && categoriesMatched.length === 0 && subCategoriesMatched.length === 0 && (<SearchContent Noresultmessage="No result found" />)}
                     </>
                   )}
               </div>

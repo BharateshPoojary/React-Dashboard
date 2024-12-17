@@ -13,6 +13,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateUserCreds } from '../slice/userCredsSlice'
 import { fetchCategories } from '../slice/categorySlice'
+import { fetchSubCategories } from '../slice/subCatSlice'
 const Dashboard = () => {
   const { value } = useSelector(state => state.toggleSlice);
   const userCreds = useSelector(state => state.userCreds);
@@ -32,6 +33,7 @@ const Dashboard = () => {
   }, [navigate, userCreds])
   useEffect(() => {
     dispatch(fetchCategories());
+    dispatch(fetchSubCategories());
   }, [])
   return (
     <div >

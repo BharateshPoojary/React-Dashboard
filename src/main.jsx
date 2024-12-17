@@ -37,6 +37,7 @@ createRoot(document.getElementById("root")).render(
             <Route path="icon" element={<Icon />} />
             <Route path="sample" element={<Sample />} />
             <Route path="subcategory" element={<Subcategory />} />
+            <Route path="/subcategory/:subcatid" element={<Subcategory />} />
             <Route path="profile" element={<Profile />} />
           </Route>
           <Route path="login" element={<Login />} />

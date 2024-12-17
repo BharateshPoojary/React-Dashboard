@@ -2,9 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios';
 import SubCardComponent from './SubCardComponent.jsx';
 import toast from 'react-hot-toast';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from "react-redux";
 const Category = () => {
+    const { subcatid } = useParams();
     const navigate = useNavigate();
     const userCreds = useSelector(state => state.userCreds);
     const { value } = useSelector(state => state.toggleSlice);
@@ -45,6 +46,17 @@ const Category = () => {
     useEffect(() => {
         getSubCategories();
     }, [])
+    const getSpecificSubCategories = async () => {
+        try {
+            // const data = JSON.parse(localStorage.getItem('catId'));
+            const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?subCatId=${subcatid}`);
+            console.log(response.data);
+            const { subCat } = response.data;
+            if (subCat.length > 0) { }
+        } catch (error) {
+            console.error("Error fetching data", error.response?.data || error.message);
+        }
+    }
     const showImage = (e) => {
         console.log(e.target.files[0]);
         //e.target.files .files is required to get the img information in object

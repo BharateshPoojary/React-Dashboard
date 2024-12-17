@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "../assets/images/logos/logo.svg";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import rupee from "../assets/images/backgrounds/rupee.png";
 import { NavLink } from "react-router-dom";
@@ -18,7 +17,7 @@ const SideBar = () => {
         <div>
           <div className="brand-logo d-flex align-items-center justify-content-between">
             <NavLink to="/" className="text-nowrap logo-img" id="">
-              <img src={logo} alt="matdashlogo" />
+              <p className="fw-bolder text-primary fs-5 text-wrap" >Welcome,{userCreds.userName}</p>
             </NavLink>
             <div
               className="close-btn d-xl-none d-block sidebartoggler cursor-pointer"

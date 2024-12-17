@@ -74,6 +74,87 @@ const Header = () => {
   }
   return (
     <div >
+      <header className="app-header" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
+        <nav className="navbar navbar-expand-lg  navbar-light ">
+          <ul className="navbar-nav  ">
+            {/* sidebaricon starts */}
+            <li className="nav-item d-block d-xl-none">
+              <NavLink className="nav-link sidebartoggler " id="headerCollapse" onClick={() => { }}>
+                <i className="ti ti-menu-2" style={value === "moon" ? { color: "white" } : undefined}></i>
+              </NavLink>
+            </li>
+            {/* sidebaricon ends
+            {/* bell icon starts */}
+            <li className="nav-item">
+              <div className="nav-link " style={{ cursor: "pointer" }} onClick={() => { }}>
+                <Icon icon="solar:bell-linear" className="fs-5 " style={value === "moon" ? { color: "white" } : undefined}></Icon>
+                <div className="notification bg-primary rounded-circle"></div>
+              </div>
+            </li>
+            {/* bell icon ends */}
+          </ul>
+
+          <ul className="navbar-nav ms-auto">
+            {/* user icon starts*/}
+            <li className="nav-item">
+              <a className="nav-link moon dark-layout nav-icon-hover-bg rounded-circle" style={value === "sun" ? { display: "flex", cursor: "pointer" } : { display: "none", cursor: "pointer" }} onClick={() => { dispatch(darkTheme()) }}>
+                <Icon icon="solar:moon-line-duotone" className="moon fs-5" style={value === "sun" ? { display: "flex", cursor: "pointer" } : { display: "none", cursor: "pointer" }} />
+              </a>
+              <a className="nav-link sun light-layout nav-icon-hover-bg rounded-circle" style={value === "sun" ? { display: "none", cursor: "pointer" } : { display: "flex", cursor: "pointer" }} onClick={() => { dispatch(lightTheme()) }}>
+                <Icon icon="solar:sun-2-line-duotone" className="sun fs-5" style={value === "sun" ? { display: "none", cursor: "pointer" } : { display: "flex", cursor: "pointer", color: "white" }} />
+              </a>
+            </li>
+            <li className="nav-item d-block">
+              <a className="nav-link nav-icon-hover-bg rounded-circle" style={{ cursor: "pointer" }} onClick={openModal}>
+                <Icon icon="solar:magnifer-line-duotone" className="fs-5" style={value === "moon" ? { color: "white" } : { color: "black" }}></Icon>
+              </a>
+            </li>
+
+            <li className="nav-item dropdown">
+              <NavLink
+                className="nav-link"
+                onClick={() => { }}
+                id="drop2"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img
+                  src={user}
+                  alt="usericon"
+                  width="35"
+                  height="35"
+                  className="rounded-circle"
+                />
+              </NavLink>
+              <div
+                className="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
+                aria-labelledby="drop2"
+                style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}
+              >
+                <div className="message-body" >
+                  <NavLink
+                    to="profile"
+                    className="d-flex align-items-center gap-2 dropdown-item cursor-pointer"
+                    style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}
+                  >
+                    <i className="ti ti-user fs-6" style={value === "moon" ? { color: "white" } : undefined}></i>
+                    <p className="mb-0 fs-3" style={value === "moon" ? { color: "white" } : undefined}>My Profile</p>
+                  </NavLink>
+                  <a
+                    onClick={handleLogout}
+                    className="btn btn-outline-primary mx-3 mt-2 d-block"
+                  >
+                    Logout
+                  </a>
+                </div>
+              </div>
+            </li>
+            {/* user icon ends*/}
+          </ul>
+
+
+        </nav>
+      </header>
 
       {isModalVisible && <div id="view" className={`modal ${isModalVisible ? "fade show" : "fade"}`}
         style={{ display: isModalVisible ? "block" : "none" }} tabIndex="-1" {...(isModalVisible ? { "aria-modal": true, role: "dialog" } : { "aria-hidden": true })}>
@@ -86,146 +167,41 @@ const Header = () => {
               </a>
             </div>
             <div className="modal-body message-body " data-simplebar="init">
-              <div className="simplebar-wrapper" style={{ margin: "-16px" }}>
-                <div className="simplebar-height-auto-observer-wrapper">
-                  <div className="simplebar-height-auto-observer">
-                  </div>
-                </div>
-                <div className="simplebar-mask">
-                  <div className="simplebar-offset" style={{ right: "0px", bottom: "0px" }}>
-                    <div className="simplebar-content-wrapper" tabIndex="0" role="region" aria-label="scrollable content" style={{ height: "auto", overflow: "hidden" }}>
-                      <div className="simplebar-content" style={{ padding: "16px" }}>
-                        {isFirstVisit ?
-                          (
-                            // Welcome message on the first visit
-                            <div>
-                              <h5 className="mb-0 fs-5 p-1 text-center">Welcome!</h5>
-                              <p className="text-center fs-4">Start by searching for routes or categories.</p>
-                            </div>
-                          )
-                          : (
-                            <>
-                              {arrayRoutes.length > 0 && (
-                                <>
-                                  <h5 className="mb-0 fs-5 p-1">Quick Page Links</h5>
-                                  <ul className="list mb-0 py-2">
-                                    {arrayRoutes.map((route, index) => (<SearchContent key={index} routes={route} closeModal={closeModal} />))}
-                                  </ul>
-                                </>
-                              )}
-                              {categoriesMatched.length > 0 && (
-                                <>
-                                  <h5 className="mb-0 fs-5 p-1"> Available Categories</h5>
-                                  <ul className="list mb-0 py-2">
-                                    {categoriesMatched.map((catnames, index) => (<SearchContent key={index} categories={catnames} />))}
-                                  </ul>
-                                </>
-                              )}
-                              {arrayRoutes.length === 0 && categoriesMatched.length === 0 && (<SearchContent Noresultmessage="No result found" />)}
-                            </>
-                          )}
-                      </div>
+              <div style={{ padding: "16px", height: "300px", maxHeight: "300px", overflowY: "scroll" }}>
+                {isFirstVisit ?
+                  (
+                    // Welcome message on the first visit
+                    <div>
+                      <h5 className="mb-0 fs-5 p-1 text-center">Welcome!</h5>
+                      <p className="text-center fs-4">Start by searching for routes or categories.</p>
                     </div>
-                  </div>
-                </div>
-                <div className="simplebar-placeholder"></div>
-              </div>
-              <div className="simplebar-track simplebar-horizontal" style={{ visibility: "hidden" }} >
-                <div className="simplebar-scrollbar" style={{ display: "none" }}>
-                </div>
-              </div>
-              <div className="simplebar-track simplebar-vertical" style={{ visibility: "visible" }}>
-                <div className="simplebar-scrollbar" style={{ display: "block" }}>
-                </div>
+                  )
+                  : (
+                    <>
+                      {arrayRoutes.length > 0 && (
+                        <>
+                          <h5 className="mb-0 fs-5 p-1">Quick Page Links</h5>
+                          <ul className="list mb-0 py-2">
+                            {arrayRoutes.map((route, index) => (<SearchContent key={index} routes={route} closeModal={closeModal} />))}
+                          </ul>
+                        </>
+                      )}
+                      {categoriesMatched.length > 0 && (
+                        <>
+                          <h5 className="mb-0 fs-5 p-1"> Available Categories</h5>
+                          <ul className="list mb-0 py-2">
+                            {categoriesMatched.map((catnames, index) => (<SearchContent key={index} categories={catnames} />))}
+                          </ul>
+                        </>
+                      )}
+                      {arrayRoutes.length === 0 && categoriesMatched.length === 0 && (<SearchContent Noresultmessage="No result found" />)}
+                    </>
+                  )}
               </div>
             </div>
           </div>
         </div>
       </div>}
-      <header className="app-header" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
-        <nav className="navbar navbar-expand-lg navbar-light">
-          <ul className="navbar-nav">
-            {/* sidebaricon starts */}
-            <li className="nav-item d-block d-xl-none">
-              <NavLink className="nav-link sidebartoggler " id="headerCollapse" onClick={() => { }}>
-                <i className="ti ti-menu-2" style={value === "moon" ? { color: "white" } : undefined}></i>
-              </NavLink>
-            </li>
-            {/* sidebaricon ends */}
-            {/* bell icon starts */}
-            <li className="nav-item">
-              <div className="nav-link " style={{ cursor: "pointer" }} onClick={() => { }}>
-                <Icon icon="solar:bell-linear" className="fs-6" style={value === "moon" ? { color: "white" } : undefined}></Icon>
-                <div className="notification bg-primary rounded-circle"></div>
-              </div>
-            </li>
-            {/* bell icon ends */}
-          </ul>
-          <div
-            className="navbar-collapse justify-content-end px-0"
-            id="navbarNav"
-          >
-            <ul className="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-              {/* user icon starts*/}
-              <li className="nav-item">
-                <a className="nav-link moon dark-layout nav-icon-hover-bg rounded-circle" style={value === "sun" ? { display: "flex", cursor: "pointer" } : { display: "none", cursor: "pointer" }} onClick={() => { dispatch(darkTheme()) }}>
-                  <Icon icon="solar:moon-line-duotone" className="moon fs-6" style={value === "sun" ? { display: "flex", cursor: "pointer" } : { display: "none", cursor: "pointer" }} />
-                </a>
-                <a className="nav-link sun light-layout nav-icon-hover-bg rounded-circle" style={value === "sun" ? { display: "none", cursor: "pointer" } : { display: "flex", cursor: "pointer" }} onClick={() => { dispatch(lightTheme()) }}>
-                  <Icon icon="solar:sun-2-line-duotone" className="sun fs-6" style={value === "sun" ? { display: "none", cursor: "pointer" } : { display: "flex", cursor: "pointer", color: "white" }} />
-                </a>
-              </li>
-              <li className="nav-item d-block">
-                <a className="nav-link nav-icon-hover-bg rounded-circle" style={{ cursor: "pointer" }} onClick={openModal}>
-                  <Icon icon="solar:magnifer-line-duotone" className="fs-6" style={value === "moon" ? { color: "white" } : { color: "black" }}></Icon>
-                </a>
-              </li>
-              <p className="fw-semibold text-primary  fs-4 " >Welcome,{userCreds.userName}</p>
-              <li className="nav-item dropdown">
-                <NavLink
-                  className="nav-link"
-                  onClick={() => { }}
-                  id="drop2"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  <img
-                    src={user}
-                    alt="usericon"
-                    width="35"
-                    height="35"
-                    className="rounded-circle"
-                  />
-                </NavLink>
-                <div
-                  className="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
-                  aria-labelledby="drop2"
-                  style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}
-                >
-                  <div className="message-body" >
-                    <NavLink
-                      to="profile"
-                      className="d-flex align-items-center gap-2 dropdown-item cursor-pointer"
-                      style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}
-                    >
-                      <i className="ti ti-user fs-6" style={value === "moon" ? { color: "white" } : undefined}></i>
-                      <p className="mb-0 fs-3" style={value === "moon" ? { color: "white" } : undefined}>My Profile</p>
-                    </NavLink>
-                    <a
-                      onClick={handleLogout}
-                      className="btn btn-outline-primary mx-3 mt-2 d-block"
-                    >
-                      Logout
-                    </a>
-                  </div>
-                </div>
-              </li>
-              {/* user icon ends*/}
-            </ul>
-          </div>
-        </nav>
-      </header>
-
     </div>
   );
 };

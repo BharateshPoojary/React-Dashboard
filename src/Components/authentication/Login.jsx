@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios"
 import logo from "../../assets/images/logos/logo.svg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
 import toast from "react-hot-toast";
 // import { updateUserCreds } from "../../slice/userCredsSlice.js";

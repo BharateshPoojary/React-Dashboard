@@ -15,26 +15,24 @@ import { updateUserCreds } from '../slice/userCredsSlice'
 import { fetchCategories } from '../slice/categorySlice'
 const Dashboard = () => {
   const { value } = useSelector(state => state.toggleSlice);
-  const dispatch = useDispatch();
-  if (localStorage.getItem("userCreds")) {
-    const { userName, mobileNo, userId, password, success } = JSON.parse(localStorage.getItem("userCreds"));
-    dispatch(updateUserCreds({ userName, mobileNo, userId, password, success }));
-  }
-  const navigate = useNavigate();
   const userCreds = useSelector(state => state.userCreds);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   useEffect(() => {
-    // const isUserLoggedIn = JSON.parse(localStorage.getItem('userCreds'));
-    // if (!isUserLoggedIn) {
-    //   navigate("/login");
-    // }
+    if (userCreds.userId === 0 && localStorage.getItem("userCreds")) {
+      const { userName, mobileNo, userId, password, success } = JSON.parse(localStorage.getItem("userCreds"));
+      dispatch(updateUserCreds({ userName, mobileNo, userId, password, success }));
+    }
+  }, [dispatch, userCreds.userId])
+  useEffect(() => {
     console.log(userCreds);
-    if (userCreds.userId === 0) {
+    if (userCreds.userId === 0 && !localStorage.getItem("userCreds")) {
       navigate("/login");
     }
-  }, [userCreds, userCreds.userId])
+  }, [navigate, userCreds])
   useEffect(() => {
     dispatch(fetchCategories());
-  }, [dispatch])
+  }, [])
   return (
     <div >
       <div className="body-wrapper-inner" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>

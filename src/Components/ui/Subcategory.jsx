@@ -33,30 +33,42 @@ const Category = () => {
     // const data = JSON.parse(localStorage.getItem('catId'));
     // console.log(data.catId);
     const getSubCategories = async () => {
-        try {
-            // const data = JSON.parse(localStorage.getItem('catId'));
-            const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?catId=${catId}`);
-            console.log(response.data);
-            const { subCat } = response.data;
-            setSubCategories(subCat || []);//states are asynchronous it takes some time to update
-        } catch (error) {
-            console.error("Error fetching data", error.response?.data || error.message);
+        if (catId) {
+            console.log("Cat Id", catId)
+            try {
+                // const data = JSON.parse(localStorage.getItem('catId'));
+                const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?catId=${catId}`);
+                console.log(response.data);
+                const { subCat } = response.data;
+                setSubCategories(subCat || []);//states are asynchronous it takes some time to update
+            } catch (error) {
+                console.error("Error fetching data", error.response?.data || error.message);
+            }
         }
     }
     useEffect(() => {
         getSubCategories();
-    }, [])
+    }, [catId])
+
     const getSpecificSubCategories = async () => {
-        try {
-            // const data = JSON.parse(localStorage.getItem('catId'));
-            const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?subCatId=${subcatid}`);
-            console.log(response.data);
-            const { subCat } = response.data;
-            if (subCat.length > 0) { }
-        } catch (error) {
-            console.error("Error fetching data", error.response?.data || error.message);
+        if (subcatid) {
+            console.log("Sub catid", subcatid)
+            try {
+                // const data = JSON.parse(localStorage.getItem('catId'));
+                const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?subCatId=${subcatid}`);
+                console.log(response.data);
+                const { subCat } = response.data;
+                if (subCat.length > 0) {
+                    setSubCategories(subCat);
+                }
+            } catch (error) {
+                console.error("Error fetching data", error.response?.data || error.message);
+            }
         }
     }
+    useEffect(() => {
+        getSpecificSubCategories();
+    }, [subcatid])
     const showImage = (e) => {
         console.log(e.target.files[0]);
         //e.target.files .files is required to get the img information in object

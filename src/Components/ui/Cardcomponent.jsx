@@ -10,7 +10,7 @@ const Cardcomponent = (props) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { value } = useSelector(state => state.toggleSlice);
-    const { catName, catId, catImage, emptyCategoryMessage } = props;
+    const { catName, catId, catImage, emptyCategoryMessage, searchCatId, fetchspecificcat } = props;
     console.log(catName, catId, catImage)
     const deleteCardRef = useRef();
     const updateImgRef = useRef();
@@ -55,7 +55,11 @@ const Cardcomponent = (props) => {
             );
             if (editPostResponse.data) {
                 console.log(editPostResponse.data);
-                dispatch(fetchCategories());
+                if (searchCatId) {
+                    await fetchspecificcat();
+                } else {
+                    dispatch(fetchCategories());
+                }
                 handlecloseModal();
                 toast.success("Category edited successfully");
             }

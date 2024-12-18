@@ -6,8 +6,10 @@ import { useSelector } from 'react-redux';
 
 const SubCardcomponent = (props) => {
     const { value } = useSelector(state => state.toggleSlice);
-    const { catId, subCatName, subCatId, subCatImage, getSubCategories, growthPercentage, emptySubcatMessage } = props;
-    console.log(subCatName, subCatId, subCatImage, growthPercentage)
+    const { catId, subCatName, subCatId, subCatImage, getSubCategories, growthPercentage, emptySubcatMessage, getSpecificSubCategories } = props;
+    console.log(subCatName, subCatId, subCatImage, growthPercentage);
+    console.log("CatId", catId);
+    console.log("subcatId", subCatId);
     const deleteCardRef = useRef();
     const updateImgRef = useRef();
     const hideImgRef = useRef();
@@ -46,7 +48,7 @@ const SubCardcomponent = (props) => {
             console.log(name);
             formData.append('subCatImg', updateSubCatImg); // Actual file
             formData.append('action', 'update');
-            formData.append('catId', catId);
+            formData.append('catId', catId);//Optional
             formData.append('growthPercentage', updateSubCatGrowthPercentage)
             formData.append('subCatId', subCatId);
             const editPostResponse = await axios.post("http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php", formData
@@ -54,7 +56,11 @@ const SubCardcomponent = (props) => {
             if (editPostResponse.data) {
                 console.log(editPostResponse.data);
                 // location.reload();
-                await getSubCategories();
+                if (catId) {
+                    await getSubCategories();
+                } else {
+                    await getSpecificSubCategories();
+                }
                 handlecloseModal();
                 toast.success("Subcategory edited successfully");
             }
@@ -79,14 +85,11 @@ const SubCardcomponent = (props) => {
                 const formData = new FormData();
                 formData.append("subCatId", subCatId);
                 formData.append("action", "delete");
-                // const deletedata={subCatId,action:'delete'}
                 const response = await axios.post("http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php", formData);
                 if (response.data.success === 1) {
                     await Swal.fire("Deleted!", "Category has been deleted.", "success");
-                    // Remove the deleted category from the DOM
-                    // $(`.sa-confirm[data-id='${subCatId}']`).closest(".col-md-6.col-lg-3").remove();
-                    await getSubCategories();
                     toast.success("Subcategory deleted successfully");
+                    await getSubCategories();
                 } else {
                     toast.error("Error deleting subcategory");
                     await Swal.fire("Error!", "Something went wrong. Please try again.", "error");

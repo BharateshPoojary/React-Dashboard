@@ -52,7 +52,7 @@ const Header = () => {
     console.log("Available Categories from Redux:", availableCategories);
   }
 
-  const availableSubCatNamesWithSubCatId = availableSubCategories.map((eachsubcategory) => ({ subCatName: eachsubcategory.subCatName, subCatId: eachsubcategory.subCatId }))
+  const availableSubCatNamesWithSubCatId = availableSubCategories.map((eachsubcategory) => ({ subCatName: eachsubcategory.subCatName, catId: eachsubcategory.catId, subCatId: eachsubcategory.subCatId }))
   const matchInputValuewithSubCategory = () => {
     const converttoLWCase = inputValue.toLowerCase();
     const subCatNamesAvailable = availableSubCatNamesWithSubCatId.filter(

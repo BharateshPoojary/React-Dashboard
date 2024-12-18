@@ -5,7 +5,7 @@ import toast from 'react-hot-toast';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from "react-redux";
 const Category = () => {
-    const { subcatid } = useParams();
+    const { subcatid, searchcatid } = useParams();
     const navigate = useNavigate();
     const userCreds = useSelector(state => state.userCreds);
     const { value } = useSelector(state => state.toggleSlice);
@@ -30,14 +30,11 @@ const Category = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
-    // const data = JSON.parse(localStorage.getItem('catId'));
-    // console.log(data.catId);
     const getSubCategories = async () => {
-        if (catId) {
+        if (catId || searchcatid) {
             console.log("Cat Id", catId)
             try {
-                // const data = JSON.parse(localStorage.getItem('catId'));
-                const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?catId=${catId}`);
+                const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?catId=${catId ?? searchcatid}`);
                 console.log(response.data);
                 const { subCat } = response.data;
                 setSubCategories(subCat || []);//states are asynchronous it takes some time to update
@@ -46,6 +43,7 @@ const Category = () => {
             }
         }
     }
+
     useEffect(() => {
         getSubCategories();
     }, [catId])
@@ -87,12 +85,11 @@ const Category = () => {
     const handleFormSubmit = async (e) => {
         try {
             e.preventDefault();
-
             const formData = new FormData();//It is optional but recommended when including files in a request 
             //When dealing with file uploads (<input type="file">), you cannot directly store the file in a plain JavaScript object. The .files property of a file input is a File object, which needs to be properly encoded for transmission. FormData handles this encoding for you.
             const a = subCatImage;
             console.log(a);
-            formData.append('catId', catId);
+            formData.append('catId', catId ?? searchcatid);
             formData.append('subCatName', subCatName);
             formData.append('subCatImg', subCatImage); // Actual file
             formData.append('growthPercentage', growthPercentage);
@@ -211,6 +208,7 @@ const Category = () => {
                                     <div className='col-md-6 col-lg-3' key={subcategory.subCatId}>
                                         <SubCardComponent
                                             getSubCategories={getSubCategories}
+                                            getSpecificSubCategories={getSpecificSubCategories}
                                             catId={catId}
                                             subCatId={subcategory.subCatId}
                                             growthPercentage={subcategory.growthPercentage}

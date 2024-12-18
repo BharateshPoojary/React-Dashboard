@@ -31,25 +31,29 @@ const Category = () => {
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
     const { availableCategories } = useSelector((state) => state.categorySlice);
-    useEffect(() => {
-        const fetchspecificcat = async () => {
-            try {
-                const response = await axios.get(
-                    `http://stock.swiftmore.in/mobileApis/TestCURD_category.php?catId=${catid}`
-                );
-                const { Cat } = response.data;
-                console.log("Specific Cats:", Cat)
-                if (Cat.length > 0) {
-                    setCategories(Cat);
-                } else {
-                    setCategories(availableCategories);
-                }
-            } catch (error) {
-                //   dispatch(setError(error.message));  // Dispatch error if something went wrong
-                console.error("Error fetching data", error.response?.data || error.message);
+
+    const fetchspecificcat = async () => {
+        try {
+            const response = await axios.get(
+                `http://stock.swiftmore.in/mobileApis/TestCURD_category.php?catId=${catid}`
+            );
+            const { Cat } = response.data;
+            console.log("Specific Cats:", Cat)
+            if (Cat.length > 0) {
+                setCategories(Cat);
             }
+        } catch (error) {
+            //   dispatch(setError(error.message));  // Dispatch error if something went wrong
+            console.error("Error fetching data", error.response?.data || error.message);
         }
-        fetchspecificcat();
+    }
+
+
+    useEffect(() => {
+        if (catid) {
+            fetchspecificcat();
+
+        }
     }, [catid])
     useEffect(() => {
         console.log(availableCategories);
@@ -84,9 +88,9 @@ const Category = () => {
             );
             if (addPostResponse.data) {
                 console.log(addPostResponse.data);
-                dispatch(fetchCategories());
                 handlecloseModal();
                 toast.success("Category added successfully");
+                dispatch(fetchCategories());
             }
         } catch (error) {
             toast.error("Error adding category");
@@ -179,6 +183,8 @@ const Category = () => {
                             (
                                 <div className='col-md-6 col-lg-3' key={category.catId}>
                                     <Cardcomponent
+                                        fetchspecificcat={fetchspecificcat}
+                                        searchCatId={catid}
                                         catId={category.catId}
                                         catImage={category.catImg}
                                         catName={category.catName}

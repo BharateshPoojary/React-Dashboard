@@ -24,7 +24,7 @@ const SearchContent = ({ routes, catnamesandids, subcatnamesandids, closeModal, 
                             </div>
                         </NavLink>
                     </li>) : (<li className="p-1 mb-1 bg-hover-light-black rounded px-2">
-                        <NavLink to={`/subcategory/${subcatnamesandids.subCatId}`} onClick={closeModal}>
+                        <NavLink to={`/subcategory/${subcatnamesandids.catId}/${subcatnamesandids.subCatId}`} onClick={closeModal}>
                             <div style={{ cursor: "pointer" }}>
                                 {/* <span className="text-dark fw-semibold d-block">{routes}</span> */}
                                 {subcatnamesandids.subCatName}

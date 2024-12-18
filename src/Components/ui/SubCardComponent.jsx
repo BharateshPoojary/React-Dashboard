@@ -2,9 +2,11 @@ import React, { useRef, useState } from 'react'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchSubCategories } from '../../slice/subCatSlice';
 
 const SubCardcomponent = (props) => {
+    const dispatch = useDispatch();
     const { value } = useSelector(state => state.toggleSlice);
     const { catId, subCatName, subCatId, subCatImage, getSubCategories, growthPercentage, emptySubcatMessage, getSpecificSubCategories } = props;
     console.log(subCatName, subCatId, subCatImage, growthPercentage);
@@ -58,8 +60,10 @@ const SubCardcomponent = (props) => {
                 // location.reload();
                 if (catId) {
                     await getSubCategories();
+                    dispatch(fetchSubCategories());
                 } else {
                     await getSpecificSubCategories();
+                    dispatch(fetchSubCategories());
                 }
                 handlecloseModal();
                 toast.success("Subcategory edited successfully");
@@ -86,7 +90,10 @@ const SubCardcomponent = (props) => {
                 formData.append("subCatId", subCatId);
                 formData.append("action", "delete");
                 const response = await axios.post("http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php", formData);
+
                 if (response.data.success === 1) {
+
+
                     await Swal.fire("Deleted!", "Category has been deleted.", "success");
                     toast.success("Subcategory deleted successfully");
                     await getSubCategories();

@@ -4,7 +4,7 @@ import Cardcomponent from "./Cardcomponent.jsx"
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchCategories } from '../../slice/categorySlice.js';
+import { addCategories, fetchCategories } from '../../slice/categorySlice.js';
 
 const Category = () => {
     const { catid } = useParams();
@@ -12,7 +12,7 @@ const Category = () => {
     const dispatch = useDispatch();
     const userCreds = useSelector(state => state.userCreds);
     const { value } = useSelector(state => state.toggleSlice);
-
+    const { categories } = useSelector(state => state.categorySlice);
     useEffect(() => {
         if (userCreds.userId === 0) {
             try {
@@ -26,39 +26,39 @@ const Category = () => {
     const [catName, setCatName] = useState('');
     const [catImage, setCatImage] = useState({});
     const showImageRef = useRef();
-    const [categories, setCategories] = useState([]);
+    // const [categories, setCategories] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
     const { availableCategories } = useSelector((state) => state.categorySlice);
-
     const fetchspecificcat = async () => {
         try {
             const response = await axios.get(
                 `http://stock.swiftmore.in/mobileApis/TestCURD_category.php?catId=${catid}`
             );
             const { Cat } = response.data;
-            console.log("Specific Cats:", Cat)
+            console.log("Specific Cats:", Cat);
             if (Cat.length > 0) {
-                setCategories(Cat);
+                dispatch(addCategories(availableCategories))
             }
         } catch (error) {
             //   dispatch(setError(error.message));  // Dispatch error if something went wrong
             console.error("Error fetching data", error.response?.data || error.message);
         }
     }
-
-
     useEffect(() => {
         if (catid) {
             fetchspecificcat();
-
         }
     }, [catid])
     useEffect(() => {
         console.log(availableCategories);
-        setCategories(availableCategories);
-    }, [availableCategories])
+        // setCategories(availableCategories);
+        dispatch(addCategories(availableCategories))
+    }, [availableCategories])//It will irrespective of  what time it changed but if changed in any file it will be reflected evereywhere
+    useEffect(() => {
+        console.log("Available categories", categories);
+    }, [categories])
     const showImage = (e) => {
         console.log(e.target.files[0]);
         //e.target.files .files is required to get the img information in object
@@ -91,6 +91,8 @@ const Category = () => {
                 handlecloseModal();
                 toast.success("Category added successfully");
                 dispatch(fetchCategories());
+                console.log("dispatched add cat success");
+
             }
         } catch (error) {
             toast.error("Error adding category");

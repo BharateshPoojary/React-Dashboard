@@ -56,7 +56,9 @@ const Cardcomponent = (props) => {
             if (editPostResponse.data) {
                 console.log(editPostResponse.data);
                 if (searchCatId) {
+                    console.log("I  got search cat Id");
                     await fetchspecificcat();
+                    dispatch(fetchCategories());
                 } else {
                     dispatch(fetchCategories());
                 }
@@ -91,6 +93,7 @@ const Cardcomponent = (props) => {
                 formData.append("action", "delete");
                 // const deletedata={catId,action:'delete'}
                 const response = await axios.post("http://stock.swiftmore.in/mobileApis/TestCURD_category.php", formData);
+                console.log(response.data);
                 if (response.data.success === 1) {
                     await Swal.fire("Deleted!", "Category has been deleted.", "success");
                     // Remove the deleted category from the DOM
@@ -109,7 +112,6 @@ const Cardcomponent = (props) => {
             }
         }
     }
-
     return (
         <>
             {emptyCategoryMessage ?

@@ -3,8 +3,10 @@ import axios from 'axios';
 import SubCardComponent from './SubCardComponent.jsx';
 import toast from 'react-hot-toast';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSubCategories } from '../../slice/subCatSlice.js';
 const Category = () => {
+    const dispatch = useDispatch();
     const { subcatid, searchcatid } = useParams();
     const navigate = useNavigate();
     const userCreds = useSelector(state => state.userCreds);
@@ -99,6 +101,7 @@ const Category = () => {
             if (addPostResponse.data) {
                 console.log(addPostResponse.data);
                 await getSubCategories();
+                dispatch(fetchSubCategories());
                 handlecloseModal();
                 toast.success("Subcategory added successfully");
                 // location.reload();

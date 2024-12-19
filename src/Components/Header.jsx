@@ -181,7 +181,7 @@ const Header = () => {
         <div className="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" >
           <div className="modal-content" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
             <div className="modal-header border-bottom">
-              <input type="search" className={`form-control ${value === "moon" ? "dark-placeholder" : ""}`} autoComplete="off" placeholder="Search here" id="search" onChange={(e) => { handleChange(e) }} value={searchInput} style={value === "moon" ? { color: "white", '--placeholder-color': 'red' } : undefined} />
+              <input type="search" className={'form-control'} autoComplete="off" placeholder="Search here" id="search" onChange={(e) => { handleChange(e) }} value={searchInput} style={value === "moon" ? { color: "white" } : undefined} />
               <a className="lh-1" onClick={closeModal}>
                 <i className="ti ti-x fs-5 ms-3" style={value === "moon" ? { color: "white" } : undefined}></i>
               </a>

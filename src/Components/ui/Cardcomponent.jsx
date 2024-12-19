@@ -98,7 +98,7 @@ const Cardcomponent = (props) => {
                     // Remove the deleted category from the DOM
                     // $(`.sa-confirm[data-id='${catId}']`).closest(".col-md-6.col-lg-3").remove();
                     dispatch(fetchCategories());
-                    if (catId) {
+                    if (searchCatId) {
                         navigate('/category');
                     }
                     // deleteCardRef.current.remove();

@@ -37,7 +37,11 @@ const Category = () => {
             console.log("Cat Id", catId)
             try {
                 const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?catId=${catId ?? searchcatid}`);
-                console.log(response.data);
+                if (catId) {
+                    console.log("Cat Id Data", response.data);
+                } else {
+                    console.log("Search cat Id data", response.data);
+                }
                 const { subCat } = response.data;
                 setSubCategories(subCat || []);//states are asynchronous it takes some time to update
             } catch (error) {
@@ -47,7 +51,12 @@ const Category = () => {
     }
 
     useEffect(() => {
-        getSubCategories();
+        if (catId) {
+            const urlCatIdPresentCall = async () => {
+                await getSubCategories();
+            }
+            urlCatIdPresentCall();
+        }
     }, [catId])
 
     const getSpecificSubCategories = async () => {
@@ -102,6 +111,10 @@ const Category = () => {
                 console.log(addPostResponse.data);
                 await getSubCategories();
                 dispatch(fetchSubCategories());
+                if (searchcatid && subcatid) {
+                    navigate("/subcategory");
+                    window.history.pushState(null, '', `/subcategory/${searchcatid}`);//It will make the url like this without navigating to it 
+                }
                 handlecloseModal();
                 toast.success("Subcategory added successfully");
                 // location.reload();
@@ -217,6 +230,8 @@ const Category = () => {
                                             growthPercentage={subcategory.growthPercentage}
                                             subCatImage={subcategory.subCatImg}
                                             subCatName={subcategory.subCatName}
+                                            searchcatid={searchcatid}
+                                            subcatid={subcatid}
                                         />
                                     </div>)
                             })

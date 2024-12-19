@@ -4,11 +4,13 @@ import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchSubCategories } from '../../slice/subCatSlice';
+import { useNavigate } from 'react-router-dom';
 
 const SubCardcomponent = (props) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { value } = useSelector(state => state.toggleSlice);
-    const { catId, subCatName, subCatId, subCatImage, getSubCategories, growthPercentage, emptySubcatMessage, getSpecificSubCategories } = props;
+    const { catId, subCatName, subCatId, subCatImage, getSubCategories, growthPercentage, emptySubcatMessage, getSpecificSubCategories, searchcatid, subcatid } = props;
     console.log(subCatName, subCatId, subCatImage, growthPercentage);
     console.log("CatId", catId);
     console.log("subcatId", subCatId);
@@ -60,7 +62,7 @@ const SubCardcomponent = (props) => {
                 // location.reload();
                 if (catId) {
                     await getSubCategories();
-                    dispatch(fetchSubCategories());
+                    dispatch(fetchSubCategories());//This will make an api call where all new and updated data will be retrieve from DB and this updated data will be reflected in search bar as well
                 } else {
                     await getSpecificSubCategories();
                     dispatch(fetchSubCategories());
@@ -92,11 +94,14 @@ const SubCardcomponent = (props) => {
                 const response = await axios.post("http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php", formData);
 
                 if (response.data.success === 1) {
-
-
                     await Swal.fire("Deleted!", "Category has been deleted.", "success");
                     toast.success("Subcategory deleted successfully");
                     await getSubCategories();
+                    dispatch(fetchSubCategories());
+                    if (searchcatid && subcatid) {
+                        navigate("/subcategory");
+                        window.history.pushState(null, '', `/subcategory/${searchcatid}`);//It will make the url like this without navigating to it 
+                    }
                 } else {
                     toast.error("Error deleting subcategory");
                     await Swal.fire("Error!", "Something went wrong. Please try again.", "error");

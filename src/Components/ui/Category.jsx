@@ -39,7 +39,7 @@ const Category = () => {
             const { Cat } = response.data;
             console.log("Specific Cats:", Cat);
             if (Cat.length > 0) {
-                dispatch(addCategories(availableCategories))
+                dispatch(addCategories(Cat));
             }
         } catch (error) {
             //   dispatch(setError(error.message));  // Dispatch error if something went wrong
@@ -47,9 +47,7 @@ const Category = () => {
         }
     }
     useEffect(() => {
-        if (catid) {
-            fetchspecificcat();
-        }
+        fetchspecificcat();
     }, [catid])
     useEffect(() => {
         console.log(availableCategories);
@@ -90,9 +88,11 @@ const Category = () => {
                 console.log(addPostResponse.data);
                 handlecloseModal();
                 toast.success("Category added successfully");
+                if (catid) {
+                    navigate('/category');
+                }
                 dispatch(fetchCategories());
                 console.log("dispatched add cat success");
-
             }
         } catch (error) {
             toast.error("Error adding category");

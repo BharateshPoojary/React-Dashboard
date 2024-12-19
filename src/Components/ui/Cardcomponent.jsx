@@ -58,7 +58,6 @@ const Cardcomponent = (props) => {
                 if (searchCatId) {
                     console.log("I  got search cat Id");
                     await fetchspecificcat();
-                    dispatch(fetchCategories());
                 } else {
                     dispatch(fetchCategories());
                 }
@@ -99,6 +98,9 @@ const Cardcomponent = (props) => {
                     // Remove the deleted category from the DOM
                     // $(`.sa-confirm[data-id='${catId}']`).closest(".col-md-6.col-lg-3").remove();
                     dispatch(fetchCategories());
+                    if (catId) {
+                        navigate('/category');
+                    }
                     // deleteCardRef.current.remove();
                     // location.reload();
                     toast.success("Category deleted successfully");

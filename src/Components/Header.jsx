@@ -44,7 +44,7 @@ const Header = () => {
   const matchInputValuewithCategory = () => {
     const converttoLWCase = inputValue.toLowerCase();
     const catnamesavailable = availableCatNamesWithCatId.filter(
-      (eachcatNameandId) => eachcatNameandId.catName.toLowerCase().startsWith(converttoLWCase)
+      (eachcatNameandId) => eachcatNameandId.catName.toLowerCase().includes(converttoLWCase)
     );//It will return me an array of catname and id not onlt catname as I provided the array of object consisting both catname and catId
     setCategoriesMatched(catnamesavailable)
     console.log("Matched Categories:", catnamesavailable);
@@ -56,7 +56,7 @@ const Header = () => {
   const matchInputValuewithSubCategory = () => {
     const converttoLWCase = inputValue.toLowerCase();
     const subCatNamesAvailable = availableSubCatNamesWithSubCatId.filter(
-      (eachSubCatNameandId) => eachSubCatNameandId.subCatName.toLowerCase().startsWith(converttoLWCase)
+      (eachSubCatNameandId) => eachSubCatNameandId.subCatName.toLowerCase().includes(converttoLWCase)
     );
     setSubCategoriesMatched(subCatNamesAvailable)
     console.log("Matched Sub Categories:", subCatNamesAvailable);
@@ -76,11 +76,15 @@ const Header = () => {
     console.log(matchedRoutes);
     setArrayRoutes(matchedRoutes || []);
   }, [matchedRoutes])
+
   const handleChange = (e) => {
     setSearchInput(e.target.value);
+    console.log("current value", e.target.value);//current value vee
     setIsFirstVisit(false);
-    dispatch(checkRouteMatch(searchInput));
-    dispatch(handleSearchInput(searchInput));
+    console.log("current search input", searchInput);//current value ve some delay when used state value 
+    // dispatch(checkRouteMatch(searchInput));states are asynchronous which means when  we update the input value state using e.target.value it takes some time to update because of which the delay behaviour is faced 
+    dispatch(checkRouteMatch(e.target.value));//so to avoid this write e.target.value so that it will get current input value 
+    dispatch(handleSearchInput(e.target.value));
   }
 
   const handleLogout = () => {
@@ -174,12 +178,12 @@ const Header = () => {
 
       {isModalVisible && <div id="view" className={`modal ${isModalVisible ? "fade show" : "fade"}`}
         style={{ display: isModalVisible ? "block" : "none" }} tabIndex="-1" {...(isModalVisible ? { "aria-modal": true, role: "dialog" } : { "aria-hidden": true })}>
-        <div className="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered">
-          <div className="modal-content">
+        <div className="modal-dialog modal-dialog-scrollable modal-lg modal-dialog-centered" >
+          <div className="modal-content" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
             <div className="modal-header border-bottom">
-              <input type="search" className="form-control" autoComplete="off" placeholder="Search here" id="search" onChange={(e) => { handleChange(e) }} value={searchInput} />
+              <input type="search" className={`form-control ${value === "moon" ? "dark-placeholder" : ""}`} autoComplete="off" placeholder="Search here" id="search" onChange={(e) => { handleChange(e) }} value={searchInput} style={value === "moon" ? { color: "white", '--placeholder-color': 'red' } : undefined} />
               <a className="lh-1" onClick={closeModal}>
-                <i className="ti ti-x fs-5 ms-3" ></i>
+                <i className="ti ti-x fs-5 ms-3" style={value === "moon" ? { color: "white" } : undefined}></i>
               </a>
             </div>
             <div className="modal-body message-body " data-simplebar="init">
@@ -188,15 +192,15 @@ const Header = () => {
                   (
                     // Welcome message on the first visit
                     <div>
-                      <h5 className="mb-0 fs-5 p-1 text-center">Welcome!</h5>
-                      <p className="text-center fs-4">Start by searching for routes or categories.</p>
+                      <h5 className="mb-0 fs-5 p-1 text-center" style={value === "moon" ? { color: "white" } : undefined}>Welcome!</h5>
+                      <p className="text-center fs-4" style={value === "moon" ? { color: "white" } : undefined}>Start by searching for routes or categories.</p>
                     </div>
                   )
                   : (
                     <>
                       {arrayRoutes.length > 0 && (
                         <>
-                          <h5 className="mb-0 fs-5 p-1">Quick Page Links</h5>
+                          <h5 className="mb-0 fs-5 p-1" style={value === "moon" ? { color: "white" } : undefined}>Quick Page Links</h5>
                           <ul className="list mb-0 py-2">
                             {arrayRoutes.map((route, index) => (<SearchContent key={index} routes={route} closeModal={closeModal} />))}
                           </ul>
@@ -204,7 +208,7 @@ const Header = () => {
                       )}
                       {categoriesMatched.length > 0 && (
                         <>
-                          <h5 className="mb-0 fs-5 p-1"> Available Categories</h5>
+                          <h5 className="mb-0 fs-5 p-1" style={value === "moon" ? { color: "white" } : undefined}> Available Categories</h5>
                           <ul className="list mb-0 py-2">
                             {categoriesMatched.map((catnamesandids, index) => (<SearchContent key={index} catnamesandids={catnamesandids} closeModal={closeModal} />))}
                           </ul>
@@ -212,7 +216,7 @@ const Header = () => {
                       )}
                       {subCategoriesMatched.length > 0 && (
                         <>
-                          <h5 className="mb-0 fs-5 p-1"> Available  Sub Categories</h5>
+                          <h5 className="mb-0 fs-5 p-1" style={value === "moon" ? { color: "white" } : undefined}> Available  Sub Categories</h5>
                           <ul className="list mb-0 py-2">
                             {subCategoriesMatched.map((subcatnamesandids, index) => (<SearchContent key={index} subcatnamesandids={subcatnamesandids} closeModal={closeModal} />))}
                           </ul>

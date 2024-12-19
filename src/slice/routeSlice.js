@@ -21,7 +21,7 @@ const routeSlice = createSlice({
       const userInputVal = action.payload.toLowerCase();
       const matchedRoute = routeList.filter(
         //filter method returns all the route that match a specified condition
-        (route) => route.startsWith(userInputVal)
+        (route) => route.includes(userInputVal)
       ); //It returns the route which matched first
       state.matchedRoutes = matchedRoute || null; //if no such route is present then it will give null value
     },

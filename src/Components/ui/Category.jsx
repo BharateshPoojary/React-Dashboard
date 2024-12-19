@@ -50,9 +50,11 @@ const Category = () => {
         fetchspecificcat();
     }, [catid])
     useEffect(() => {
-        console.log(availableCategories);
         // setCategories(availableCategories);
-        dispatch(addCategories(availableCategories))
+        if (!catid) {
+            console.log(availableCategories);
+            dispatch(addCategories(availableCategories))
+        }
     }, [availableCategories])//It will irrespective of  what time it changed but if changed in any file it will be reflected evereywhere
     useEffect(() => {
         console.log("Available categories", categories);

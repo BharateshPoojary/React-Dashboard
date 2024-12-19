@@ -58,6 +58,7 @@ const Cardcomponent = (props) => {
                 if (searchCatId) {
                     console.log("I  got search cat Id");
                     await fetchspecificcat();
+                    dispatch(fetchCategories());
                 } else {
                     dispatch(fetchCategories());
                 }

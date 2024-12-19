@@ -86,7 +86,9 @@ const Header = () => {
     dispatch(checkRouteMatch(e.target.value));//so to avoid this write e.target.value so that it will get current input value 
     dispatch(handleSearchInput(e.target.value));
   }
-
+  // dispatch(checkRouteMatch(e.target.value));
+  // dispatch(handleSearchInput(e.target.value)); 
+  //we can wrap the above in a debounce function to optimize our app so that for each change it will not make a request to backend
   const handleLogout = () => {
     localStorage.removeItem("userCreds");
     dispatch(updateUserCreds({ userName: "", mobileNo: "", userId: 0, password: "", success: 0 }));

@@ -91,7 +91,7 @@ const Category = () => {
                 handlecloseModal();
                 toast.success("Category added successfully");
                 if (catid) {
-                    navigate('/category');
+                    navigate('/category', { replace: true });
                 }
                 dispatch(fetchCategories());
                 console.log("dispatched add cat success");

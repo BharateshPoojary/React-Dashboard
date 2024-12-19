@@ -98,10 +98,10 @@ const Cardcomponent = (props) => {
                     await Swal.fire("Deleted!", "Category has been deleted.", "success");
                     // Remove the deleted category from the DOM
                     // $(`.sa-confirm[data-id='${catId}']`).closest(".col-md-6.col-lg-3").remove();
-                    dispatch(fetchCategories());
                     if (searchCatId) {
-                        navigate('/category');
+                        navigate('/category', { replace: true });
                     }
+                    dispatch(fetchCategories());
                     // deleteCardRef.current.remove();
                     // location.reload();
                     toast.success("Category deleted successfully");

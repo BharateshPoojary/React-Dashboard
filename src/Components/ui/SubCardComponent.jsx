@@ -99,7 +99,7 @@ const SubCardcomponent = (props) => {
                     await getSubCategories();
                     dispatch(fetchSubCategories());
                     if (searchcatid && subcatid) {
-                        navigate("/subcategory");
+                        navigate("/subcategory", { replace: true });
                         window.history.pushState(null, '', `/subcategory/${searchcatid}`);//It will make the url like this without navigating to it 
                     }
                 } else {

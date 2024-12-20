@@ -13,7 +13,6 @@ const categorySlice = createSlice({
     },
     handleCategories: (state, action) => {
       state.availableCategories = action.payload;
-      state.loading = false;
     },
     addCategories: (state, action) => {
       state.categories = action.payload;
@@ -33,18 +32,15 @@ export const fetchCategories = () => async (dispatch) => {
       );
       const { Cat } = response.data;
       dispatch(handleCategories(Cat)); // Dispatch categories to Redux store
-      // dispatch(addCategories(initialState.availableCategories));
-      console.log("fetchcatinoked");
-      return Cat;
     } catch (error) {
-      //   dispatch(setError(error.message));  // Dispatch error if something went wrong
       console.error(
         "Error fetching data",
         error.response?.data || error.message
       );
+    } finally {
       dispatch(setLoading(false));
     }
-  }, 6000);
+  }, 2500);
 };
 
 export default categorySlice.reducer;

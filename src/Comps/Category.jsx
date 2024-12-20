@@ -4,7 +4,7 @@ import Cardcomponent from "./Cardcomponent.jsx"
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router-dom';
-import { addCategories, fetchCategories } from '../slice/categorySlice.js';
+import { addCategories, fetchCategories, setLoading } from '../slice/categorySlice.js';
 
 const Category = () => {
     const { catid } = useParams();
@@ -32,18 +32,23 @@ const Category = () => {
     const handlecloseModal = () => setIsModalVisible(false);
     const { categories, availableCategories } = useSelector((state) => state.categorySlice);
     const fetchspecificcat = async () => {
-        try {
-            const response = await axios.get(
-                `http://stock.swiftmore.in/mobileApis/TestCURD_category.php?catId=${catid}`
-            );
-            const { Cat } = response.data;
-            console.log("Specific Cats:", Cat);
-            if (Cat.length > 0) {
-                dispatch(addCategories(Cat));
+        if (catid) {
+            dispatch(setLoading(true));
+            try {
+                const response = await axios.get(
+                    `http://stock.swiftmore.in/mobileApis/TestCURD_category.php?catId=${catid}`
+                );
+                const { Cat } = response.data;
+                console.log("Specific Cats:", Cat);
+                if (Cat.length > 0) {
+                    dispatch(addCategories(Cat));
+                }
+            } catch (error) {
+                //   dispatch(setError(error.message));  // Dispatch error if something went wrong
+                console.error("Error fetching data", error.response?.data || error.message);
+            } finally {
+                dispatch(setLoading(false));
             }
-        } catch (error) {
-            //   dispatch(setError(error.message));  // Dispatch error if something went wrong
-            console.error("Error fetching data", error.response?.data || error.message);
         }
     }
     useEffect(() => {
@@ -51,14 +56,16 @@ const Category = () => {
     }, [catid])
     useEffect(() => {
         // setCategories(availableCategories);
-        if (!catid) {
-            console.log(availableCategories);
-            dispatch(addCategories(availableCategories))
+        if (!catid) {//If user came for first time 
+            console.log("AVA CATS HERE", availableCategories);
+            if (availableCategories === undefined) {
+                dispatch(addCategories([]))
+            } else {
+                dispatch(addCategories(availableCategories))
+            }
         }
     }, [availableCategories])//It will irrespective of  what time it changed but if changed in any file it will be reflected evereywhere
-    useEffect(() => {
-        console.log("Available categories", categories);
-    }, [categories])
+
     const showImage = (e) => {
         console.log(e.target.files[0]);
         //e.target.files .files is required to get the img information in object

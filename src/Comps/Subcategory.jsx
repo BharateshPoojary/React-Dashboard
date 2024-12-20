@@ -37,20 +37,25 @@ const Category = () => {
         if (catId || searchcatid) {
             console.log("Cat Id", catId)
             dispatch(setLoading(true))
-            try {
-                const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?catId=${catId ?? searchcatid}`);
-                if (catId) {
-                    console.log("Cat Id Data", response.data);
-                } else {
-                    console.log("Search cat Id data", response.data);
+            setTimeout(async () => {
+                try {
+                    const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?catId=${catId ?? searchcatid}`);
+                    if (catId) {
+                        console.log("Cat Id Data", response.data);
+                    } else {
+                        console.log("Search cat Id data", response.data);
+                    }
+                    const { subCat } = response.data;
+                    console.log("subcat here", subCat)
+                    setSubCategories(subCat || []);//states are asynchronous it takes some time to update
+                    dispatch(setLoading(false));
+                } catch (error) {
+                    console.error("Error fetching data", error.response?.data || error.message);
+                    dispatch(setLoading(false))
+                } finally {
+                    dispatch(setLoading(false))
                 }
-                const { subCat } = response.data;
-                setSubCategories(subCat || []);//states are asynchronous it takes some time to update
-                dispatch(setLoading(false));
-            } catch (error) {
-                console.error("Error fetching data", error.response?.data || error.message);
-                dispatch(setLoading(false))
-            }
+            }, 2500);
         }
     }
 
@@ -66,6 +71,7 @@ const Category = () => {
     const getSpecificSubCategories = async () => {
         if (subcatid) {
             console.log("Sub catid", subcatid)
+            dispatch(setLoading(true))
             try {
                 // const data = JSON.parse(localStorage.getItem('catId'));
                 const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?subCatId=${subcatid}`);
@@ -76,6 +82,8 @@ const Category = () => {
                 }
             } catch (error) {
                 console.error("Error fetching data", error.response?.data || error.message);
+            } finally {
+                dispatch(setLoading(false))
             }
         }
     }

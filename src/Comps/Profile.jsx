@@ -7,9 +7,10 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserCreds } from '../slice/userCredsSlice';
 import Swal from 'sweetalert2';
+import { setLoading } from '@/slice/categorySlice';
 const Profile = () => {
     const navigate = useNavigate();
-
+    const { loading } = useSelector(state => state.categorySlice);
     // const getUserCreds = () => {
     //     const userCreds = JSON.parse(localStorage.getItem('userCreds'));
     //     return userCreds;
@@ -74,18 +75,27 @@ const Profile = () => {
             mobileNo: profileMobileNo,
             password: profilePassword
         }
-        const response = await axios.post("http://stock.swiftmore.in/mobileApis/userModification.php", userData, {
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            }
-        })
-        console.log(response.data);
-        const { userName, mobileNo, password, success } = response.data;
-        dispatch(updateUserCreds({ userName, mobileNo, password, success }));
-        const newUserCreds = { userName, mobileNo, password, userId, success };
-        localStorage.setItem("userCreds", JSON.stringify(newUserCreds));
-        handlecloseModal();//It will make a component re render and new user creds will be displayed
-        toast.success("Profile updated successfully");
+        dispatch(setLoading(true))
+
+        try {
+            const response = await axios.post("http://stock.swiftmore.in/mobileApis/userModification.php", userData, {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                }
+            })
+            console.log(response.data);
+            const { userName, mobileNo, password, success } = response.data;
+            dispatch(updateUserCreds({ userName, mobileNo, password, success }));
+            const newUserCreds = { userName, mobileNo, password, userId, success };
+            localStorage.setItem("userCreds", JSON.stringify(newUserCreds));
+            handlecloseModal();//It will make a component re render and new user creds will be displayed
+            toast.success("Profile updated successfully");
+        } catch (error) {
+            toast.error("Error editing category");
+            console.error("Error fetching data", error.response?.data || error.message);
+        } finally {
+            dispatch(setLoading(false))
+        }
     }
     const deleteModal = async () => {
         const result = await Swal.fire({//wait for promise to resolve
@@ -98,6 +108,7 @@ const Profile = () => {
             confirmButtonText: "Yes, delete it!",
         });
         if (result.isConfirmed) {
+            dispatch(setLoading(true))
             try {
                 const response = await axios.get(`http://stock.swiftmore.in/mobileApis/userLogin.php?userName=${profileName}&mobileNo=${profileMobileNo}`);
                 if (response.data.success === 1) {
@@ -112,11 +123,14 @@ const Profile = () => {
             } catch (error) {
                 console.error("Error deleting account", error.response?.data || error.message);
                 await Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+            } finally {
+                dispatch(setLoading(false))
             }
         }
     }
     return (
         <div>
+
             <div className="body-wrapper-inner" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
                 <div className="container-fluid  d-flex flex-column align-items-center justify-content-center">
                     <div className="card card-body py-3 h-50 w-100" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
@@ -142,63 +156,72 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="card w-100 " style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
-                        <div className="p-9 py-3 border-bottom chat-meta-user d-flex align-items-center justify-content-between">
-                            <h5 className=" mb-0 fs-5 text-primary">Profile Details</h5>
-                            <ul className="list-unstyled mb-0 d-flex align-items-center" >
-                                <li className="position-relative" data-bs-toggle="tooltip" style={{ cursor: "pointer" }} onClick={openModal} data-bs-placement="top" data-bs-title="Edit">
-                                    <a className="d-block text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5" >
-                                        <i className="ti ti-pencil text-primary" ></i>
-                                    </a>
-                                </li>
-                                <li className="position-relative" data-bs-toggle="tooltip" style={{ cursor: "pointer" }} onClick={deleteModal} data-bs-placement="top" data-bs-title="Delete">
-                                    <a className="text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5">
-                                        <i className="ti ti-trash text-primary"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                    {loading ? (
+                        <div className='card ' style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
+                            <div className='card-body'>
+                                <div className="d-flex  align-items-center" style={{ overflow: "hidden" }}>
+                                    <Loader />
+                                </div>
+                            </div>
                         </div>
-                        <div className="position-relative overflow-hidden">
-                            <div className="position-relative">
-                                <div className="chat-box email-box mh-n100 p-9" >
-                                    <div className="chat-list chat active-chat " >
-                                        <div className="mb-7 pb-1 d-flex align-items-center justify-content-center">
-                                            <img src={user1} alt="user" width="100" height="100" className="rounded-circle" />
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-12 mb-7 ">
-                                                <p className="mb-1 fs-4 text-primary" >User Name</p>
-                                                <h6 className="fw-semibold mb-0 fs-5" style={value === "moon" ? { color: "white" } : undefined}>{userName}</h6>
+                    ) :
+                        (<div className="card w-100 " style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
+                            <div className="p-9 py-3 border-bottom chat-meta-user d-flex align-items-center justify-content-between">
+                                <h5 className=" mb-0 fs-5 text-primary">Profile Details</h5>
+                                <ul className="list-unstyled mb-0 d-flex align-items-center" >
+                                    <li className="position-relative" data-bs-toggle="tooltip" style={{ cursor: "pointer" }} onClick={openModal} data-bs-placement="top" data-bs-title="Edit">
+                                        <a className="d-block text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5" >
+                                            <i className="ti ti-pencil text-primary" ></i>
+                                        </a>
+                                    </li>
+                                    <li className="position-relative" data-bs-toggle="tooltip" style={{ cursor: "pointer" }} onClick={deleteModal} data-bs-placement="top" data-bs-title="Delete">
+                                        <a className="text-dark px-2 fs-5 bg-hover-primary nav-icon-hover position-relative z-index-5">
+                                            <i className="ti ti-trash text-primary"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="position-relative overflow-hidden">
+                                <div className="position-relative">
+                                    <div className="chat-box email-box mh-n100 p-9" >
+                                        <div className="chat-list chat active-chat " >
+                                            <div className="mb-7 pb-1 d-flex align-items-center justify-content-center">
+                                                <img src={user1} alt="user" width="100" height="100" className="rounded-circle" />
                                             </div>
-                                            <div className="col-12 mb-7">
-                                                <p className="mb-1 fs-4 text-primary">Mobile No.</p>
-                                                <h6 className="fw-semibold mb-0 fs-5" style={value === "moon" ? { color: "white" } : undefined}>{mobileNo}</h6>
-                                            </div>
-                                            <div className="col-12 mb-7">
-                                                <div className='d-flex'>
-                                                    <p className="mb-1 fs-4 text-primary">Password</p>
-                                                    <button
-                                                        onClick={togglePasswordVisibility}
-                                                        style={{
-                                                            background: 'none',
-                                                            border: 'none',
-                                                            cursor: 'pointer',
-                                                            marginLeft: "10px"
-                                                        }}
-                                                    >
-                                                        {showPassword ? '😃' : '😌'}
-                                                    </button>
+                                            <div className="row">
+                                                <div className="col-12 mb-7 ">
+                                                    <p className="mb-1 fs-4 text-primary" >User Name</p>
+                                                    <h6 className="fw-semibold mb-0 fs-5" style={value === "moon" ? { color: "white" } : undefined}>{userName}</h6>
                                                 </div>
-                                                <h6 className="fw-semibold mb-0 fs-5" name="password" style={value === "moon" ? { color: "white" } : undefined}>
-                                                    {showPassword ? password : '●'.repeat(password.length)}
-                                                </h6>
+                                                <div className="col-12 mb-7">
+                                                    <p className="mb-1 fs-4 text-primary">Mobile No.</p>
+                                                    <h6 className="fw-semibold mb-0 fs-5" style={value === "moon" ? { color: "white" } : undefined}>{mobileNo}</h6>
+                                                </div>
+                                                <div className="col-12 mb-7">
+                                                    <div className='d-flex'>
+                                                        <p className="mb-1 fs-4 text-primary">Password</p>
+                                                        <button
+                                                            onClick={togglePasswordVisibility}
+                                                            style={{
+                                                                background: 'none',
+                                                                border: 'none',
+                                                                cursor: 'pointer',
+                                                                marginLeft: "10px"
+                                                            }}
+                                                        >
+                                                            {showPassword ? '😃' : '😌'}
+                                                        </button>
+                                                    </div>
+                                                    <h6 className="fw-semibold mb-0 fs-5" name="password" style={value === "moon" ? { color: "white" } : undefined}>
+                                                        {showPassword ? password : '●'.repeat(password.length)}
+                                                    </h6>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div>)}
                     {isModalVisible && <div id="view" className={`modal ${isModalVisible ? "fade show" : "fade"}`}
                         style={{ display: isModalVisible ? "block" : "none" }} tabIndex="-1" {...(isModalVisible ? { "aria-modal": true, role: "dialog" } : { "aria-hidden": true })}>
                         <div className="modal-dialog modal-dialog-scrollable modal-lg" >

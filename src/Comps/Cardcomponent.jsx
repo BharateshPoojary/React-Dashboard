@@ -119,14 +119,15 @@ const Cardcomponent = (props) => {
     }
     return (
         <>
-            {loading ?
-                <div className='card' style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
+            {loading ? (
+                <div className='card ' style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
                     <div className='card-body'>
-                        <div className="d-flex align-items-center" style={{ overflow: "hidden" }}>
+                        <div className="d-flex  align-items-center" style={{ overflow: "hidden" }}>
                             <Loader />
                         </div>
                     </div>
-                </div> :
+                </div>
+            ) :
                 (emptyCategoryMessage ?
                     (<h2 style={value === "moon" ? { color: "white" } : undefined}>{emptyCategoryMessage}</h2>) :
                     (<div ref={deleteCardRef} >

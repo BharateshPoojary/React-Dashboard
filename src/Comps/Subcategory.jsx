@@ -37,7 +37,7 @@ const Category = () => {
         if (catId || searchcatid) {
             console.log("Cat Id", catId)
             dispatch(setLoading(true))
-            setTimeout(async () => {
+            setTimeout(async () => {//To be  removed in future
                 try {
                     const response = await axios.get(`http://stock.swiftmore.in/mobileApis/TestCURD_subcategory.php?catId=${catId ?? searchcatid}`);
                     if (catId) {

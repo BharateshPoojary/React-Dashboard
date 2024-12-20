@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 const Alerts = () => {
   const navigate = useNavigate();
   const { value } = useSelector(state => state.toggleSlice);
@@ -16,6 +17,7 @@ const Alerts = () => {
     }
   }, [userCreds.userId])
   return <div>
+
     <div className="body-wrapper-inner" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
       <div className="container-fluid">
         <div className="card" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined} >

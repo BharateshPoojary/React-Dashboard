@@ -3,10 +3,13 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSubCategories } from '../../slice/subCatSlice';
+import { fetchSubCategories } from '../slice/subCatSlice';
 import { useNavigate } from 'react-router-dom';
+import Loader from './Loader';
+
 
 const SubCardcomponent = (props) => {
+    const { loading } = useSelector(state => state.categorySlice);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { value } = useSelector(state => state.toggleSlice);
@@ -115,51 +118,57 @@ const SubCardcomponent = (props) => {
 
     return (
         <>
-            {emptySubcatMessage ?
-                <h2 style={value === "moon" ? { color: "white" } : undefined}>{emptySubcatMessage}</h2> :
-                <div ref={deleteCardRef}>
-                    <div className="card" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
-                        <div className="card-body">
-                            <div className="d-flex align-items-start">
-                                <div className="bg-warning-subtle text-warning d-inline-block px-4 py-3 rounded "   >
-                                    <img src={subCatImage} className="rounded img-fluid" />
-                                </div>
-                                <div className="ms-auto">
-                                    <div className="dropdown dropstart">
-                                        <div className="link text-dark no-border"
-                                            style={{ cursor: 'pointer' }}
-                                            id="dropdownMenuButton"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                        >
-                                            <i className="ti ti-dots fs-7" style={value === "moon" ? { color: "white" } : undefined}></i>
+            {
+                loading ? <Loader /> : (
+                    emptySubcatMessage ? (
+                        <h2 style={value === "moon" ? { color: "white" } : undefined}>{emptySubcatMessage}</h2>
+                    ) : (
+                        <div ref={deleteCardRef}>
+                            <div className="card" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
+                                <div className="card-body">
+                                    <div className="d-flex align-items-start">
+                                        <div className="bg-warning-subtle text-warning d-inline-block px-4 py-3 rounded">
+                                            <img src={subCatImage} className="rounded img-fluid" />
                                         </div>
-                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
-                                            <li>
-                                                <div className="dropdown-item no-border"
-                                                    style={value === "moon" ? { color: "rgb(134, 163, 212)" } : undefined}
-                                                    onClick={openModal}
-                                                >Edit</div>
-                                            </li>
-                                            <li>
-                                                <div className="dropdown-item sa-confirm"
-                                                    style={value === "moon" ? { color: "rgb(134, 163, 212)" } : undefined}
-                                                    onClick={() => handleDelete(subCatId, subCatName)}>Delete</div>
-                                            </li>
-                                        </ul>
+                                        <div className="ms-auto">
+                                            <div className="dropdown dropstart">
+                                                <div className="link text-dark no-border"
+                                                    style={{ cursor: 'pointer' }}
+                                                    id="dropdownMenuButton"
+                                                    data-bs-toggle="dropdown"
+                                                    aria-expanded="false"
+                                                >
+                                                    <i className="ti ti-dots fs-7" style={value === "moon" ? { color: "white" } : undefined}></i>
+                                                </div>
+                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
+                                                    <li>
+                                                        <div className="dropdown-item no-border"
+                                                            style={value === "moon" ? { color: "rgb(134, 163, 212)" } : undefined}
+                                                            onClick={openModal}
+                                                        >Edit</div>
+                                                    </li>
+                                                    <li>
+                                                        <div className="dropdown-item sa-confirm"
+                                                            style={value === "moon" ? { color: "rgb(134, 163, 212)" } : undefined}
+                                                            onClick={() => handleDelete(subCatId, subCatName)}>Delete</div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="mt-5">
+                                        <div className="d-flex justify-content-between align-items-center">
+                                            <h4 className="card-title" style={value === "moon" ? { color: "white" } : undefined}>{subCatName}</h4>
+                                            <h6 className="text-muted">{growthPercentage}%</h6>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="mt-5">
-                                <div className="d-flex justify-content-between align-items-center">
-                                    <h4 className="card-title" style={value === "moon" ? { color: "white" } : undefined}>{subCatName}</h4>
-                                    <h6 className="text-muted">{growthPercentage}%</h6>
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                </div>
+                    )
+                )
             }
+
             {isModalVisible && <div id="view" className={`modal ${isModalVisible ? "fade show" : "fade"}`}
                 style={{ display: isModalVisible ? "block" : "none" }} tabIndex="-1" {...(isModalVisible ? { "aria-modal": true, role: "dialog" } : { "aria-hidden": true })}>
                 <div className="modal-dialog modal-dialog-scrollable modal-lg">

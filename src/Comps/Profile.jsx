@@ -1,11 +1,11 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
 import React, { useEffect, useRef, useState } from 'react'
-import user1 from "../../assets/images/profile/user-1.jpg";
+import user1 from "../assets/images/profile/user-1.jpg";
 import { useNavigate, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUserCreds } from '../../slice/userCredsSlice';
+import { updateUserCreds } from '../slice/userCredsSlice';
 import Swal from 'sweetalert2';
 const Profile = () => {
     const navigate = useNavigate();

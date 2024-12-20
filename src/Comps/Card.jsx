@@ -1,5 +1,5 @@
 import React from "react";
-import headphone from "../../assets/images/products/s4.jpg"
+import headphone from "../assets/images/products/s4.jpg"
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";

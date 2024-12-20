@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 const Sample = () => {
+
   const { value } = useSelector(state => state.toggleSlice);
   return <div>
     <div className="body-wrapper-inner" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined} >

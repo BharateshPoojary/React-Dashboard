@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios"
-import logo from "../../assets/images/logos/logo.svg";
+import logo from "../assets/images/logos/logo.svg";
 import { NavLink } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
 import toast from "react-hot-toast";

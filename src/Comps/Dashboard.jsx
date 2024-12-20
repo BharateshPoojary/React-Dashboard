@@ -1,8 +1,8 @@
 import { Icon } from '@iconify/react/dist/iconify.js'
 import React, { useEffect } from 'react'
-import dashprd1 from "../assets/images/products/dash-prd-1.jpg"
 import dashprd2 from "../assets/images/products/dash-prd-2.jpg"
 import dashprd3 from "../assets/images/products/dash-prd-3.jpg"
+import dashprd1 from "../assets/images/products/dash-prd-1.jpg"
 import dashprd4 from "../assets/images/products/dash-prd-4.jpg"
 import blogimg1 from "../assets/images/blog/blog-img1.jpg";
 import blogimg2 from "../assets/images/blog/blog-img2.jpg";

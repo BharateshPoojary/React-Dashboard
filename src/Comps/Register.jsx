@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import logo from "../../assets/images/logos/logo.svg";
+import logo from "../assets/images/logos/logo.svg";
 import { NavLink } from "react-router-dom";
 import Mainwrapper from "../Mainwrapper.jsx";
 import axios from "axios";

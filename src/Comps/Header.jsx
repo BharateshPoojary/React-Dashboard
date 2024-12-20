@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { updateUserCreds } from "../slice/userCredsSlice";
 import { darkTheme, lightTheme } from "../slice/toggleSlice";
-import SearchContent from "./ui/searchContent";
+import SearchContent from "./searchContent.jsx";
 import { checkRouteMatch } from "../slice/routeSlice";
 import { handleSearchInput } from "../slice/searchInputSlice";
 

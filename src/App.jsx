@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
-import Header from "./Components/Header.jsx";
-import Mainwrapper from "./Components/Mainwrapper.jsx";
-import SideBar from "./Components/SideBar.jsx";
+import Header from "./Comps/Header.jsx";
+import Mainwrapper from "./Mainwrapper.jsx";
+import SideBar from "./Comps/SideBar.jsx";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import './index.css';
 function App() {
   const { value } = useSelector(state => state.toggleSlice);
   useEffect(() => {

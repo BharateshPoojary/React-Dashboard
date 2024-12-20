@@ -2,19 +2,19 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import { BrowserRouter, Routes, Route } from "react-router";
-import Dashboard from "./Components/Dashboard.jsx";
-import Alerts from "./Components/ui/Alerts.jsx";
-import Button from "./Components/ui/Button.jsx";
-import Card from "./Components/ui/Card.jsx";
-import Form from "./Components/ui/Form.jsx";
-import Typography from "./Components/ui/Typography.jsx";
-import Icon from "./Components/Extra/Icon.jsx";
-import Sample from "./Components/Extra/Sample.jsx";
-import Login from "./Components/authentication/Login.jsx";
-import Register from "./Components/authentication/Register.jsx";
-import Category from "./Components/ui/Category.jsx"
-import Subcategory from "./Components/ui/Subcategory.jsx";
-import Profile from "./Components/ui/Profile.jsx";
+import Dashboard from "./Comps/Dashboard.jsx";
+import Alerts from "./Comps/Alerts.jsx";
+import Button from "./Comps/Button.jsx";
+import Card from "./Comps/Card.jsx";
+import Form from "./Comps/Form.jsx";
+import Typography from "./Comps/Typography.jsx";
+import Icon from "./Comps/Icon.jsx";
+import Sample from "./Comps/Sample.jsx";
+import Login from "./Comps/Login.jsx";
+import Register from "./Comps/Register.jsx";
+import Category from "./Comps/Category.jsx"
+import Subcategory from "./Comps/Subcategory.jsx";
+import Profile from "./Comps/Profile.jsx";
 import store from "./app/store.js";
 import { Provider } from "react-redux";
 createRoot(document.getElementById("root")).render(

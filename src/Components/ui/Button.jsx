@@ -1,58 +1,47 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-const Button = () => {
-  const navigate = useNavigate();
-  const userCreds = useSelector(state => state.userCreds);
-  const { value } = useSelector(state => state.toggleSlice);
-  useEffect(() => {
-    if (userCreds.userId === 0) {
-      try {
-        const { userName, mobileNo, password, success, userId } = JSON.parse(localStorage.getItem("userCreds"));
-        dispatch(updateUserCreds({ userName, mobileNo, password, success, userId }))
-      } catch (error) {
-        navigate('/login');//not able to destructure property which means user is not logged in 
-      }
-    }
-  }, [userCreds.userId])
-  return <div>
-    <div className="body-wrapper-inner" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined} >
-      <div className="container-fluid">
-        <div className="card" style={value === "moon" ? { backgroundColor: "#1A2537" } : undefined}>
-          <div className="card-body">
-            <h5 className="card-title fw-semibold mb-4" style={value === "moon" ? { color: "white" } : undefined}>Buttons</h5>
-            <div className="card" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
-              <div className="card-body p-4">
-                <button type="button" className="btn btn-primary m-1">Primary</button>
-                <button type="button" className="btn btn-secondary m-1">Secondary</button>
-                <button type="button" className="btn btn-success m-1">Success</button>
-                <button type="button" className="btn btn-danger m-1">Danger</button>
-                <button type="button" className="btn btn-warning m-1">Warning</button>
-                <button type="button" className="btn btn-info m-1">Info</button>
-                <button type="button" className="btn btn-light m-1">Light</button>
-                <button type="button" className="btn btn-dark m-1">Dark</button>
-                <button type="button" className="btn btn-link m-1">Link</button>
-              </div>
-            </div>
-            <h5 className="card-title fw-semibold mb-4" style={value === "moon" ? { color: "white" } : undefined}>Outline buttons</h5>
-            <div className="card mb-0" style={value === "moon" ? { backgroundColor: "#1F2A3D" } : undefined}>
-              <div className="card-body p-4">
-                <button type="button" className="btn btn-outline-primary m-1">Primary</button>
-                <button type="button" className="btn btn-outline-secondary m-1">Secondary</button>
-                <button type="button" className="btn btn-outline-success m-1">Success</button>
-                <button type="button" className="btn btn-outline-danger m-1">Danger</button>
-                <button type="button" className="btn btn-outline-warning m-1">Warning</button>
-                <button type="button" className="btn btn-outline-info m-1">Info</button>
-                <button type="button" className="btn btn-outline-light m-1">Light</button>
-                <button type="button" className="btn btn-outline-dark m-1">Dark</button>
-                <button type="button" className="btn btn-outline-link m-1">Link</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>;
-};
+import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
+import { cva } from "class-variance-authority";
 
-export default Button;
+import { cn } from "@/lib/utils"
+
+const buttonVariants = cva(
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  {
+    variants: {
+      variant: {
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:
+          "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-10 px-4 py-2",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-md px-8",
+        icon: "h-10 w-10",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      size: "default",
+    },
+  }
+)
+
+const Button = React.forwardRef(({ className, variant, size, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : "button"
+  return (
+    (<Comp
+      className={cn(buttonVariants({ variant, size, className }))}
+      ref={ref}
+      {...props} />)
+  );
+})
+Button.displayName = "Button"
+
+export { Button, buttonVariants }

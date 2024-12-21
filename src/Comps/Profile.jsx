@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUserCreds } from '../slice/userCredsSlice';
 import Swal from 'sweetalert2';
 import { setLoading } from '@/slice/categorySlice';
+import Loader from './Loader';
 const Profile = () => {
     const navigate = useNavigate();
     const { loading } = useSelector(state => state.categorySlice);
@@ -20,18 +21,6 @@ const Profile = () => {
     const userCreds = useSelector(state => state.userCreds);
     const { value } = useSelector(state => state.toggleSlice);
     const { userName, mobileNo, password } = userCreds;
-    useEffect(() => {
-        console.log(userCreds)
-        if (userName === "" && mobileNo === "" && password === "") {
-            try {
-                const { userName, mobileNo, password, success, userId } = JSON.parse(localStorage.getItem("userCreds"));
-                dispatch(updateUserCreds({ userName, mobileNo, password, success, userId }))
-            } catch (error) {
-                navigate('/login');//not able to destructure property which means user is not logged in 
-            }
-
-        }
-    }, [userCreds])
     const usernamevalidationmessage = useRef();
     const mobilenovalidationmessage = useRef();
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -42,6 +31,30 @@ const Profile = () => {
     const openModal = () => setIsModalVisible(true);
     const handlecloseModal = () => setIsModalVisible(false);
     const [showPassword, setShowPassword] = useState(false);
+    useEffect(() => {
+        // if (userName === "" && mobileNo === "" && password === "") {
+        dispatch(setLoading(true))
+        setTimeout(() => {
+            console.log(userCreds);
+            try {
+                const { userName, mobileNo, password, success, userId } = JSON.parse(localStorage.getItem("userCreds"));
+                dispatch(updateUserCreds({ userName, mobileNo, password, success, userId }))
+            } catch (error) {
+                navigate('/login');//not able to destructure property which means user is not logged in 
+            } finally {
+                dispatch(setLoading(false))
+            }
+        }, 3000);
+        // }
+    }, [userCreds])
+    useEffect(() => {
+        console.log("User Creds", userCreds)
+        if (userCreds.userName && userCreds.mobileNo && userCreds.password) {
+            setProfileName(userCreds.userName);
+            setProfileMobileNo(userCreds.mobileNo);
+            setProfilePassword(userCreds.password);
+        }
+    }, [userCreds]);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -76,7 +89,6 @@ const Profile = () => {
             password: profilePassword
         }
         dispatch(setLoading(true))
-
         try {
             const response = await axios.post("http://stock.swiftmore.in/mobileApis/userModification.php", userData, {
                 headers: {
@@ -96,11 +108,12 @@ const Profile = () => {
         } finally {
             dispatch(setLoading(false))
         }
+
     }
     const deleteModal = async () => {
         const result = await Swal.fire({//wait for promise to resolve
             title: "Are you sure?",
-            text: `You want to delete '${profileName}' account`,
+            text: `You want to delete '${userName}' account`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -108,7 +121,7 @@ const Profile = () => {
             confirmButtonText: "Yes, delete it!",
         });
         if (result.isConfirmed) {
-            dispatch(setLoading(true))
+
             try {
                 const response = await axios.get(`http://stock.swiftmore.in/mobileApis/userLogin.php?userName=${profileName}&mobileNo=${profileMobileNo}`);
                 if (response.data.success === 1) {
@@ -123,8 +136,6 @@ const Profile = () => {
             } catch (error) {
                 console.error("Error deleting account", error.response?.data || error.message);
                 await Swal.fire("Error!", "Something went wrong. Please try again.", "error");
-            } finally {
-                dispatch(setLoading(false))
             }
         }
     }
